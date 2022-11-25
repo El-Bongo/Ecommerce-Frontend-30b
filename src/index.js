@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 
 //Redux toolkit
-import store from "./redux/store/store";
+import store from "./redux/store";
 import { Provider } from "react-redux";
 
 //React-Router v6

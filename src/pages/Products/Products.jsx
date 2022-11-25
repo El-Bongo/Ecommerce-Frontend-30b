@@ -1,10 +1,10 @@
 import Articles from "../../components/Articles/Articles";
 import Filtro from "../../components/Filtro/Filtro";
-import "./Home.css";
+import styles from "./Products.module.scss";
 
-export default function Home() {
+export default function Products() {
   return (
-    <div id="Home_Main_Container">
+    <div className={styles.container}>
       <Filtro />
       <Articles />
     </div>
