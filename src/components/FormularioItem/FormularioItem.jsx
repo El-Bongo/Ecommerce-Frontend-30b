@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { uploadPhotoToCloudinary } from "../../hooks/uploadToCloudinary";
+import { getAllCategories, postArticle } from "../../redux/actions";
 
 export default function FormularioItem({ data }) {
-  const [categorias, setCategorias] = useState([]);
+
+  const categorias = useSelector((state) => state.articles.categorias)
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    fetch("http://localhost:3001/category/getall", { method: "GET" })
-      .then((dataJson) => dataJson.json())
-      .then((data) => {
-        setCategorias(data);
-      });
-  }, []);
+    dispatch(getAllCategories())
+  }, [dispatch]);
+  
   const values = {
     title: data.title || "",
     precio: data.price || "",
     images: data.images || [],
+    stock: data.stock || 0,
     category: { new: false, title: "new", photo: "", id: data.categoryId },
     description: data.description || "",
     loading: false,
@@ -28,6 +31,9 @@ export default function FormularioItem({ data }) {
   function handlePrecio(e) {
     setItem({ ...item, precio: e.target.value });
   }
+  function handleStock(e) {
+    setItem({ ...item, stock: e.target.value });
+  }
   async function handleImage(e) {
     setItem({ ...item, loading: true });
     const response = uploadPhotoToCloudinary(e);
@@ -40,24 +46,22 @@ export default function FormularioItem({ data }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("http://localhost:3001/articulo/createItem", { method: "POST", body: JSON.stringify(item), headers: new Headers({ "content-type": "application/json" }) })
-      .then((dataJson) => dataJson.json())
-      .then((data) => {
-        setItem({ ...item, updated: true });
-      });
+    dispatch(postArticle(item))
+    setItem({ ...item, updated: true });
   }
 
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
       <input placeholder="Titulo" value={item.title} onChange={(e) => handleTitle(e)} type="text"></input>
       <input placeholder="Precio" onChange={(e) => handlePrecio(e)} type="number" step="0.01"></input>
+      <input placeholder="Stock" onChange={(e) => handleStock(e)} type="number" step="0.01"></input>
       <textarea onChange={(e) => descripcion(e)} value={item.description}></textarea>
       <input name="formulario_uploadPhoto" multiple="multiple" type="file" accept="image/png,image/jpeg" onChange={(e) => handleImage(e)}></input>
-
       {item.category.new ? (
         "deberia poner para crear una nueva categoria aca"
       ) : (
-        <select onChange={(e) => setItem({ ...item, category: { new: false, id: e.target.value } })}>
+        <select defaultValue="Categorias" onChange={(e) => setItem({ ...item, category: { new: false, id: e.target.value } })}>
+          <option disabled hidden >Categorias</option>
           {categorias.map((x) => (
             <option key={x.id + x.name} value={x.id}>
               {x.name}

@@ -29,8 +29,11 @@ const articlesSlice = createSlice({
 
       state.filterArticles = [...newArray];
     },
+    getAllCateg: (state, {payload}) => {
+      state.categorias = payload;
+    },
   },
 });
 
-export const { getAllData, getDataForFiltering } = articlesSlice.actions;
+export const { getAllData, getDataForFiltering, getAllCateg } = articlesSlice.actions;
 export default articlesSlice.reducer;
