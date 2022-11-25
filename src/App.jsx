@@ -10,6 +10,7 @@ import AddArticle from "./pages/AddArticle/AddArticle";
 import SuccessPurchase from "./pages/SuccessPurchase/SuccessPurchase";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./index.module.scss";
+import MetaMaskStatus from "./pages/MetaMaskStatus/MetaMaskStatus";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function App() {
         <Route path="/" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/detalles/:id" element={<Detalles />} />
+        <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
         <Route path="/addItem" element={<AddArticle />} />
         <Route path="/successBuy" element={<SuccessPurchase />} />
         <Route path="/addItem" element={<AddArticle />} />
