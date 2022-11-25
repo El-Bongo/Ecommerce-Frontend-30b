@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllData } from "../../redux/slices/articlesSlice";
+import { getAll } from "../../redux/actions";
 import Article from "../Article/Article";
 import "./Articles.css";
 
@@ -11,14 +11,8 @@ export default function Articles() {
   const [pagina, setPagina] = useState(1);
   const [specificOne, setspecificOne] = useState(1);
 
-  console.log(articulos);
-
   useEffect(() => {
-    fetch("http://localhost:3001/articulo/getall", { method: "GET" })
-      .then((dataJson) => dataJson.json())
-      .then((data) => {
-        dispatch(getAllData(data));
-      });
+    dispatch(getAll())
   }, [dispatch]);
 
   useEffect(() => {
