@@ -110,6 +110,7 @@ export default function Filtro() {
         <ListItemButton>
           <input
             type="number"
+            min={0} step={10}
             placeholder="Precio Minimo"
             id="filter_price_min"
             onChange={handlePrice}
@@ -128,6 +129,7 @@ export default function Filtro() {
         <ListItemButton>
           <input
             type="number"
+            min={Number(filter.priceRange.min) + 10} step={10}
             id="filter_price_max"
             onChange={handlePrice}
             value={filter.priceRange.max}

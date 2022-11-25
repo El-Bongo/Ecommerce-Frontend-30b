@@ -56,6 +56,7 @@ export default function Articles() {
           <button onClick={() => setPagina(specificOne)}>Ir a: pag. </button>
           <input
             type="number"
+            min={1} max={Math.ceil(articulos.filterArticles.length / 8)}
             placeholder={"1-" + Math.ceil(articulos.filterArticles.length / 8)}
             onChange={(e) => handlePagina(e)}
           ></input>
