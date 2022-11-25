@@ -1,6 +1,5 @@
-import Home from "./pages/Home/Home";
+import Products from "./pages/Products/Products";
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import { localStorageCart } from "./redux/slices/cartSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -10,6 +9,7 @@ import Detalles from "./pages/Detalles/Detalles";
 import AddArticle from "./pages/AddArticle/AddArticle";
 import SuccessPurchase from "./pages/SuccessPurchase/SuccessPurchase";
 import { useAuth0 } from "@auth0/auth0-react";
+import "./index.module.scss";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +22,11 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("http://localhost:3001/users/checkGoogleFacebook", { method: "POST", body: JSON.stringify(user), headers: new Headers({ "content-type": "application/json" }) });
+      fetch("http://localhost:3001/users/checkGoogleFacebook", {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: new Headers({ "content-type": "application/json" }),
+      });
     }
   }, [isLoading, isAuthenticated, user]);
 
@@ -30,7 +34,7 @@ function App() {
     <div>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/detalles/:id" element={<Detalles />} />
         <Route path="/addItem" element={<AddArticle />} />
