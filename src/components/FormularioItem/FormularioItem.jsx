@@ -43,7 +43,6 @@ export default function FormularioItem({ data }) {
     fetch("http://localhost:3001/articulo/createItem", { method: "POST", body: JSON.stringify(item), headers: new Headers({ "content-type": "application/json" }) })
       .then((dataJson) => dataJson.json())
       .then((data) => {
-        console.log(data);
         setItem({ ...item, updated: true });
       });
   }
