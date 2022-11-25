@@ -11,8 +11,6 @@ export default function Articles() {
   const [pagina, setPagina] = useState(1);
   const [specificOne, setspecificOne] = useState(1);
 
-  console.log(articulos);
-
   useEffect(() => {
     fetch("http://localhost:3001/articulo/getall", { method: "GET" })
       .then((dataJson) => dataJson.json())
