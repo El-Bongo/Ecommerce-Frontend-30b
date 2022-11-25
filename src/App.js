@@ -23,7 +23,9 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("http://localhost:3001/users/checkGoogleFacebook", { method: "POST", body: JSON.stringify(user), headers: new Headers({ "content-type": "application/json" }) });
+      fetch("http://localhost:3001/users/checkGoogleFacebook", { method: "POST", body: JSON.stringify(user), headers: new Headers({ "content-type": "application/json" }) }).then(() =>
+        fetch("http://localhost:3001/users/getCart", { method: "POST", body: JSON.stringify(user), headers: new Headers({ "content-type": "application/json" }) })
+      );
     }
   }, [isLoading, isAuthenticated, user]);
 
