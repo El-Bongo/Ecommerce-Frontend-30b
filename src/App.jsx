@@ -2,7 +2,7 @@ import Products from "./pages/Products/Products";
 import { Route, Routes } from "react-router-dom";
 import { localStorageCart } from "./redux/slices/cartSlice";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cart from "./pages/Cart/Cart";
 import NavBar from "./components/NavBar/NavBar";
 import Detalles from "./pages/Detalles/Detalles";
@@ -16,12 +16,15 @@ import { Footer } from "./components/Footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
+  const carro = useSelector((state) => state.cart.cartItems);
 
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   useEffect(() => {
-    dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
-  }, [dispatch]);
+    if (!isLoading && !isAuthenticated) {
+      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
+    }
+  }, [dispatch, isLoading, isAuthenticated]);
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -29,9 +32,39 @@ function App() {
         method: "POST",
         body: JSON.stringify(user),
         headers: new Headers({ "content-type": "application/json" }),
-      });
+      }).then(() =>
+        fetch("http://localhost:3001/cart/getCart", {
+          method: "POST",
+          body: JSON.stringify({ user }),
+          headers: new Headers({ "content-type": "application/json" }),
+        })
+          .then((answer) => answer.json())
+          .then((data) =>
+            dispatch(
+              localStorageCart(
+                data.articles.map((x) => {
+                  return { ...x, quantity: x.cartitems.quantity };
+                })
+              )
+            )
+          )
+      );
     }
-  }, [isLoading, isAuthenticated, user]);
+  }, [isLoading, isAuthenticated, user, dispatch]);
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      setTimeout(
+        () =>
+          fetch("http://localhost:3001/cart/updateCart", {
+            method: "POST",
+            body: JSON.stringify({ user, carro }),
+            headers: new Headers({ "content-type": "application/json" }),
+          }),
+        2000
+      );
+    }
+  }, [carro, user, isLoading, isAuthenticated]);
 
   return (
     <div>
