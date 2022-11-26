@@ -59,7 +59,7 @@ function App() {
             body: JSON.stringify({ user, carro }),
             headers: new Headers({ "content-type": "application/json" }),
           }),
-        5000
+        2000
       );
     }
   }, [carro, user, isLoading, isAuthenticated]);
