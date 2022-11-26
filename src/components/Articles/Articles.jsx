@@ -89,6 +89,35 @@ export default function Articles() {
           "No hay coinsidencias"
         ) : null}
       </div>
+      <div id="articles_paginado_container">
+        <button
+          onClick={() =>
+            pagina === 1
+              ? setPagina(Math.ceil(articulos.filterArticles.length / 8))
+              : setPagina(pagina - 1)
+          }
+        >
+          Anterior
+        </button>
+        <div id="specific_pagina_paginado">
+          <button onClick={() => setPagina(specificOne)}>Ir a: pag. </button>
+          <input
+            type="number"
+            min={1} max={Math.ceil(articulos.filterArticles.length / 8)}
+            placeholder={"1-" + Math.ceil(articulos.filterArticles.length / 8)}
+            onChange={(e) => handlePagina(e)}
+          ></input>
+        </div>
+        <button
+          onClick={() =>
+            pagina === Math.ceil(articulos.filterArticles.length / 8)
+              ? setPagina(1)
+              : setPagina(pagina + 1)
+          }
+        >
+          Siguiente
+        </button>
+      </div>
     </div>
   );
 }
