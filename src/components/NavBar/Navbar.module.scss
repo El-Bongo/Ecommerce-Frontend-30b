@@ -76,4 +76,58 @@
   background-color: #fff;
 }
 
-// Media queries
+// Clases Carrito Drawer
+.cartDrawerContainer {
+
+  .cartDrawerTitle{
+    border-bottom: 1px solid #ccc;
+    padding: 20px;
+
+    h3{
+      font-weight: 400;
+    }
+  }
+
+  .cartDrawerBody{
+    margin: 20px;
+
+    .cartItem{
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 10px;
+      justify-content: space-between;
+
+      .cartInfoContainer{
+        display: flex;
+
+        .cartItemTitle{
+          margin-left: 5px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+
+      }
+
+    }
+  }
+
+  .cartFooterContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+
+    .subtotalContainer{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      width: 100%;
+      padding: 10px 0px;
+      margin: 10px 0px;
+    }
+  }
+}

@@ -11,6 +11,8 @@ import SuccessPurchase from "./pages/SuccessPurchase/SuccessPurchase";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./index.module.scss";
 import MetaMaskStatus from "./pages/MetaMaskStatus/MetaMaskStatus";
+import { Home } from "./pages/Home/Home";
+import { Footer } from "./components/Footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,7 +37,8 @@ function App() {
     <div>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Products />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/detalles/:id" element={<Detalles />} />
         <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
@@ -43,6 +46,7 @@ function App() {
         <Route path="/successBuy" element={<SuccessPurchase />} />
         <Route path="/addItem" element={<AddArticle />} />
       </Routes>
+      <Footer/>
     </div>
   );
 }
