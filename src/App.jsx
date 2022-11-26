@@ -52,11 +52,15 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("http://localhost:3001/cart/updateCart", {
-        method: "POST",
-        body: JSON.stringify({ user, carro }),
-        headers: new Headers({ "content-type": "application/json" }),
-      });
+      setTimeout(
+        () =>
+          fetch("http://localhost:3001/cart/updateCart", {
+            method: "POST",
+            body: JSON.stringify({ user, carro }),
+            headers: new Headers({ "content-type": "application/json" }),
+          }),
+        5000
+      );
     }
   }, [carro, user, isLoading, isAuthenticated]);
 
