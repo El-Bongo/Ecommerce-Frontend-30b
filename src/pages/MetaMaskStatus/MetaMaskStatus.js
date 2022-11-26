@@ -6,11 +6,17 @@ export default function Detalles() {
   const [details, setDetails] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:3001/metaMask/checkPurchase/" + id, { method: "GET" })
-      .then((dataJson) => dataJson.json())
-      .then((data) => {
-        setDetails(data);
-      });
+    function checkStatus() {
+      fetch("http://localhost:3001/metaMask/checkPurchase/" + id, { method: "GET" })
+        .then((dataJson) => dataJson.json())
+        .then((data) => {
+          setDetails(data);
+          if (data.result.status === "") {
+            setTimeout(checkStatus(), 10000);
+          }
+        });
+    }
+    checkStatus();
   }, [id]);
 
   return (
