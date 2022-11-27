@@ -1,7 +1,7 @@
 import Products from "./pages/Products/Products";
 import { Route, Routes } from "react-router-dom";
 import { localStorageCart } from "./redux/slices/cartSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cart from "./pages/Cart/Cart";
 import NavBar from "./components/NavBar/NavBar";
@@ -17,6 +17,8 @@ import { Footer } from "./components/Footer/Footer";
 function App() {
   const dispatch = useDispatch();
   const carro = useSelector((state) => state.cart.cartItems);
+  const [peticion, setPeticion] = useState(false);
+  const [sentCarro, setSentCarro] = useState(carro);
 
   const { user, isAuthenticated, isLoading } = useAuth0();
 
@@ -54,17 +56,21 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      setTimeout(
-        () =>
-          fetch("http://localhost:3001/cart/updateCart", {
-            method: "POST",
-            body: JSON.stringify({ user, carro }),
-            headers: new Headers({ "content-type": "application/json" }),
-          }),
-        2000
-      );
+      if (!peticion && carro !== sentCarro) {
+        console.log("envie una");
+
+        setSentCarro(carro);
+        fetch("http://localhost:3001/cart/updateCart", {
+          method: "POST",
+          body: JSON.stringify({ user, carro }),
+          headers: new Headers({ "content-type": "application/json" }),
+        }).then(() => {
+          setPeticion(false);
+          console.log("termino una");
+        });
+      }
     }
-  }, [carro, user, isLoading, isAuthenticated]);
+  }, [carro, user, isLoading, isAuthenticated, peticion, sentCarro]);
 
   return (
     <div>

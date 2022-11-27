@@ -10,7 +10,7 @@ export default function Detalles() {
   const details = useSelector((state) => state.details.detailedArticle);
 
   useEffect(() => {
-    dispatch(getSingleArticle(id))
+    dispatch(getSingleArticle(id));
     return () => dispatch(cleanDetails());
   }, [id, dispatch]);
 
@@ -18,6 +18,7 @@ export default function Detalles() {
     <div>
       <h1>{details.title}</h1>
       <p>{details.description}</p>
+      <p>{details.stock}</p>
       <h2>{details.price}</h2>
       <h3>{details.category.name}</h3>
       {details.images.map((x) => (

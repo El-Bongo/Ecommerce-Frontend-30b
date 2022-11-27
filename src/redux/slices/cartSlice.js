@@ -26,24 +26,13 @@ const cartSlice = createSlice({
       window.localStorage.setItem("cart", JSON.stringify(state.cartItems));
     },
     changeQuantity: (state, { payload }) => {
-      if (payload.quantity > 0)
-        state.cartItems[
-          state.cartItems.map((x) => x.id).indexOf(payload.id)
-        ].quantity = payload.quantity;
-      else
-        state.cartItems[
-          state.cartItems.map((x) => x.id).indexOf(payload.id)
-        ].quantity = 1;
+      const stock = state.cartItems.filter((x) => x.id === payload.id)[0].stock;
+      if (payload.quantity > 0 && stock >= payload.quantity) state.cartItems[state.cartItems.map((x) => x.id).indexOf(payload.id)].quantity = payload.quantity;
+      else state.cartItems[state.cartItems.map((x) => x.id).indexOf(payload.id)].quantity = payload.quantity > stock ? stock : 1;
       window.localStorage.setItem("cart", JSON.stringify(state.cartItems));
     },
   },
 });
 
-export const {
-  addItemToCart,
-  localStorageCart,
-  cleanCart,
-  cleanItem,
-  changeQuantity,
-} = cartSlice.actions;
+export const { addItemToCart, localStorageCart, cleanCart, cleanItem, changeQuantity } = cartSlice.actions;
 export default cartSlice.reducer;
