@@ -8,12 +8,15 @@ import {
   AiOutlineUser,
   AiOutlineUserDelete,
   AiOutlineHeart,
+  AiFillHeart,
 } from "react-icons/ai";
 import { Button, Avatar } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, SwipeableDrawer } from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { cleanItem } from "../../redux/slices/cartSlice";
+import { removeFav } from "../../redux/slices/favoriteSlice";
+import { autoBatchEnhancer } from "@reduxjs/toolkit";
 
 
 
@@ -21,8 +24,10 @@ export default function NavBar() {
   // Hooks
   const { loginWithRedirect, user, isAuthenticated, logout, isLoading } = useAuth0();
   const [cartOpen, setCartOpen] = useState(false);
+  const [favOpen, setFavOpen] = useState(false);
   const [navbarChange, setNavbarChange] = useState(false);
   const { cartItems } = useSelector((state) => state.cart);
+  const { favItem } = useSelector((state) => state.favorite);
   const dispatch = useDispatch();
 
   // Handlers
@@ -34,7 +39,7 @@ export default function NavBar() {
     }
   };
 
-  const toggleDrawer = () => (event) => {
+  const toggleDrawer = (types) => (event) => {
     if (
       event &&
       event.type === "keydown" &&
@@ -42,8 +47,8 @@ export default function NavBar() {
     ) {
       return;
     }
-
-    setCartOpen(!cartOpen);
+    if(types === "cart") setCartOpen(!cartOpen)
+    else if(types === "fav") setFavOpen(!favOpen)
   };
 
   // Events
@@ -93,6 +98,48 @@ export default function NavBar() {
         >
           <Link to="/cart" style={{ textDecoration: "none", color: "#1976d2" }}>
             Ir al Checkout
+          </Link>
+        </Button>
+      </div>
+    </Box>
+  );
+
+  // Componentes detro del drawer favs
+  const favorites = () => (
+    <Box
+      sx={{ width: 350 }}
+      role="presentation"
+      className={styles.cartDrawerContainer}
+    >
+      <div className={styles.cartDrawerTitle}>
+        <h3>Favoritos</h3>
+      </div>
+      <div className={styles.cartDrawerBody} style={{ height: "auto" }}>
+        <div className={styles.favDisplay}>
+          {favItem.length > 0 ? favItem.map((c) => (
+          <div className={styles.favItem} key={c.id}>
+            <div className={styles.cartInfoContainer}>
+              <div className={styles.cartItemImg}>
+                <img src={c.images[0]} alt="" width={75} />
+              </div>
+              <dir className={styles.cartItemTitle}>
+                <h4>{c.title}</h4>
+                <p>{c.description}</p>
+              </dir>
+            </div>
+            <AiFillHeart style={{ cursor: "pointer"}} size={"1.5em"} onClick={()=> dispatch(removeFav(c.id))} />
+          </div>
+        )) : <h4>Aun no tienes nada en favoritos</h4>}
+        </div>
+      </div>
+      <div className={styles.cartFooterContainer}>
+        <Button
+          variant="outlined"
+          style={{ width: "90%" }}
+          onClick={() => toggleDrawer("fav")}
+        >
+          <Link to="/favorites" style={{ textDecoration: "none", color: "#1976d2" }}>
+            Ir al Favoritos
           </Link>
         </Button>
       </div>
@@ -165,14 +212,35 @@ export default function NavBar() {
             PRODUCTOS
           </Link>
           <div className={styles.menuItem}>
-            <AiOutlineHeart style={{ fontSize: 25 }} />
-          </div>
-          <div>
-            {/* input Menu desplegable */}
+            {/* input Menu desplegable favoritos */}
             <Fragment>
               <div
                 className={`${styles.menuItem} ${styles.cartItem}`}
-                onClick={toggleDrawer()}
+                onClick={toggleDrawer("fav")}
+              >
+                {favItem.length !== 0 && (
+                  <div className={styles.cartCounter}>
+                    <span>{favItem.length}</span>
+                  </div>
+                )}
+                <AiOutlineHeart style={{ width: 25, height: 25 }} />
+              </div>
+              <SwipeableDrawer
+                anchor={"left"}
+                open={favOpen}
+                onClose={toggleDrawer("fav")}
+                onOpen={toggleDrawer("fav")}
+              >
+              {favorites()}
+              </SwipeableDrawer>
+            </Fragment>
+          </div>
+          <div>
+            {/* input Menu desplegable carrito*/}
+            <Fragment>
+              <div
+                className={`${styles.menuItem} ${styles.cartItem}`}
+                onClick={toggleDrawer("cart")}
               >
                 {cartItems.length !== 0 && (
                   <div className={styles.cartCounter}>
@@ -184,10 +252,10 @@ export default function NavBar() {
               <SwipeableDrawer
                 anchor={"right"}
                 open={cartOpen}
-                onClose={toggleDrawer()}
-                onOpen={toggleDrawer()}
+                onClose={toggleDrawer("cart")}
+                onOpen={toggleDrawer("cart")}
               >
-                {cart()}
+              {cart()}
               </SwipeableDrawer>
             </Fragment>
           </div>
