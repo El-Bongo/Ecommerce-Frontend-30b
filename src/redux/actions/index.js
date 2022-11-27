@@ -30,7 +30,7 @@ export const getSingleArticle = (id) => async (dispatch) => {
 // Posts
 export const postArticle = (item) => () => {
   console.log(item);
-  fetch("http://localhost:3001/articulo/createItem", {
+  fetch("http://localhost:3001/articulo/create", {
     method: "POST",
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),
