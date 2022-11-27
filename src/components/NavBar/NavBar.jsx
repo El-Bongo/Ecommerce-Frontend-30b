@@ -85,11 +85,8 @@ export default function NavBar() {
       <div className={styles.cartFooterContainer}>
         <div className={styles.subtotalContainer}>
           <h3>Subtotal:</h3>
-          {cartItems.map((c) => {
-            let subtotal = +Number(c.price) * Number(c.quantity);
-
-            return <span key={c.id}>${subtotal}</span>;
-          })}
+		<span>{cartItems.reduce((subtotal, c) => subtotal + Number(c.price) * Number(c.quantity), 0)}</span>
+          
         </div>
         <Button
           variant="outlined"
@@ -201,3 +198,4 @@ export default function NavBar() {
     </nav>
   );
 }
+

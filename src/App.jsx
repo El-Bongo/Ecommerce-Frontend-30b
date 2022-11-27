@@ -19,6 +19,8 @@ import { addWidthAndHeight } from "./redux/slices/windowSlice";
 function App() {
   const dispatch = useDispatch();
   const carro = useSelector((state) => state.cart.cartItems);
+  const [peticion, setPeticion] = useState(false);
+  const [sentCarro, setSentCarro] = useState(carro);
 
   const { user, isAuthenticated, isLoading } = useAuth0();
 
@@ -58,17 +60,21 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      setTimeout(
-        () =>
-          fetch("http://localhost:3001/cart/updateCart", {
-            method: "POST",
-            body: JSON.stringify({ user, carro }),
-            headers: new Headers({ "content-type": "application/json" }),
-          }),
-        2000
-      );
+      if (!peticion && carro !== sentCarro) {
+        console.log("envie una");
+
+        setSentCarro(carro);
+        fetch("http://localhost:3001/cart/updateCart", {
+          method: "POST",
+          body: JSON.stringify({ user, carro }),
+          headers: new Headers({ "content-type": "application/json" }),
+        }).then(() => {
+          setPeticion(false);
+          console.log("termino una");
+        });
+      }
     }
-  }, [carro, user, isLoading, isAuthenticated]);
+  }, [carro, user, isLoading, isAuthenticated, peticion, sentCarro]);
 
   // add Width y Height
   const [windowSize, setWindowSize] = useState(getWindowSize());
