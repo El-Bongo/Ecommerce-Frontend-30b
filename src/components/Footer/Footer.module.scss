@@ -61,3 +61,23 @@
     align-items: center;
   }
 }
+
+@media only screen and (max-width: 500px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 90px;
+
+    .left {
+      margin-bottom: 20px;
+    }
+
+    .center {
+      margin-bottom: 20px;
+    }
+    
+    .right {
+      margin-bottom: 20px;
+    }
+  }
+}

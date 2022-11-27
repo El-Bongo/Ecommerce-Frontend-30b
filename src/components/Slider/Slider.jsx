@@ -4,9 +4,11 @@ import imgFondo1 from "../../assets/imagenFondo1.png";
 import imgFondo2 from "../../assets/ImagenFondo2.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Slider = () => {
   const [sliderIndex, setSliderIndex] = useState(0);
+  const { innerWidth } = useSelector((state) => state.windows);
 
   const handleSlider = (direction) => {
     if (direction === "left") {
@@ -29,7 +31,10 @@ export const Slider = () => {
       <div
         className={styles.wrapper}
         style={{
-          transform: `translateX(${sliderIndex * -115}vw)`,
+          transform:
+            innerWidth > 500
+              ? `translateX(${sliderIndex * -115}vw)`
+              : `translateX(${sliderIndex * -95}vw)`,
         }}
       >
         <div className={styles.slider}>
@@ -49,7 +54,7 @@ export const Slider = () => {
         </div>
         <div className={styles.slider}>
           <div className={styles.infoContainer}>
-            <h2>Zapatillas Nike Air Max</h2>
+            <h2>Zapatillas Nike Air </h2>
             <Link to="/products" style={{ textDecoration: "none" }}>
               <input
                 type="button"

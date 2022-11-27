@@ -15,14 +15,14 @@ import { Box, SwipeableDrawer } from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { cleanItem } from "../../redux/slices/cartSlice";
 
-
-
 export default function NavBar() {
   // Hooks
-  const { loginWithRedirect, user, isAuthenticated, logout, isLoading } = useAuth0();
+  const { loginWithRedirect, user, isAuthenticated, logout, isLoading } =
+    useAuth0();
   const [cartOpen, setCartOpen] = useState(false);
   const [navbarChange, setNavbarChange] = useState(false);
   const { cartItems } = useSelector((state) => state.cart);
+  const { innerWidth } = useSelector((state) => state.windows);
   const dispatch = useDispatch();
 
   // Handlers
@@ -48,7 +48,6 @@ export default function NavBar() {
 
   // Events
   document.addEventListener("scroll", handleChangeNavbarBg);
-
 
   // Componentes detro del drawer
   const cart = () => (
@@ -76,22 +75,21 @@ export default function NavBar() {
                 </div>
               </dir>
             </div>
-            <HighlightOffIcon style={{ cursor: "pointer" }}  onClick={() => dispatch(cleanItem(c.id))} />
+            <HighlightOffIcon
+              style={{ cursor: "pointer" }}
+              onClick={() => dispatch(cleanItem(c.id))}
+            />
           </div>
         ))}
       </div>
       <div className={styles.cartFooterContainer}>
         <div className={styles.subtotalContainer}>
           <h3>Subtotal:</h3>
-          {
-            cartItems.map(c => {
-              let subtotal =+ Number(c.price) * Number(c.quantity)
+          {cartItems.map((c) => {
+            let subtotal = +Number(c.price) * Number(c.quantity);
 
-              return (
-                <span key={c.id} >${subtotal}</span>
-              )
-            })
-          }
+            return <span key={c.id}>${subtotal}</span>;
+          })}
         </div>
         <Button
           variant="outlined"
@@ -165,10 +163,10 @@ export default function NavBar() {
           />
         </div>
         <div className={styles.right}>
-          <Link className={styles.menuItem} to="/">
+          <Link className={styles.menuItem} to="/" style={{display: innerWidth < 700 ? 'none' : 'block'}}>
             INICIO
           </Link>
-          <Link className={styles.menuItem} to="/products">
+          <Link className={styles.menuItem} to="/products" style={{display: innerWidth < 700 ? 'none' : 'block'}}>
             PRODUCTOS
           </Link>
           <div className={styles.menuItem}>

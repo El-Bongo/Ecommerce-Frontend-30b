@@ -1,7 +1,7 @@
 import Products from "./pages/Products/Products";
 import { Route, Routes } from "react-router-dom";
 import { localStorageCart } from "./redux/slices/cartSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cart from "./pages/Cart/Cart";
 import NavBar from "./components/NavBar/NavBar";
@@ -13,6 +13,8 @@ import "./index.module.scss";
 import MetaMaskStatus from "./pages/MetaMaskStatus/MetaMaskStatus";
 import { Home } from "./pages/Home/Home";
 import { Footer } from "./components/Footer/Footer";
+import { BottomNav } from "./components/BottomNavigation/BottomNav";
+import { addWidthAndHeight } from "./redux/slices/windowSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +24,9 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
+      dispatch(
+        localStorageCart(JSON.parse(window.localStorage.getItem("cart")))
+      );
     }
   }, [dispatch, isLoading, isAuthenticated]);
 
@@ -66,6 +70,28 @@ function App() {
     }
   }, [carro, user, isLoading, isAuthenticated]);
 
+  // add Width y Height
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+      dispatch(addWidthAndHeight(windowSize));
+    }
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, [dispatch, windowSize]);
+
+  function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+  }
+  // Fin add Width y Height
+
   return (
     <div>
       <NavBar />
@@ -79,7 +105,8 @@ function App() {
         <Route path="/successBuy" element={<SuccessPurchase />} />
         <Route path="/addItem" element={<AddArticle />} />
       </Routes>
-      <Footer/>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }
