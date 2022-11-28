@@ -15,6 +15,8 @@ import { Home } from "./pages/Home/Home";
 import { Footer } from "./components/Footer/Footer";
 import { BottomNav } from "./components/BottomNavigation/BottomNav";
 import { addWidthAndHeight } from "./redux/slices/windowSlice";
+//MercadoPago
+import { useMercadopago } from "react-sdk-mercadopago";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,11 +26,14 @@ function App() {
 
   const { user, isAuthenticated, isLoading } = useAuth0();
 
+  // eslint-disable-next-line
+  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
+    locale: "es-AR",
+  });
+
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      dispatch(
-        localStorageCart(JSON.parse(window.localStorage.getItem("cart")))
-      );
+      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
     }
   }, [dispatch, isLoading, isAuthenticated]);
 
@@ -61,8 +66,6 @@ function App() {
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
       if (!peticion && carro !== sentCarro) {
-        console.log("envie una");
-
         setSentCarro(carro);
         fetch("https://pf-30b-backend-production.up.railway.app/cart/updateCart", {
           method: "POST",
@@ -70,7 +73,6 @@ function App() {
           headers: new Headers({ "content-type": "application/json" }),
         }).then(() => {
           setPeticion(false);
-          console.log("termino una");
         });
       }
     }

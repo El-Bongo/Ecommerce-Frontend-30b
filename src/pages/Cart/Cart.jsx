@@ -26,20 +26,20 @@ export default function Cart() {
   useEffect(() => {
     if (carro.length > 0 && !isLoading && isAuthenticated) {
       mercadoPagoHook(carro, user, mercadopago);
+
+      //Esta chanchada no solia ser necesario no se si cambio algo de mercado pago, en mi otro proyecto no se duplicaba el boton de comprar
+      //por ahora funciona lo arreglare si no encuentro nada mas importante
+
+      var element = document.querySelector("#cho-container");
+      var child = element.lastElementChild;
+      while (child) {
+        element.removeChild(child);
+        child = element.lastElementChild;
+      }
     }
+
     metaHookARSandETH(setARS, setETH);
   }, [mercadopago, carro, user, isAuthenticated, isLoading]);
-
-  useEffect(() => {
-    //Esta chanchada no solia ser necesario no se si cambio algo de mercado pago, en mi otro proyecto no se duplicaba el boton de comprar
-    //por ahora funciona lo arreglare si no encuentro nada mas importante
-    var element = document.querySelector("#cho-container");
-    var child = element.lastElementChild;
-    while (child) {
-      element.removeChild(child);
-      child = element.lastElementChild;
-    }
-  }, [carro]);
 
   return (
     <div>
