@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, SwipeableDrawer } from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { cleanItem } from "../../redux/slices/cartSlice";
+import { FloatNav } from "../NavegacionFlotante/FloatNav";
 
 export default function NavBar() {
   // Hooks
@@ -85,8 +86,12 @@ export default function NavBar() {
       <div className={styles.cartFooterContainer}>
         <div className={styles.subtotalContainer}>
           <h3>Subtotal:</h3>
-		<span>{cartItems.reduce((subtotal, c) => subtotal + Number(c.price) * Number(c.quantity), 0)}</span>
-          
+          <span>
+            {cartItems.reduce(
+              (subtotal, c) => subtotal + Number(c.price) * Number(c.quantity),
+              0
+            )}
+          </span>
         </div>
         <Button
           variant="outlined"
@@ -117,18 +122,19 @@ export default function NavBar() {
                 color="error"
                 onClick={() => logout({ returnTo: window.location.origin })}
                 startIcon={<AiOutlineUserDelete style={{ fontSize: 18 }} />}
+                style={{display: innerWidth < 500 && 'none'}}
               >
                 Logout
               </Button>
               <Button
                 color="success"
                 variant="contained"
-                style={{ marginLeft: 3 }}
+                style={{ marginLeft: 3, display: innerWidth < 500 && 'none'}}
               >
                 Dashboard
               </Button>
               <div
-                style={{ display: "flex", marginLeft: 5, alignItems: "center" }}
+                style={{ display: "flex", marginLeft: 5, alignItems: "center", flexDirection: 'column' }}
               >
                 <Avatar
                   src="https://mui.com/static/images/avatar/1.jpg"
@@ -145,6 +151,7 @@ export default function NavBar() {
                 variant="outlined"
                 onClick={() => loginWithRedirect()}
                 startIcon={<AiOutlineUser />}
+                style={{display: innerWidth < 500 && 'none'}}
               >
                 Login
               </Button>
@@ -160,10 +167,18 @@ export default function NavBar() {
           />
         </div>
         <div className={styles.right}>
-          <Link className={styles.menuItem} to="/" style={{display: innerWidth < 700 ? 'none' : 'block'}}>
+          <Link
+            className={styles.menuItem}
+            to="/"
+            style={{ display: innerWidth < 700 ? "none" : "block" }}
+          >
             INICIO
           </Link>
-          <Link className={styles.menuItem} to="/products" style={{display: innerWidth < 700 ? 'none' : 'block'}}>
+          <Link
+            className={styles.menuItem}
+            to="/products"
+            style={{ display: innerWidth < 700 ? "none" : "block" }}
+          >
             PRODUCTOS
           </Link>
           <div className={styles.menuItem}>
@@ -195,7 +210,7 @@ export default function NavBar() {
           </div>
         </div>
       </div>
+      <FloatNav loginWithRedirect={loginWithRedirect} logout={logout} isAuthenticated={isAuthenticated}/>
     </nav>
   );
 }
-
