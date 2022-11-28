@@ -39,12 +39,12 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("http://localhost:3001/users/checkGoogleFacebook", {
+      fetch("https://pf-30b-backend.onrender.com/users/checkGoogleFacebook", {
         method: "POST",
         body: JSON.stringify(user),
         headers: new Headers({ "content-type": "application/json" }),
       }).then(() =>
-        fetch("http://localhost:3001/cart/getCart", {
+        fetch("https://pf-30b-backend.onrender.com/cart/getCart", {
           method: "POST",
           body: JSON.stringify({ user }),
           headers: new Headers({ "content-type": "application/json" }),
@@ -67,7 +67,7 @@ function App() {
     if (!isLoading && isAuthenticated) {
       if (!peticion && carro !== sentCarro) {
         setSentCarro(carro);
-        fetch("http://localhost:3001/cart/updateCart", {
+        fetch("https://pf-30b-backend.onrender.com/cart/updateCart", {
           method: "POST",
           body: JSON.stringify({ user, carro }),
           headers: new Headers({ "content-type": "application/json" }),
