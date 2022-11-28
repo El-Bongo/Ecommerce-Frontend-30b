@@ -4,14 +4,14 @@ import { insertDataDetails } from "../slices/detailSlice";
 // Gets
 
 export const getAll = () => async (dispatch) => {
-  await fetch("http://localhost:3001/articulo/getall", { method: "GET" })
+  await fetch("https://pf-30b-backend.onrender.com/articulo/getall", { method: "GET" })
     .then((dataJson) => dataJson.json())
     .then((data) => {
       dispatch(getAllData(data));
     });
 };
 export const getAllCategories = () => async (dispatch) => {
-  await fetch("http://localhost:3001/category/getall", { method: "GET" })
+  await fetch("https://pf-30b-backend.onrender.com/category/getall", { method: "GET" })
     .then(async (dataJson) => await dataJson.json())
     .then((data) => {
       dispatch(getAllCateg(data));
@@ -20,7 +20,7 @@ export const getAllCategories = () => async (dispatch) => {
 };
 
 export const getSingleArticle = (id) => async (dispatch) => {
-  await fetch("http://localhost:3001/articulo/" + id, { method: "GET" })
+  await fetch("https://pf-30b-backend.onrender.com/articulo/" + id, { method: "GET" })
     .then((dataJson) => dataJson.json())
     .then((data) => {
       dispatch(insertDataDetails(data));
@@ -29,8 +29,7 @@ export const getSingleArticle = (id) => async (dispatch) => {
 
 // Posts
 export const postArticle = (item) => () => {
-  console.log(item);
-  fetch("http://localhost:3001/articulo/create", {
+  fetch("https://pf-30b-backend.onrender.com/articulo/create", {
     method: "POST",
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),
