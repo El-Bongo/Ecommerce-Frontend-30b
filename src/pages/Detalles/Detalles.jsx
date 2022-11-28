@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { insertDataDetails, cleanDetails } from "../../redux/slices/detailSlice";
+import { getSingleArticle } from "../../redux/actions";
+import { cleanDetails } from "../../redux/slices/detailSlice";
 
 export default function Detalles() {
   const dispatch = useDispatch();
@@ -9,11 +10,7 @@ export default function Detalles() {
   const details = useSelector((state) => state.details.detailedArticle);
 
   useEffect(() => {
-    fetch("http://localhost:3001/articulo/" + id, { method: "GET" })
-      .then((dataJson) => dataJson.json())
-      .then((data) => {
-        dispatch(insertDataDetails(data));
-      });
+    dispatch(getSingleArticle(id));
     return () => dispatch(cleanDetails());
   }, [id, dispatch]);
 
@@ -21,6 +18,7 @@ export default function Detalles() {
     <div>
       <h1>{details.title}</h1>
       <p>{details.description}</p>
+      <p>{details.stock}</p>
       <h2>{details.price}</h2>
       <h3>{details.category.name}</h3>
       {details.images.map((x) => (

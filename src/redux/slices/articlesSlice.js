@@ -20,17 +20,36 @@ const articlesSlice = createSlice({
     getDataForFiltering: (state, { payload }) => {
       var newArray = [...state.allArticles];
 
-      if (payload.priceRange.min !== "") newArray = newArray.filter((x) => x.price > parseInt(payload.priceRange.min));
-      if (payload.priceRange.max !== "") newArray = newArray.filter((x) => x.price < parseInt(payload.priceRange.max));
-      if (payload.title) newArray = newArray.filter((x) => x.title.toLowerCase().includes(payload.title.toLowerCase()));
-      if (payload.order === "+Precio-") newArray = newArray.sort((a, b) => b.price - a.price);
-      if (payload.order === "-Precio+") newArray = newArray.sort((a, b) => a.price - b.price);
-      if (payload.categoria.length > 0) newArray = newArray.filter((x) => payload.categoria.map((x) => x.value).indexOf(x.categoryId) >= 0);
+      if (payload.priceRange.min !== "")
+        newArray = newArray.filter(
+          (x) => x.price > parseInt(payload.priceRange.min)
+        );
+      if (payload.priceRange.max !== "")
+        newArray = newArray.filter(
+          (x) => x.price < parseInt(payload.priceRange.max)
+        );
+      if (payload.title)
+        newArray = newArray.filter((x) =>
+          x.title.toLowerCase().includes(payload.title.toLowerCase())
+        );
+      if (payload.order === "+Precio-")
+        newArray = newArray.sort((a, b) => b.price - a.price);
+      if (payload.order === "-Precio+")
+        newArray = newArray.sort((a, b) => a.price - b.price);
+      if (payload.categoria.length > 0)
+        newArray = newArray.filter(
+          (x) =>
+            payload.categoria.map((x) => x.value).indexOf(x.categoryId) >= 0
+        );
 
       state.filterArticles = [...newArray];
+    },
+    getAllCateg: (state, { payload }) => {
+      state.categorias = payload;
     },
   },
 });
 
-export const { getAllData, getDataForFiltering } = articlesSlice.actions;
+export const { getAllData, getDataForFiltering, getAllCateg } =
+  articlesSlice.actions;
 export default articlesSlice.reducer;

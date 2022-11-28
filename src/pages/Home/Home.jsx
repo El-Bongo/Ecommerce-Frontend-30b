@@ -1,12 +1,12 @@
-import Articles from "../../components/Articles/Articles";
-import Filtro from "../../components/Filtro/Filtro";
-import "./Home.css";
+import React from 'react'
+import { Categories } from '../../components/Categories/Categories'
+import { Slider } from '../../components/Slider/Slider'
 
-export default function Home() {
+export const Home = () => {
   return (
-    <div id="Home_Main_Container">
-      <Filtro />
-      <Articles />
+    <div>
+      <Slider/>
+      <Categories/>
     </div>
-  );
+  )
 }
