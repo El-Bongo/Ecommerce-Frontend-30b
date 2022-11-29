@@ -19,7 +19,7 @@ export default function Detalles() {
     <div>
       {details.articulo === undefined ? 
       <div>Cargando...</div> :
-      <div>
+      <div className={styles.detailsContainer}>
       <h1 className={styles.detailsTitle}>{details.articulo.title}</h1>
       <p className={styles.detailsDescription}>{details.articulo.description}</p>
       <h2 className={styles.detailsPrice}>${details.articulo.price}</h2>
