@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getSingleArticle } from "../../redux/actions";
 import { cleanDetails } from "../../redux/slices/detailSlice";
+import styles from "./Detalles.module.scss"
 
 export default function Detalles() {
   const dispatch = useDispatch();
@@ -16,14 +17,20 @@ export default function Detalles() {
 
   return (
     <div>
-      <h1>{details.title}</h1>
-      <p>{details.description}</p>
-      <p>{details.stock}</p>
-      <h2>{details.price}</h2>
-      <h3>{details.category.name}</h3>
-      {details.images.map((x) => (
+      {details.articulo === undefined ? 
+      <div>Cargando...</div> :
+      <div>
+      <h1 className={styles.detailsTitle}>{details.articulo.title}</h1>
+      <p className={styles.detailsDescription}>{details.articulo.description}</p>
+      <h2 className={styles.detailsPrice}>${details.articulo.price}</h2>
+      <h3 className={styles.detailsCategory}>{details.articulo.category.name}</h3>
+      <div className={styles.detailsImgContainer}>
+      {details.articulo.images.map((x) => (
         <img src={x} alt="product" key={x}></img>
       ))}
+      </div>
+      </div>
+      }
     </div>
   );
 }
