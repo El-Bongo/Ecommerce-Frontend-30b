@@ -15,6 +15,8 @@ import { Home } from "./pages/Home/Home";
 import { Footer } from "./components/Footer/Footer";
 import { BottomNav } from "./components/BottomNavigation/BottomNav";
 import { addWidthAndHeight } from "./redux/slices/windowSlice";
+import { localStorageFavs } from "./redux/slices/favoriteSlice";
+import Profile from "./pages/Profile/Profile";
 //MercadoPago
 import { useMercadopago } from "react-sdk-mercadopago";
 
@@ -33,6 +35,7 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
+      dispatch(localStorageFavs(JSON.parse(window.localStorage.getItem("favorite"))));
       dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
     }
   }, [dispatch, isLoading, isAuthenticated]);
@@ -112,6 +115,7 @@ function App() {
         <Route path="/addItem" element={<AddArticle />} />
         <Route path="/successBuy" element={<SuccessPurchase />} />
         <Route path="/addItem" element={<AddArticle />} />
+        <Route path="/profile/:id" element={<Profile />} />
       </Routes>
       <Footer />
       <BottomNav />
