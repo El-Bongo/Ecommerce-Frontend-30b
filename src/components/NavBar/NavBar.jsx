@@ -96,7 +96,7 @@ export default function NavBar() {
       <div className={styles.cartFooterContainer}>
         <div className={styles.subtotalContainer}>
           <h3>Subtotal:</h3>
-          <span>
+          <span>$
             {cartItems.reduce(
               (subtotal, c) => subtotal + Number(c.price) * Number(c.quantity),
               0
@@ -106,7 +106,7 @@ export default function NavBar() {
         <Button
           variant="outlined"
           style={{ width: "90%" }}
-          onClick={toggleDrawer()}
+          onClick={() => setCartOpen(false)}
           disabled={cartItems.length === 0 ? true : false}
         >
           <Link to="/cart" style={{ textDecoration: "none", color: "#1976d2" }}>
@@ -141,11 +141,13 @@ export default function NavBar() {
                     <p>{c.description}</p>
                   </dir>
                 </div>
-                <AiFillHeart
-                  style={{ cursor: "pointer" }}
-                  size={"1.5em"}
-                  onClick={() => dispatch(removeFav(c.id))}
-                />
+                <div>
+                  <AiFillHeart
+                    style={{ cursor: "pointer" }}
+                    size={"1.5em"}
+                    onClick={() => dispatch(removeFav(c.id))}
+                  />
+                </div>
               </div>
             ))
           ) : (
@@ -202,12 +204,7 @@ export default function NavBar() {
                 Dashboard
               </Button>
               <div
-                style={{
-                  display: "flex",
-                  marginLeft: 5,
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
+                className={styles.userAvatar}
               >
                 <Avatar
                   src="https://mui.com/static/images/avatar/1.jpg"

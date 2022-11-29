@@ -15,6 +15,16 @@
       flex: 1;
       display: flex;
       align-items: center;
+      
+      .btnDashboard{
+        margin-left: 5px;
+      }
+      
+      .userAvatar{
+        display: flex;
+        margin-left: 5px;
+        align-items: center;
+      }
     }
     .center {
       flex: 1;
@@ -150,6 +160,10 @@
       .btnLogout,
       .btnDashboard {
         display: none;
+      }
+
+      .userAvatar{
+        flex-direction: column;
       }
 
       .btnLogin {
