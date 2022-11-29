@@ -6,20 +6,18 @@ import { useState } from "react";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import { useSelector } from "react-redux";
+import styles from './FloatNav.module.scss'
 
 export const FloatNav = ({ loginWithRedirect, logout, isAuthenticated }) => {
-  
-  const {innerWidth} = useSelector(state => state.windows);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
-    <Box sx={{ height: 330, transform: "translateZ(0px)", flexGrow: 1, display: innerWidth > 500 && 'none' }}>
+    <Box sx={{transform: "translateZ(0px)", flexGrow: 1 }} className={styles.container}>
       <SpeedDial
         ariaLabel="SpeedDial tooltip example"
-        sx={{ position: "absolute", bottom: -350, right: 16 }}
+        sx={{ position: "absolute", bottom: -670, right: 16 }}
         icon={<SpeedDialIcon />}
         onClose={handleClose}
         onOpen={handleOpen}
