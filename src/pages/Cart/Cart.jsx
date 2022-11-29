@@ -10,25 +10,16 @@ import { metaHookARSandETH } from "../../hooks/metaHooks";
 import { handleMetaPayment } from "../../hooks/metaHooks";
 import styles from "./Cart.module.scss";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import {
-  Button,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-} from "@mui/material";
+import { Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
 
 export default function Cart() {
   const carro = useSelector((state) => state.cart.cartItems);
   const [value, setValue] = useState("mp");
   const dispatch = useDispatch();
-  const mercadopago = useMercadopago.v2(
-    "TEST-4d76826e-3115-416c-bc70-f7a46fa75820",
-    {
-      locale: "es-AR",
-    }
-  );
+  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
+    locale: "es-AR",
+  });
+// eslint-disable-next-line
   const { status, connect, account, chainId, ethereum } = useMetaMask();
 
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -98,11 +89,7 @@ export default function Cart() {
               <h4>PRODUCTO</h4>
               <h4>PRECIO</h4>
               <h4>CANTIDAD</h4>
-              <Button
-                color="error"
-                style={{ fontWeight: 600 }}
-                onClick={() => dispatch(cleanCart())}
-              >
+              <Button color="error" style={{ fontWeight: 600 }} onClick={() => dispatch(cleanCart())}>
                 Vaciar Carrito
               </Button>
             </div>
@@ -114,7 +101,7 @@ export default function Cart() {
                   </div>
                   <span>{c.title}</span>
                 </div>
-                <div className={styles.infoCartContainer} style={{flex: 6, display:'flex'}}>
+                <div className={styles.infoCartContainer} style={{ flex: 6, display: "flex" }}>
                   <span className={styles.productSubtotal}>${c.price}</span>
                   <input type="number" value={c.quantity} />
                   <HighlightOffIcon
@@ -124,7 +111,7 @@ export default function Cart() {
                       fontSize: 30,
                       flex: 3,
                     }}
-                    onClick={ () => dispatch(cleanItem(c.id)) }
+                    onClick={() => dispatch(cleanItem(c.id))}
                   />
                 </div>
               </div>
@@ -144,45 +131,17 @@ export default function Cart() {
             </div>
             <div className={styles.total}>
               <h3>Total</h3>
-              <span>
-                $
-                {carro.reduce(
-                  (acumulador, currentValue) =>
-                    acumulador +
-                    Number(currentValue.price) * currentValue.quantity,
-                  0
-                )}
-              </span>
+              <span>${carro.reduce((acumulador, currentValue) => acumulador + Number(currentValue.price) * currentValue.quantity, 0)}</span>
             </div>
-            <FormControl style={{marginTop: 10, marginBottom: 10}}>
-              <FormLabel id="demo-controlled-radio-buttons-group">
-                Metodo de pago
-              </FormLabel>
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={value}
-                onChange={handleChange}
-              >
-                <FormControlLabel
-                  value="mp"
-                  control={<Radio />}
-                  label="Mercado Pago"
-                />
-                <FormControlLabel
-                  value="meta"
-                  control={<Radio />}
-                  label="Metamask"
-                />
+            <FormControl style={{ marginTop: 10, marginBottom: 10 }}>
+              <FormLabel id="demo-controlled-radio-buttons-group">Metodo de pago</FormLabel>
+              <RadioGroup aria-labelledby="demo-controlled-radio-buttons-group" name="controlled-radio-buttons-group" value={value} onChange={handleChange}>
+                <FormControlLabel value="mp" control={<Radio />} label="Mercado Pago" />
+                <FormControlLabel value="meta" control={<Radio />} label="Metamask" />
               </RadioGroup>
             </FormControl>
             {/* <input type="button" value="Check Out" /> */}
-            {carro.length !== 0 && (
-              <div
-                id="cho-container"
-                style={{ display: value !== "mp" && "none" }}
-              />
-            )}
+            {carro.length !== 0 && <div id="cho-container" style={{ display: value !== "mp" && "none" }} />}
 
             {status === "initializing" ? (
               <div>Synchronisation with MetaMask ongoing...</div>
@@ -196,19 +155,7 @@ export default function Cart() {
               <div>
                 {/* Connected account {account} on chain ID {chainId} */}
                 {carro.length !== 0 && value === "meta" && (
-                  <Button
-                    onClick={() =>
-                      handleMetaPayment(
-                        ethereum,
-                        ethers,
-                        carro,
-                        user.email,
-                        ARS,
-                        ETH
-                      )
-                    }
-                    variant="contained"
-                  >
+                  <Button onClick={() => handleMetaPayment(ethereum, ethers, carro, user.email, ARS, ETH)} variant="contained">
                     Pagar
                   </Button>
                 )}
