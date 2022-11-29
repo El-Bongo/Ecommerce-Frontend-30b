@@ -27,23 +27,31 @@ function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   // eslint-disable-next-line
-  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
-    locale: "es-AR",
-  });
+  const mercadopago = useMercadopago.v2(
+    "TEST-4d76826e-3115-416c-bc70-f7a46fa75820",
+    {
+      locale: "es-AR",
+    }
+  );
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
+      dispatch(
+        localStorageCart(JSON.parse(window.localStorage.getItem("cart")))
+      );
     }
   }, [dispatch, isLoading, isAuthenticated]);
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("https://pf-30b-backend-production.up.railway.app/users/checkGoogleFacebook", {
-        method: "POST",
-        body: JSON.stringify(user),
-        headers: new Headers({ "content-type": "application/json" }),
-      }).then(() =>
+      fetch(
+        "https://pf-30b-backend-production.up.railway.app/users/checkGoogleFacebook",
+        {
+          method: "POST",
+          body: JSON.stringify(user),
+          headers: new Headers({ "content-type": "application/json" }),
+        }
+      ).then(() =>
         fetch("https://pf-30b-backend-production.up.railway.app/cart/getCart", {
           method: "POST",
           body: JSON.stringify({ user }),
@@ -67,11 +75,14 @@ function App() {
     if (!isLoading && isAuthenticated) {
       if (!peticion && carro !== sentCarro) {
         setSentCarro(carro);
-        fetch("https://pf-30b-backend-production.up.railway.app/cart/updateCart", {
-          method: "POST",
-          body: JSON.stringify({ user, carro }),
-          headers: new Headers({ "content-type": "application/json" }),
-        }).then(() => {
+        fetch(
+          "https://pf-30b-backend-production.up.railway.app/cart/updateCart",
+          {
+            method: "POST",
+            body: JSON.stringify({ user, carro }),
+            headers: new Headers({ "content-type": "application/json" }),
+          }
+        ).then(() => {
           setPeticion(false);
         });
       }
@@ -79,25 +90,21 @@ function App() {
   }, [carro, user, isLoading, isAuthenticated, peticion, sentCarro]);
 
   // add Width y Height
-  const [windowSize, setWindowSize] = useState(getWindowSize());
 
   useEffect(() => {
-    function handleWindowResize() {
-      setWindowSize(getWindowSize());
-      dispatch(addWidthAndHeight(windowSize));
-    }
+
+    const handleWindowResize = () => {
+      dispatch(addWidthAndHeight({innerWidth: window.innerWidth}));
+    };
 
     window.addEventListener("resize", handleWindowResize);
 
     return () => {
       window.removeEventListener("resize", handleWindowResize);
     };
-  }, [dispatch, windowSize]);
+  }, [dispatch]);
 
-  function getWindowSize() {
-    const { innerWidth, innerHeight } = window;
-    return { innerWidth, innerHeight };
-  }
+
   // Fin add Width y Height
 
   return (
