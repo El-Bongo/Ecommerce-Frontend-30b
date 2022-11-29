@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMetaMask } from "metamask-react";
 import { ethers } from "ethers";
+import { mercadoPagoHook } from "../../hooks/mercadoPago";
+import { metaHookARSandETH } from "../../hooks/metaHooks";
+import { handleMetaPayment } from "../../hooks/metaHooks";
 
 export default function Cart() {
   const carro = useSelector((state) => state.cart.cartItems);
@@ -22,56 +25,27 @@ export default function Cart() {
 
   useEffect(() => {
     if (carro.length > 0 && !isLoading && isAuthenticated) {
-      fetch("http://localhost:3001/mercadoPago/createOrder", { method: "POST", body: JSON.stringify({ carro, user: user }), headers: new Headers({ "content-type": "application/json" }) })
-        .then((dataJson) => dataJson.json())
-        .then((data) => {
-          if (mercadopago) {
-            mercadopago.checkout({
-              preference: {
-                id: data.id,
-              },
-              render: {
-                container: ".cho-container",
-                label: "Comprar",
-              },
-            });
-          }
-        });
-    }
-    fetch("https://www.dolarsi.com/api/api.php?type=valoresprincipales", { method: "GET", headers: new Headers({ "content-type": "application/json" }) })
-      .then((data) => data.json())
-      .then((answer) => setARS(answer[1].casa.venta));
+      mercadoPagoHook(carro, user, mercadopago);
 
-    fetch("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT", { method: "GET" })
-      .then((data) => data.json())
-      .then((answer) => setETH(answer.price));
+      //Esta chanchada no solia ser necesario no se si cambio algo de mercado pago, en mi otro proyecto no se duplicaba el boton de comprar
+      //por ahora funciona lo arreglare si no encuentro nada mas importante
+
+      var element = document.querySelector("#cho-container");
+      var child = element.lastElementChild;
+      while (child) {
+        element.removeChild(child);
+        child = element.lastElementChild;
+      }
+    }
+
+    metaHookARSandETH(setARS, setETH);
   }, [mercadopago, carro, user, isAuthenticated, isLoading]);
-
-  const etherToPay = (carro.reduce((a, b) => a + b.price * b.quantity, 0) / parseFloat(ARS) / parseFloat(ETH)).toFixed(8);
-
-  async function handleMetaPayment() {
-    const transactionParameters = {
-      to: "0xBAE283dDb48cD93002861647B9f8b32FcF6943B4", // Required except during contract publications.
-      from: ethereum.selectedAddress, // must match user's active address.
-      value: ethers.utils.parseEther(etherToPay.toString())._hex, // Only required to send ether to the recipient from the initiating external account.
-      chainId: "0x5", // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
-    };
-
-    const txHash = await ethereum.request({
-      method: "eth_sendTransaction",
-      params: [transactionParameters],
-    });
-    if (!txHash.message) {
-      fetch("http://localhost:3001/metaMask/createOrder", { method: "POST", body: JSON.stringify({ txHash: txHash, carro, email: user.email }), headers: new Headers({ "content-type": "application/json" }) })
-        .then((data) => data.json())
-        .then((answer) => (window.location.href = "http://localhost:3000/MetaMaskStatus/" + answer.id));
-    }
-  }
 
   return (
     <div>
       <button onClick={() => dispatch(cleanCart())}>Vaciar Carro</button>
-      <div className="cho-container" />
+
+      <div id="cho-container" />
 
       {status === "initializing" ? (
         <div>Synchronisation with MetaMask ongoing...</div>
@@ -84,7 +58,7 @@ export default function Cart() {
       ) : status === "connected" ? (
         <div>
           Connected account {account} on chain ID {chainId}
-          <button onClick={() => handleMetaPayment()}>Pagar</button>
+          <button onClick={() => handleMetaPayment(ethereum, ethers, carro, user.email, ARS, ETH)}>Pagar</button>
         </div>
       ) : null}
 

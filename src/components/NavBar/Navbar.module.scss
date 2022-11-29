@@ -4,7 +4,7 @@
   top: 0;
   z-index: 30;
   transition: all 0.3s ease;
-
+  
   .wrapper {
     padding: 10px 20px;
     display: flex;
@@ -76,4 +76,68 @@
   background-color: #fff;
 }
 
-// Media queries
+// Clases Carrito Drawer
+.cartDrawerContainer {
+
+  .cartDrawerTitle{
+    border-bottom: 1px solid #ccc;
+    padding: 20px;
+
+    h3{
+      font-weight: 400;
+    }
+  }
+
+  .cartDrawerBody{
+    margin: 20px;
+
+    .favItem{
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 10px;
+      justify-content: space-between;
+      border-radius: 4px;
+      box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+      background-color: #fff;
+    }
+
+    .cartItem{
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 10px;
+      justify-content: space-between;
+
+      .cartInfoContainer{
+        display: flex;
+
+        .cartItemTitle{
+          margin-left: 5px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+
+      }
+
+    }
+  }
+
+  .cartFooterContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+
+    .subtotalContainer{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      width: 100%;
+      padding: 10px 0px;
+      margin: 10px 0px;
+    }
+  }
+}

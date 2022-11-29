@@ -11,7 +11,7 @@ export default function Detalles() {
   const details = useSelector((state) => state.details.detailedArticle);
 
   useEffect(() => {
-    dispatch(getSingleArticle(id))
+    dispatch(getSingleArticle(id));
     return () => dispatch(cleanDetails());
   }, [id, dispatch]);
 
