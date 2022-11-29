@@ -1,17 +1,30 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { cleanCart } from "../../redux/slices/cartSlice";
 
 export default function Detalles() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [details, setDetails] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:3001/metaMask/checkPurchase/" + id, { method: "GET" })
-      .then((dataJson) => dataJson.json())
-      .then((data) => {
-        setDetails(data);
-      });
-  }, [id]);
+    function checkStatus() {
+      fetch("https://pf-30b-backend-production.up.railway.app/metaMask/checkPurchase/" + id, { method: "GET" })
+        .then((dataJson) => dataJson.json())
+        .then((data) => {
+          setDetails(data);
+          if (data.result.status === "") {
+            setTimeout(() => checkStatus(), 10000);
+          } else {
+            if (data.results.status === "1") {
+              dispatch(cleanCart());
+            }
+          }
+        });
+    }
+    checkStatus();
+  }, [id, dispatch]);
 
   return (
     <div>

@@ -7,6 +7,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+
+  .favBtn{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 
   .articleImage{
     max-width: 300px;
