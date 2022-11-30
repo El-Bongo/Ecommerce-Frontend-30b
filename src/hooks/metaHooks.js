@@ -21,8 +21,8 @@ export async function handleMetaPayment(ethereum, ethers, carro, email, ARS, ETH
     params: [transactionParameters],
   });
   if (!txHash.message) {
-    fetch("https://pf-30b-backend-production.up.railway.app/metaMask/createOrder", { method: "POST", body: JSON.stringify({ txHash: txHash, carro, email }), headers: new Headers({ "content-type": "application/json" }) })
+    fetch("http://localhost:3001/metaMask/createOrder", { method: "POST", body: JSON.stringify({ txHash: txHash, carro, email }), headers: new Headers({ "content-type": "application/json" }) })
       .then((data) => data.json())
-      .then((answer) => (window.location.href = "https://pf-30b-backend-production.up.railway.app/MetaMaskStatus/" + answer.id));
+      .then((answer) => (window.location.href = "http://localhost:3000/MetaMaskStatus/" + answer.id));
   }
 }

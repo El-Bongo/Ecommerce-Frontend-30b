@@ -15,6 +15,9 @@ import { Home } from "./pages/Home/Home";
 import { Footer } from "./components/Footer/Footer";
 import { BottomNav } from "./components/BottomNavigation/BottomNav";
 import { addWidthAndHeight } from "./redux/slices/windowSlice";
+import Profile from "./pages/Profile/Profile";
+import toast, { Toaster } from "react-hot-toast";
+
 //MercadoPago
 import { useMercadopago } from "react-sdk-mercadopago";
 
@@ -27,32 +30,24 @@ function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   // eslint-disable-next-line
-  const mercadopago = useMercadopago.v2(
-    "TEST-4d76826e-3115-416c-bc70-f7a46fa75820",
-    {
-      locale: "es-AR",
-    }
-  );
+  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
+    locale: "es-AR",
+  });
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      dispatch(
-        localStorageCart(JSON.parse(window.localStorage.getItem("cart")))
-      );
+      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
     }
   }, [dispatch, isLoading, isAuthenticated]);
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch(
-        "https://pf-30b-backend-production.up.railway.app/users/checkGoogleFacebook",
-        {
-          method: "POST",
-          body: JSON.stringify(user),
-          headers: new Headers({ "content-type": "application/json" }),
-        }
-      ).then(() =>
-        fetch("https://pf-30b-backend-production.up.railway.app/cart/getCart", {
+      fetch("http://localhost:3001/users/checkGoogleFacebook", {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: new Headers({ "content-type": "application/json" }),
+      }).then(() =>
+        fetch("http://localhost:3001/cart/getCart", {
           method: "POST",
           body: JSON.stringify({ user }),
           headers: new Headers({ "content-type": "application/json" }),
@@ -75,16 +70,16 @@ function App() {
     if (!isLoading && isAuthenticated) {
       if (!peticion && carro !== sentCarro) {
         setSentCarro(carro);
-        fetch(
-          "https://pf-30b-backend-production.up.railway.app/cart/updateCart",
-          {
-            method: "POST",
-            body: JSON.stringify({ user, carro }),
-            headers: new Headers({ "content-type": "application/json" }),
-          }
-        ).then(() => {
-          setPeticion(false);
-        });
+        fetch("http://localhost:3001/cart/updateCart", {
+          method: "POST",
+          body: JSON.stringify({ user, carro }),
+          headers: new Headers({ "content-type": "application/json" }),
+        })
+          .then(() => {
+            toast.success("Carro Actualizado!");
+            setPeticion(false);
+          })
+          .catch((e) => toast.error("Error actualizando el carro."));
       }
     }
   }, [carro, user, isLoading, isAuthenticated, peticion, sentCarro]);
@@ -92,9 +87,8 @@ function App() {
   // add Width y Height
 
   useEffect(() => {
-
     const handleWindowResize = () => {
-      dispatch(addWidthAndHeight({innerWidth: window.innerWidth}));
+      dispatch(addWidthAndHeight({ innerWidth: window.innerWidth }));
     };
 
     window.addEventListener("resize", handleWindowResize);
@@ -103,7 +97,6 @@ function App() {
       window.removeEventListener("resize", handleWindowResize);
     };
   }, [dispatch]);
-
 
   // Fin add Width y Height
 
@@ -119,9 +112,11 @@ function App() {
         <Route path="/addItem" element={<AddArticle />} />
         <Route path="/successBuy" element={<SuccessPurchase />} />
         <Route path="/addItem" element={<AddArticle />} />
+        <Route path="/profile/:id" element={<Profile />} />
       </Routes>
       <Footer />
       <BottomNav />
+      <Toaster position="bottom-right" reverseOrder={false} />
     </div>
   );
 }
