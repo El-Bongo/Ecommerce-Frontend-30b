@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Fragment, useState } from "react";
 import styles from "./Navbar.module.scss";
 import imgLogo2 from "../../assets/logoShop.png";
@@ -27,10 +27,9 @@ export default function NavBar() {
   const [favOpen, setFavOpen] = useState(false);
   const [navbarChange, setNavbarChange] = useState(false);
   const { cartItems } = useSelector((state) => state.cart);
-
   const { favItem } = useSelector((state) => state.favorite);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Handlers
   const handleChangeNavbarBg = () => {
@@ -96,7 +95,8 @@ export default function NavBar() {
       <div className={styles.cartFooterContainer}>
         <div className={styles.subtotalContainer}>
           <h3>Subtotal:</h3>
-          <span>$
+          <span>
+            $
             {cartItems.reduce(
               (subtotal, c) => subtotal + Number(c.price) * Number(c.quantity),
               0
@@ -105,13 +105,14 @@ export default function NavBar() {
         </div>
         <Button
           variant="outlined"
-          style={{ width: "90%" }}
-          onClick={() => setCartOpen(false)}
+          style={{ width: "90%", fontFamily: "inherit" }}
+          onClick={() => {
+            setCartOpen(false);
+            navigate("/cart");
+          }}
           disabled={cartItems.length === 0 ? true : false}
         >
-          <Link to="/cart" style={{ textDecoration: "none", color: "#1976d2" }}>
-            Ir al Checkout
-          </Link>
+          Ir al Checkout
         </Button>
       </div>
     </Box>
@@ -158,16 +159,11 @@ export default function NavBar() {
       <div className={styles.cartFooterContainer}>
         <Button
           variant="outlined"
-          style={{ width: "90%" }}
-          onClick={() => toggleDrawer("fav")}
+          style={{ width: "90%", fontFamily: "inherit" }}
+          onClick={() => {toggleDrawer("fav"); navigate('/favorites')}}
           disabled={favItem.length === 0 ? true : false}
         >
-          <Link
-            to="/favorites"
-            style={{ textDecoration: "none", color: "#1976d2" }}
-          >
-            Ir al Favoritos
-          </Link>
+          Ir al Favoritos
         </Button>
       </div>
     </Box>
@@ -193,6 +189,7 @@ export default function NavBar() {
                 onClick={() => logout({ returnTo: window.location.origin })}
                 startIcon={<AiOutlineUserDelete style={{ fontSize: 18 }} />}
                 className={styles.btnLogout}
+                style={{ fontFamily: "inherit" }}
               >
                 Logout
               </Button>
@@ -200,12 +197,11 @@ export default function NavBar() {
                 color="success"
                 variant="contained"
                 className={styles.btnDashboard}
+                style={{ fontFamily: "inherit" }}
               >
                 Dashboard
               </Button>
-              <div
-                className={styles.userAvatar}
-              >
+              <div className={styles.userAvatar}>
                 <Avatar
                   src="https://mui.com/static/images/avatar/1.jpg"
                   alt={user.nickname}
@@ -222,6 +218,7 @@ export default function NavBar() {
                 onClick={() => loginWithRedirect()}
                 startIcon={<AiOutlineUser />}
                 className={styles.btnLogin}
+                style={{ fontFamily: "inherit" }}
               >
                 Login
               </Button>
