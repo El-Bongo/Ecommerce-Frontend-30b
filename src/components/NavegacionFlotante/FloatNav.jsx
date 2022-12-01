@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
-import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import WidgetsIcon from '@mui/icons-material/Widgets';
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import { useState } from "react";
 import LoginIcon from "@mui/icons-material/Login";
@@ -18,7 +18,7 @@ export const FloatNav = ({ loginWithRedirect, logout, isAuthenticated }) => {
       <SpeedDial
         ariaLabel="SpeedDial tooltip example"
         sx={{ position: "absolute", bottom: -670, right: 16 }}
-        icon={<SpeedDialIcon />}
+        icon={<WidgetsIcon />}
         onClose={handleClose}
         onOpen={handleOpen}
         open={open}

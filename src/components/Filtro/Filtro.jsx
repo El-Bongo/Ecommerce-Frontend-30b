@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDataForFiltering } from "../../redux/slices/articlesSlice";
 import { MultiSelect } from "react-multi-select-component";
-import { ListSubheader, List, ListItemButton, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import styles from "./Filtro.module.scss";
 
 export default function Filtro() {
@@ -75,119 +75,122 @@ export default function Filtro() {
 
   return (
     <div className={styles.container}>
-      <List
-        sx={{ width: "100%", bgcolor: "background.paper" }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Categorias
-          </ListSubheader>
-        }
+      <div
+        style={{
+          width: "90%",
+          marginTop: 10,
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
-        <ListItemButton>
-          <MultiSelect
-            options={categorias.map((x) => {
-              return { label: x.name, value: x.id };
-            })}
-            value={filter.categoria}
-            onChange={handleCategoria}
-            labelledBy="Select"
-            className={styles.multiSelected}
-          />
-        </ListItemButton>
-      </List>
-      <List
-        sx={{ width: "100%", bgcolor: "background.paper" }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Filtro de Precios
-          </ListSubheader>
-        }
+        <span style={{ color: "#b1b1b1", margin: "30px 20px 20px 0px" }}>
+          Filtro de Categorias
+        </span>
+        <MultiSelect
+          options={categorias.map((x) => {
+            return { label: x.name, value: x.id };
+          })}
+          value={filter.categoria}
+          onChange={handleCategoria}
+          labelledBy="Select"
+          className={styles.multiSelected}
+        />
+      </div>
+
+      <div
+        style={{
+          width: "90%",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
-        <ListItemButton>
-          <input
-            type="number"
-            min={0} step={10}
-            placeholder="Precio Minimo"
-            id="filter_price_min"
-            onChange={handlePrice}
-            value={filter.priceRange.min}
-            style={{
-              height: 35,
-              borderRadius: 5,
-              width: "100%",
-              paddingLeft: 5,
-              fontSize: 16,
-              borderColor: "#ccc",
-              borderWidth: 1,
-            }}
-          />
-        </ListItemButton>
-        <ListItemButton>
-          <input
-            type="number"
-            min={Number(filter.priceRange.min) + 10} step={10}
-            id="filter_price_max"
-            onChange={handlePrice}
-            value={filter.priceRange.max}
-            placeholder="Precio Maximo"
-            style={{
-              height: 35,
-              borderRadius: 5,
-              width: "100%",
-              paddingLeft: 5,
-              fontSize: 16,
-              borderColor: "#ccc",
-              borderWidth: 1,
-            }}
-          />
-        </ListItemButton>
-        <ListItemButton>
-          <Button
-            variant="outlined"
-            id="filter_price_order"
-            onClick={handlePrice}
-          >
-            {filter.order === null
-              ? "Ordenar por Precio"
-              : filter.order === "+Precio-"
-              ? "Ordenar de Mayor a Menor precio"
-              : "Ordenar de Menor a Mayor Precio"}
-          </Button>
-        </ListItemButton>
-      </List>
-      <List
-        sx={{ width: "100%", bgcolor: "background.paper" }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Buscar Por Nombre
-          </ListSubheader>
-        }
+        <span style={{ color: "#b1b1b1", margin: "30px 20px 20px 0px" }}>
+          Filtro de Precios
+        </span>
+        <input
+          type="number"
+          min={0}
+          step={10}
+          placeholder="Precio Minimo"
+          id="filter_price_min"
+          onChange={handlePrice}
+          value={filter.priceRange.min}
+          style={{
+            height: 35,
+            borderRadius: 5,
+            width: "100%",
+            paddingLeft: 5,
+            fontSize: 16,
+            borderColor: "#ccc",
+            borderWidth: 1,
+          }}
+        />
+        <input
+          type="number"
+          min={Number(filter.priceRange.min) + 10}
+          step={10}
+          id="filter_price_max"
+          onChange={handlePrice}
+          value={filter.priceRange.max}
+          placeholder="Precio Maximo"
+          style={{
+            height: 35,
+            borderRadius: 5,
+            width: "100%",
+            paddingLeft: 5,
+            fontSize: 16,
+            borderColor: "#ccc",
+            borderWidth: 1,
+            marginTop: 5,
+            marginBottom: 5,
+          }}
+        />
+        <Button
+          variant="outlined"
+          id="filter_price_order"
+          onClick={handlePrice}
+          style={{ fontFamily: "inherit" }}
+        >
+          {filter.order === null
+            ? "Ordenar por Precio"
+            : filter.order === "+Precio-"
+            ? "Ordenar de Mayor a Menor precio"
+            : "Ordenar de Menor a Mayor Precio"}
+        </Button>
+      </div>
+      <dir
+        style={{
+          width: "90%",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
-        <ListItemButton>
-          <input
-            type="text"
-            onChange={handleTitle}
-            value={filter.title}
-            placeholder="Buscar..."
-            style={{
-              height: 35,
-              borderRadius: 5,
-              width: "100%",
-              paddingLeft: 5,
-              fontSize: 16,
-              borderColor: "#ccc",
-              borderWidth: 1,
-            }}
-          />
-        </ListItemButton>
-      </List>
-      <Button onClick={handleReset} variant="outlined" color="error">
+        <span style={{ color: "#b1b1b1", margin: "30px 20px 20px 0px" }}>
+          Buscar por Nombre
+        </span>
+        <input
+          type="text"
+          onChange={handleTitle}
+          value={filter.title}
+          placeholder="Buscar..."
+          style={{
+            height: 35,
+            borderRadius: 5,
+            width: "100%",
+            paddingLeft: 5,
+            fontSize: 16,
+            borderColor: "#ccc",
+            borderWidth: 1,
+            marginBottom: 5,
+          }}
+        />
+      </dir>
+      <Button
+        onClick={handleReset}
+        variant="outlined"
+        color="error"
+        style={{ fontFamily: "inherit" }}
+      >
         Reset
       </Button>
     </div>

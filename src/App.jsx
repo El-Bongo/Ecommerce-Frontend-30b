@@ -111,7 +111,6 @@ function App() {
         <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
         <Route path="/addItem" element={<AddArticle />} />
         <Route path="/successBuy" element={<SuccessPurchase />} />
-        <Route path="/addItem" element={<AddArticle />} />
         <Route path="/profile/:id" element={<Profile />} />
       </Routes>
       <Footer />
