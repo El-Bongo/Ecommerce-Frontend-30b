@@ -1,13 +1,18 @@
+.detailsContainerAll{
+    padding-left: 2.3rem;
+}
+
 .detailsContainer{
     display: grid;
     align-items: center;
-    width: 82rem;
+    width: 80rem;
     border: 2px solid grey;
     border-width: thin;
     flex-direction: column;
     flex-wrap: wrap;
     align-content: space-between;
     justify-content: center;
+    justify-items: center;
 }
 
 .detailsTitle{

@@ -16,7 +16,7 @@ export default function Detalles() {
   }, [id, dispatch]);
 
   return (
-    <div>
+    <div className={styles.detailsContainerAll}>
       {details.articulo === undefined ? 
       <div>Cargando...</div> :
       <div className={styles.detailsContainer}>

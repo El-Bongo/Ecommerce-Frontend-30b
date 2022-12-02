@@ -35,7 +35,7 @@ export const Footer = () => {
         </div>
       </div>
       <div className={styles.center}>
-        <h3 className={styles.title}>Liks Utiles</h3>
+        <h3 className={styles.title}>Links Utiles</h3>
         <ul >
           <Link to="/" style={{ textDecoration: "none", color: "black" }}>
             <li>Home</li>
