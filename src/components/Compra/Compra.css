@@ -1,0 +1,11 @@
+.compra_medio_pago {
+  width: 100px;
+  height: 100px;
+}
+
+.compra_cotenedor_general {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 40vw;
+}

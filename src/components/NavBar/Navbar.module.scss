@@ -4,7 +4,8 @@
   top: 0;
   z-index: 30;
   transition: all 0.3s ease;
-  
+  width: 100%;
+
   .wrapper {
     padding: 10px 20px;
     display: flex;
@@ -14,7 +15,16 @@
       flex: 1;
       display: flex;
       align-items: center;
-
+      
+      .btnDashboard{
+        margin-left: 5px;
+      }
+      
+      .userAvatar{
+        display: flex;
+        margin-left: 5px;
+        align-items: center;
+      }
     }
     .center {
       flex: 1;
@@ -78,57 +88,55 @@
 
 // Clases Carrito Drawer
 .cartDrawerContainer {
-
-  .cartDrawerTitle{
+  .cartDrawerTitle {
     border-bottom: 1px solid #ccc;
     padding: 20px;
 
-    h3{
+    h3 {
       font-weight: 400;
     }
   }
 
-  .cartDrawerBody{
+  .cartDrawerBody {
     margin: 20px;
 
-    .favItem{
+    .favItem {
       display: flex;
       flex-direction: row;
       margin-bottom: 10px;
       justify-content: space-between;
       border-radius: 4px;
-      box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+      box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
+        0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
       background-color: #fff;
     }
 
-    .cartItem{
+    .cartItem {
       display: flex;
       flex-direction: row;
       margin-bottom: 10px;
       justify-content: space-between;
 
-      .cartInfoContainer{
+      .cartInfoContainer {
         display: flex;
 
-        .cartItemTitle{
+        .cartItemTitle {
           margin-left: 5px;
           display: flex;
           flex-direction: column;
           justify-content: space-around;
         }
-
       }
-
     }
   }
 
-  .cartFooterContainer{
+  .cartFooterContainer {
     display: flex;
     align-items: center;
     flex-direction: column;
-    
+    margin-top: 40px;
 
-    .subtotalContainer{
+    .subtotalContainer {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -138,6 +146,36 @@
       width: 100%;
       padding: 10px 0px;
       margin: 10px 0px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  
+
+  .container {
+    .left {
+      .btnLogout,
+      .btnDashboard {
+        display: none;
+      }
+
+      .userAvatar{
+        flex-direction: column;
+      }
+
+      .btnLogin {
+        display: none;
+      }
+    }
+
+    .wrapper {
+      .right {
+        #home,
+        #products {
+          display: none;
+        }
+      }
     }
   }
 }

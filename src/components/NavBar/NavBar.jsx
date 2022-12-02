@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Fragment, useState } from "react";
 import styles from "./Navbar.module.scss";
 import imgLogo2 from "../../assets/logoShop.png";
@@ -16,9 +16,8 @@ import { Box, SwipeableDrawer } from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { cleanItem } from "../../redux/slices/cartSlice";
 import { removeFav } from "../../redux/slices/favoriteSlice";
-import { autoBatchEnhancer } from "@reduxjs/toolkit";
+// import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { FloatNav } from "../NavegacionFlotante/FloatNav";
-
 
 export default function NavBar() {
   // Hooks
@@ -28,12 +27,9 @@ export default function NavBar() {
   const [favOpen, setFavOpen] = useState(false);
   const [navbarChange, setNavbarChange] = useState(false);
   const { cartItems } = useSelector((state) => state.cart);
-
   const { favItem } = useSelector((state) => state.favorite);
-
-  const { innerWidth } = useSelector((state) => state.windows);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Handlers
   const handleChangeNavbarBg = () => {
@@ -52,8 +48,8 @@ export default function NavBar() {
     ) {
       return;
     }
-    if(types === "cart") setCartOpen(!cartOpen)
-    else if(types === "fav") setFavOpen(!favOpen)
+    if (types === "cart") setCartOpen(!cartOpen);
+    else if (types === "fav") setFavOpen(!favOpen);
   };
 
   // Events
@@ -69,33 +65,38 @@ export default function NavBar() {
       <div className={styles.cartDrawerTitle}>
         <h3>Carrito de Compras</h3>
       </div>
-      <div className={styles.cartDrawerBody} style={{ height: 700 }}>
-        {cartItems.map((c) => (
-          <div className={styles.cartItem} key={c.id}>
-            <div className={styles.cartInfoContainer}>
-              <div className={styles.cartItemImg}>
-                <img src={c.images[0]} alt="" width={70} />
-              </div>
-              <dir className={styles.cartItemTitle}>
-                <h4>{c.title}</h4>
-                <div className={styles.cartItemQuantity}>
-                  <span>
-                    {c.quantity} x ${c.price}
-                  </span>
+      <div className={styles.cartDrawerBody}>
+        {cartItems.length !== 0 ? (
+          cartItems.map((c) => (
+            <div className={styles.cartItem} key={c.id}>
+              <div className={styles.cartInfoContainer}>
+                <div className={styles.cartItemImg}>
+                  <img src={c.images[0]} alt="" width={70} />
                 </div>
-              </dir>
+                <dir className={styles.cartItemTitle}>
+                  <h4>{c.title}</h4>
+                  <div className={styles.cartItemQuantity}>
+                    <span>
+                      {c.quantity} x ${c.price}
+                    </span>
+                  </div>
+                </dir>
+              </div>
+              <HighlightOffIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => dispatch(cleanItem(c.id))}
+              />
             </div>
-            <HighlightOffIcon
-              style={{ cursor: "pointer" }}
-              onClick={() => dispatch(cleanItem(c.id))}
-            />
-          </div>
-        ))}
+          ))
+        ) : (
+          <h4>No hay productos en el carrito</h4>
+        )}
       </div>
       <div className={styles.cartFooterContainer}>
         <div className={styles.subtotalContainer}>
           <h3>Subtotal:</h3>
           <span>
+            $
             {cartItems.reduce(
               (subtotal, c) => subtotal + Number(c.price) * Number(c.quantity),
               0
@@ -104,12 +105,14 @@ export default function NavBar() {
         </div>
         <Button
           variant="outlined"
-          style={{ width: "90%" }}
-          onClick={toggleDrawer()}
+          style={{ width: "90%", fontFamily: "inherit" }}
+          onClick={() => {
+            setCartOpen(false);
+            navigate("/cart");
+          }}
+          disabled={cartItems.length === 0 ? true : false}
         >
-          <Link to="/cart" style={{ textDecoration: "none", color: "#1976d2" }}>
-            Ir al Checkout
-          </Link>
+          Ir al Checkout
         </Button>
       </div>
     </Box>
@@ -127,31 +130,40 @@ export default function NavBar() {
       </div>
       <div className={styles.cartDrawerBody} style={{ height: "auto" }}>
         <div className={styles.favDisplay}>
-          {favItem.length > 0 ? favItem.map((c) => (
-          <div className={styles.favItem} key={c.id}>
-            <div className={styles.cartInfoContainer}>
-              <div className={styles.cartItemImg}>
-                <img src={c.images[0]} alt="" width={75} />
+          {favItem.length > 0 ? (
+            favItem.map((c) => (
+              <div className={styles.favItem} key={c.id}>
+                <div className={styles.cartInfoContainer}>
+                  <div className={styles.cartItemImg}>
+                    <img src={c.images[0]} alt="" width={75} />
+                  </div>
+                  <dir className={styles.cartItemTitle}>
+                    <h4>{c.title}</h4>
+                    <p>{c.description}</p>
+                  </dir>
+                </div>
+                <div>
+                  <AiFillHeart
+                    style={{ cursor: "pointer" }}
+                    size={"1.5em"}
+                    onClick={() => dispatch(removeFav(c.id))}
+                  />
+                </div>
               </div>
-              <dir className={styles.cartItemTitle}>
-                <h4>{c.title}</h4>
-                <p>{c.description}</p>
-              </dir>
-            </div>
-            <AiFillHeart style={{ cursor: "pointer"}} size={"1.5em"} onClick={()=> dispatch(removeFav(c.id))} />
-          </div>
-        )) : <h4>Aun no tienes nada en favoritos</h4>}
+            ))
+          ) : (
+            <h4>Aun no tienes nada en favoritos</h4>
+          )}
         </div>
       </div>
       <div className={styles.cartFooterContainer}>
         <Button
           variant="outlined"
-          style={{ width: "90%" }}
-          onClick={() => toggleDrawer("fav")}
+          style={{ width: "90%", fontFamily: "inherit" }}
+          onClick={() => {toggleDrawer("fav"); navigate('/favorites')}}
+          disabled={favItem.length === 0 ? true : false}
         >
-          <Link to="/favorites" style={{ textDecoration: "none", color: "#1976d2" }}>
-            Ir al Favoritos
-          </Link>
+          Ir al Favoritos
         </Button>
       </div>
     </Box>
@@ -167,26 +179,29 @@ export default function NavBar() {
           {isLoading ? (
             "Cargando"
           ) : isAuthenticated ? (
-            <div style={{ display: "flex" }}>
+            <div
+              style={{ display: "flex" }}
+              className={styles.btnLogoutContainer}
+            >
               <Button
                 variant="outlined"
                 color="error"
                 onClick={() => logout({ returnTo: window.location.origin })}
                 startIcon={<AiOutlineUserDelete style={{ fontSize: 18 }} />}
-                style={{display: innerWidth < 500 && 'none'}}
+                className={styles.btnLogout}
+                style={{ fontFamily: "inherit" }}
               >
                 Logout
               </Button>
               <Button
                 color="success"
                 variant="contained"
-                style={{ marginLeft: 3, display: innerWidth < 500 && 'none'}}
+                className={styles.btnDashboard}
+                style={{ fontFamily: "inherit" }}
               >
                 Dashboard
               </Button>
-              <div
-                style={{ display: "flex", marginLeft: 5, alignItems: "center", flexDirection: 'column' }}
-              >
+              <div className={styles.userAvatar}>
                 <Avatar
                   src="https://mui.com/static/images/avatar/1.jpg"
                   alt={user.nickname}
@@ -202,7 +217,8 @@ export default function NavBar() {
                 variant="outlined"
                 onClick={() => loginWithRedirect()}
                 startIcon={<AiOutlineUser />}
-                style={{display: innerWidth < 500 && 'none'}}
+                className={styles.btnLogin}
+                style={{ fontFamily: "inherit" }}
               >
                 Login
               </Button>
@@ -218,18 +234,10 @@ export default function NavBar() {
           />
         </div>
         <div className={styles.right}>
-          <Link
-            className={styles.menuItem}
-            to="/"
-            style={{ display: innerWidth < 700 ? "none" : "block" }}
-          >
+          <Link className={styles.menuItem} to="/" id={styles.home}>
             INICIO
           </Link>
-          <Link
-            className={styles.menuItem}
-            to="/products"
-            style={{ display: innerWidth < 700 ? "none" : "block" }}
-          >
+          <Link className={styles.menuItem} to="/products" id={styles.products}>
             PRODUCTOS
           </Link>
           <div className={styles.menuItem}>
@@ -252,7 +260,7 @@ export default function NavBar() {
                 onClose={toggleDrawer("fav")}
                 onOpen={toggleDrawer("fav")}
               >
-              {favorites()}
+                {favorites()}
               </SwipeableDrawer>
             </Fragment>
           </div>
@@ -276,13 +284,17 @@ export default function NavBar() {
                 onClose={toggleDrawer("cart")}
                 onOpen={toggleDrawer("cart")}
               >
-              {cart()}
+                {cart()}
               </SwipeableDrawer>
             </Fragment>
           </div>
         </div>
       </div>
-      <FloatNav loginWithRedirect={loginWithRedirect} logout={logout} isAuthenticated={isAuthenticated}/>
+      <FloatNav
+        loginWithRedirect={loginWithRedirect}
+        logout={logout}
+        isAuthenticated={isAuthenticated}
+      />
     </nav>
   );
 }

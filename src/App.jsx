@@ -15,6 +15,9 @@ import { Home } from "./pages/Home/Home";
 import { Footer } from "./components/Footer/Footer";
 import { BottomNav } from "./components/BottomNavigation/BottomNav";
 import { addWidthAndHeight } from "./redux/slices/windowSlice";
+import Profile from "./pages/Profile/Profile";
+import toast, { Toaster } from "react-hot-toast";
+
 //MercadoPago
 import { useMercadopago } from "react-sdk-mercadopago";
 
@@ -39,12 +42,12 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("https://pf-30b-backend-production.up.railway.app/users/checkGoogleFacebook", {
+      fetch("http://localhost:3001/users/checkGoogleFacebook", {
         method: "POST",
         body: JSON.stringify(user),
         headers: new Headers({ "content-type": "application/json" }),
       }).then(() =>
-        fetch("https://pf-30b-backend-production.up.railway.app/cart/getCart", {
+        fetch("http://localhost:3001/cart/getCart", {
           method: "POST",
           body: JSON.stringify({ user }),
           headers: new Headers({ "content-type": "application/json" }),
@@ -67,37 +70,34 @@ function App() {
     if (!isLoading && isAuthenticated) {
       if (!peticion && carro !== sentCarro) {
         setSentCarro(carro);
-        fetch("https://pf-30b-backend-production.up.railway.app/cart/updateCart", {
+        fetch("http://localhost:3001/cart/updateCart", {
           method: "POST",
           body: JSON.stringify({ user, carro }),
           headers: new Headers({ "content-type": "application/json" }),
-        }).then(() => {
-          setPeticion(false);
-        });
+        })
+          .then(() => {
+            toast.success("Carro Actualizado!");
+            setPeticion(false);
+          })
+          .catch((e) => toast.error("Error actualizando el carro."));
       }
     }
   }, [carro, user, isLoading, isAuthenticated, peticion, sentCarro]);
 
   // add Width y Height
-  const [windowSize, setWindowSize] = useState(getWindowSize());
 
   useEffect(() => {
-    function handleWindowResize() {
-      setWindowSize(getWindowSize());
-      dispatch(addWidthAndHeight(windowSize));
-    }
+    const handleWindowResize = () => {
+      dispatch(addWidthAndHeight({ innerWidth: window.innerWidth }));
+    };
 
     window.addEventListener("resize", handleWindowResize);
 
     return () => {
       window.removeEventListener("resize", handleWindowResize);
     };
-  }, [dispatch, windowSize]);
+  }, [dispatch]);
 
-  function getWindowSize() {
-    const { innerWidth, innerHeight } = window;
-    return { innerWidth, innerHeight };
-  }
   // Fin add Width y Height
 
   return (
@@ -111,10 +111,11 @@ function App() {
         <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
         <Route path="/addItem" element={<AddArticle />} />
         <Route path="/successBuy" element={<SuccessPurchase />} />
-        <Route path="/addItem" element={<AddArticle />} />
+        <Route path="/profile/:id" element={<Profile />} />
       </Routes>
       <Footer />
       <BottomNav />
+      <Toaster position="bottom-right" reverseOrder={false} />
     </div>
   );
 }

@@ -9,7 +9,7 @@ export default function SuccessPurchase() {
   const [comprado, setComprado] = useState([]);
 
   useEffect(() => {
-    fetch(`https://pf-30b-backend-production.up.railway.app/mercadoPago/checkPurchase/${payment_id}`, {
+    fetch(`http://localhost:3001/mercadoPago/checkPurchase/${payment_id}`, {
       method: "GET",
     })
       .then((a) => a.json())
@@ -18,7 +18,7 @@ export default function SuccessPurchase() {
           dispatch(cleanCart());
           setComprado(a.compra);
         } else {
-          window.location.href = "https://pf-30b-backend-production.up.railway.app/cart";
+          window.location.href = "http://localhost:3001/cart";
         }
       });
   }, [dispatch, payment_id]);

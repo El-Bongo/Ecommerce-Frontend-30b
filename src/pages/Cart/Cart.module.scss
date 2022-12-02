@@ -1,0 +1,150 @@
+.container {
+  .wrapper {
+    
+    .cartContainer {
+      display: flex;
+      margin: 100px;
+
+      .cartProducts {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .titlesContainer {
+          display: flex;
+          flex-direction: row;
+          background-color: rgb(228, 228, 228);
+          width: 80%;
+          justify-content: space-around;
+          padding: 10px 0px;
+          align-items: center;
+
+          h4 {
+            font-size: 15px;
+          }
+        }
+
+        .productContainer {
+          display: flex;
+          width: 80%;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 10px;
+          
+          .product {
+            display: flex;
+            align-items: center;
+            flex: 3;
+
+            span {
+              color: #9f9f9f;
+              margin-left: 10px;
+            }
+          }
+
+          .productSubtotal {
+            color: #9f9f9f;
+            flex: 2;
+          }
+
+          input {
+            width: 40px;
+            height: 40px;
+            flex: 1;
+          }
+        }
+      }
+
+      .cartTotal {
+        flex: 1;
+      }
+    }
+
+    .cartTotal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: rgb(228, 228, 228);
+      height: 400px;
+      padding: 20px;
+      justify-content: space-around;
+
+      h2 {
+        font-size: 30px;
+      }
+
+      .subtotal{
+        display: flex;
+
+        h3{
+          margin-right: 50px;
+        }
+
+        span{
+          color: #9f9f9f;
+        }
+      }
+
+      .total{
+        display: flex;
+
+        h3{
+          margin-right: 50px;
+        }
+
+        span{
+          font-size: 20px;
+          color: #B88E2F;
+        }
+      }
+      
+      
+    }
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  
+  .cartContainer {
+    flex-direction: column;
+    margin: 60px 20px !important;
+
+    .cartProducts{
+      margin-bottom: 30px;
+
+      .titlesContainer{
+        display: none !important;
+      }
+
+      .productContainer{
+        flex-direction: column;
+        align-items: stretch !important;
+        margin-bottom: 20px;
+
+        .infoCartContainer{
+          align-items: center;
+        }
+      }
+    }
+
+
+    .cartTotal{
+      width: 70%;
+      margin: 0 auto;
+
+      h2{
+        padding: 20px 0px;
+      }
+
+      .subtotal{
+        padding: 10px 0px;
+      }
+
+      .total{
+        padding: 10px 0px;
+      }
+    }
+  }
+}
