@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 
 export function useProfile(id) {
-  const start = {};
+  const start = {
+    email: "tv@gmail.com",
+    nickname: "username",
+    avatar: "avatar",
+  };
 
-  const [data, setData] = useState(start);
+  const [datos, setData] = useState(start);
+
+  const [resync, reFetch] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:3001/users/profile/" + id, { method: "GET" })
       .then((answer) => answer.json())
       .then((answerjs) => setData(answerjs));
-  }, [id]);
+  }, [id, resync]);
 
-  return data;
+  return { datos, reFetch, resync };
 }
