@@ -198,6 +198,7 @@ export default function NavBar() {
                 variant="contained"
                 className={styles.btnDashboard}
                 style={{ fontFamily: "inherit" }}
+                onClick={() => navigate('/dashboard')}
               >
                 Dashboard
               </Button>
