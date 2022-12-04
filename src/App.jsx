@@ -22,6 +22,11 @@ import { inputUserData } from "./redux/slices/userSlice";
 
 //MercadoPago
 import { useMercadopago } from "react-sdk-mercadopago";
+import { RutasProtegidas } from "./components/RutasProtegidas/RutasProtegidas";
+import { Dashboard } from "./pages/Dashboard/home/Dashboard";
+import { DUsers } from "./pages/Dashboard/users/DUsers";
+import { DNewUser } from "./pages/Dashboard/NewUser/DNewUser";
+import { DSingleUser } from "./pages/Dashboard/SingleUser/DSingleUser";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,13 +37,18 @@ function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   // eslint-disable-next-line
-  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
-    locale: "es-AR",
-  });
+  const mercadopago = useMercadopago.v2(
+    "TEST-4d76826e-3115-416c-bc70-f7a46fa75820",
+    {
+      locale: "es-AR",
+    }
+  );
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
+      dispatch(
+        localStorageCart(JSON.parse(window.localStorage.getItem("cart")))
+      );
     }
   }, [dispatch, isLoading, isAuthenticated]);
 
@@ -67,7 +77,11 @@ function App() {
                       })
                     )
                   )
-                : dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
+                : dispatch(
+                    localStorageCart(
+                      JSON.parse(window.localStorage.getItem("cart"))
+                    )
+                  );
             })
         );
     }
@@ -129,13 +143,22 @@ function App() {
       </div>
     );
   else
-    <div>
-      <Routes>
-        <Route path="/admin/purchases" element={<Home />}>
-          <Route path="*" element={<NotFound />}></Route>
-        </Route>
-      </Routes>
-    </div>;
+    return (
+      <div>
+        <Routes>
+          <Route element={<RutasProtegidas />}>
+            <Route path="/admin">
+              <Route index element={<Dashboard />} />
+              <Route path="users">
+                <Route index element={<DUsers />} />
+                <Route path="new" element={<DNewUser />} />
+                <Route path=":userId" element={<DSingleUser />} />
+              </Route>
+            </Route>
+          </Route>
+        </Routes>
+      </div>
+    );
 }
 
 export default App;

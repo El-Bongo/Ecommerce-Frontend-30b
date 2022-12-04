@@ -155,7 +155,13 @@ export default function NavBar() {
               <Button variant="outlined" color="error" onClick={() => logout({ returnTo: window.location.origin })} startIcon={<AiOutlineUserDelete style={{ fontSize: 18 }} />} className={styles.btnLogout} style={{ fontFamily: "inherit" }}>
                 Logout
               </Button>
-              <Button color="success" variant="contained" className={styles.btnDashboard} style={{ fontFamily: "inherit" }}>
+              <Button
+                color="success"
+                variant="contained"
+                className={styles.btnDashboard}
+                style={{ fontFamily: "inherit" }}
+                onClick={() => navigate('/admin')}
+              >
                 Dashboard
               </Button>
               <div className={styles.userAvatar}>
