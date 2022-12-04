@@ -28,6 +28,7 @@ import { DUsers } from "./pages/Dashboard/users/DUsers";
 import { DNewUser } from "./pages/Dashboard/NewUser/DNewUser";
 import { DSingleUser } from "./pages/Dashboard/SingleUser/DSingleUser";
 import { persist } from "./redux/slices/darkmodeSlice";
+import { Perfil } from "./pages/Dashboard/Perfil/Perfil";
 
 function App() {
   const dispatch = useDispatch();
@@ -155,6 +156,7 @@ function App() {
           <Route element={<RutasProtegidas />}>
             <Route path="/admin">
               <Route index element={<Dashboard />} />
+              <Route path="profile" element={<Perfil />} />
               <Route path="users">
                 <Route index element={<DUsers />} />
                 <Route path="new" element={<DNewUser />} />
