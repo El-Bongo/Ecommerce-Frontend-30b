@@ -9,9 +9,7 @@ import dark from '../Dark.module.scss';
 
 export const Dashboard = () => {
 
-  const {darkMode} = useSelector(state => state.darkmode)
-
-  console.log('hola')
+  const {darkMode} = useSelector(state => state.darkmode);
 
   return (
     <div className={`${styles.home} ${darkMode && dark.dark}`}>

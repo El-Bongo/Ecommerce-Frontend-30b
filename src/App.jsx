@@ -27,13 +27,14 @@ import { Dashboard } from "./pages/Dashboard/home/Dashboard";
 import { DUsers } from "./pages/Dashboard/users/DUsers";
 import { DNewUser } from "./pages/Dashboard/NewUser/DNewUser";
 import { DSingleUser } from "./pages/Dashboard/SingleUser/DSingleUser";
+import { persist } from "./redux/slices/darkmodeSlice";
 
 function App() {
   const dispatch = useDispatch();
   const carro = useSelector((state) => state.cart.cartItems);
+  const { darkMode } = useSelector((state) => state.darkmode);
   const [peticion, setPeticion] = useState(false);
   const [sentCarro, setSentCarro] = useState(carro);
-
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   // eslint-disable-next-line
@@ -43,6 +44,11 @@ function App() {
       locale: "es-AR",
     }
   );
+
+  // Persistencia del DarkMode
+  useEffect(() => {
+    dispatch(persist(JSON.parse(localStorage.getItem("darkMode"))));
+  }, [darkMode, dispatch]);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
