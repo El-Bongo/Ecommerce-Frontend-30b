@@ -18,7 +18,7 @@ export const DSidebar = () => {
   return (
     <div className={`${styles.sidebar} ${darkMode && darkk.sidebar}`}>
       <div className={styles.top}>
-        <Link to="/dashboard" style={{ textDecoration: "none" }}>
+        <Link to="/admin" style={{ textDecoration: "none" }}>
           <span className={styles.logo}>Santiago Segurado</span>
         </Link>
       </div>
@@ -26,19 +26,19 @@ export const DSidebar = () => {
       <div className={styles.center}>
         <ul>
           <p className={styles.title}>DASHBOARD</p>
-          <Link to="/dashboard" style={{ textDecoration: "none" }}>
+          <Link to="/admin" style={{ textDecoration: "none" }}>
             <li>
               <DashboardIcon className={styles.icon} />
               <span>Home</span>
             </li>
           </Link>
-          <Link to="/dashboard/users" style={{ textDecoration: "none" }}>
+          <Link to="/admin/users" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className={styles.icon} />
               <span>Usuarios</span>
             </li>
           </Link>
-          <Link to="/dashboard/users" style={{ textDecoration: "none" }}>
+          <Link to="/admin/users" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className={styles.icon} />
               <span>Productos</span>

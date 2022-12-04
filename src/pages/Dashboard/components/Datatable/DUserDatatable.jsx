@@ -19,7 +19,7 @@ export const DUserDatatable = () => {
       renderCell: (params) => {
         return (
           <div className={styles.cellAction}>
-            <Link to="/dashboard/users/test" style={{ textDecoration: "none" }}>
+            <Link to="/admin/users/test" style={{ textDecoration: "none" }}>
               <div className={styles.viewButton}>Ver mas</div>
             </Link>
             <div
@@ -38,7 +38,7 @@ export const DUserDatatable = () => {
     <div className={styles.datatable}>
       <div className={styles.datatableTitle}>
         Agregar Nuevo Usuario
-        <Link to="/dashboard/users/new" className={styles.link}>
+        <Link to="/admin/users/new" className={styles.link}>
           Agregar
         </Link>
       </div>

@@ -8,4 +8,6 @@
   align-items: center;
   justify-content: space-between;
   width: 40vw;
+  text-decoration: none;
+  color: black;
 }

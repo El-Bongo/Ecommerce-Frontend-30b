@@ -11,6 +11,8 @@ export const Dashboard = () => {
 
   const {darkMode} = useSelector(state => state.darkmode)
 
+  console.log('hola')
+
   return (
     <div className={`${styles.home} ${darkMode && dark.dark}`}>
       <DSidebar />
