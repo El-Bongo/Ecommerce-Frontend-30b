@@ -1,4 +1,4 @@
-import styles from './DSidebar.module.scss'
+import styles from "./DSidebar.module.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
@@ -6,13 +6,12 @@ import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { dark, light } from '../../../../redux/slices/darkmodeSlice';
-import darkk from '../../Dark.module.scss';
+import { useDispatch, useSelector } from "react-redux";
+import { dark, light } from "../../../../redux/slices/darkmodeSlice";
+import darkk from "../../Dark.module.scss";
 
 export const DSidebar = () => {
-
-  const { darkMode } = useSelector(state => state.darkmode)
+  const { darkMode } = useSelector((state) => state.darkmode);
   const dispatch = useDispatch();
 
   return (
@@ -50,14 +49,18 @@ export const DSidebar = () => {
           </li>
 
           <p className={styles.title}>USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className={styles.icon}/>
-            <span>Perfil</span>
-          </li>
-          <li>
-            <ExitToAppIcon className={styles.icon} />
-            <span>Logout</span>
-          </li>
+          <Link to='/admin/profile' style={{ textDecoration: "none" }}>
+            <li>
+              <AccountCircleOutlinedIcon className={styles.icon} />
+              <span>Perfil</span>
+            </li>
+          </Link>
+          <Link to='/' style={{ textDecoration: "none" }}>
+            <li>
+              <ExitToAppIcon className={styles.icon} />
+              <span>Volver a Tienda</span>
+            </li>
+          </Link>
         </ul>
       </div>
       <div className={styles.bottom}>
