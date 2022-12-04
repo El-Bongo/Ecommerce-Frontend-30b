@@ -4,12 +4,15 @@ import { useState } from "react";
 import { DSidebar } from '../components/Sidebar/DSidebar';
 import { DNavbar } from '../components/Navbar/DNavbar';
 import { userInputs } from './formSource';
+import dark from '../Dark.module.scss';
+import { useSelector } from 'react-redux'
 
 export const DNewUser = () => {
   const [file, setFile] = useState("");
+  const { darkMode } =useSelector( state => state.darkmode );
 
   return (
-    <div className={styles.new}>
+    <div className={`${styles.new} ${darkMode && dark.dark}`}>
       <DSidebar />
       <div className={styles.newContainer}>
         <DNavbar />
