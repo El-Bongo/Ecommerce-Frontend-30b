@@ -1,6 +1,7 @@
 .profile {
   display: flex;
   width: 100%;
+
   .profileContainer {
     flex: 6;
 
@@ -73,4 +74,19 @@
       }
     }
   }
+}
+
+
+@media screen and (max-width: 600px) {
+  .profile{
+    height: 100vh;
+
+    .profileCardContainer{
+  
+      .profileCard{
+        width: 90% !important;
+      }
+    }
+  }
+
 }

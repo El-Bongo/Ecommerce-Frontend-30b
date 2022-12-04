@@ -29,6 +29,7 @@ import { DNewUser } from "./pages/Dashboard/NewUser/DNewUser";
 import { DSingleUser } from "./pages/Dashboard/SingleUser/DSingleUser";
 import { persist } from "./redux/slices/darkmodeSlice";
 import { Perfil } from "./pages/Dashboard/Perfil/Perfil";
+import { DBottomNav } from "./pages/Dashboard/components/BottomNavDashboard/DBottomNav";
 
 function App() {
   const dispatch = useDispatch();
@@ -165,6 +166,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        <DBottomNav/>
       </div>
     );
 }

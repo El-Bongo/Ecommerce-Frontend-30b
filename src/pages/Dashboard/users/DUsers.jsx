@@ -10,9 +10,9 @@ export const DUsers = () => {
   const { darkMode } =useSelector( state => state.darkmode );
 
   return (
-    <div className={`${styles.list} ${darkMode && dark.dark}`}>
+    <div className={`${styles.users} ${darkMode && dark.dark}`}>
       <DSidebar/>
-      <div className={`${styles.listContainer}`}>
+      <div className={`${styles.usersContainer}`}>
         <DNavbar/>
         <DUserDatatable/>
       </div>
