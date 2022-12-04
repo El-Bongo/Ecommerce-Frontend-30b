@@ -2,10 +2,15 @@ import { DChart } from "../components/Chart/DChart";
 import { DNavbar } from "../components/Navbar/DNavbar";
 import { DSidebar } from "../components/Sidebar/DSidebar";
 import styles from './DSingleIser.module.scss'
+import dark from '../Dark.module.scss';
+import { useSelector } from 'react-redux'
 
 export const DSingleUser = () => {
+
+  const { darkMode } =useSelector( state => state.darkmode );
+
   return (
-    <div className={styles.single}>
+    <div className={`${styles.single} ${darkMode && dark.dark}`}>
       <DSidebar />
       <div className={styles.singleContainer}>
         <DNavbar />

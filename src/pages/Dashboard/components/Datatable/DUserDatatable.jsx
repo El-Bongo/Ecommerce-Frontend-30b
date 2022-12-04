@@ -3,9 +3,14 @@ import { userColumns, userRows } from "./datatablesource";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import styles from './DUserDatatable.module.scss'
+import dark from '../../Dark.module.scss';
+import { useSelector } from 'react-redux';
 
 export const DUserDatatable = () => {
+
+  const { darkMode } = useSelector(state => state.darkmode);
   const [data, setData] = useState(userRows);
+
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -20,10 +25,10 @@ export const DUserDatatable = () => {
         return (
           <div className={styles.cellAction}>
             <Link to="/admin/users/test" style={{ textDecoration: "none" }}>
-              <div className={styles.viewButton}>Ver mas</div>
+              <div className={`${styles.viewButton} ${darkMode && dark.viewButton}`}>Ver mas</div>
             </Link>
             <div
-              className={styles.deleteButton}
+              className={`${styles.deleteButton} ${darkMode && dark.deleteButton}`}
               onClick={() => handleDelete(params.row.id)}
             >
               Borrar
@@ -35,7 +40,7 @@ export const DUserDatatable = () => {
   ];
 
   return (
-    <div className={styles.datatable}>
+    <div className={`${styles.datatable} ${ darkMode && dark.datatable }`}>
       <div className={styles.datatableTitle}>
         Agregar Nuevo Usuario
         <Link to="/admin/users/new" className={styles.link}>
@@ -43,7 +48,7 @@ export const DUserDatatable = () => {
         </Link>
       </div>
       <DataGrid
-        className={styles.datagrid}
+        className={`${styles.datagrid} ${ darkMode && dark.datagrid }`}
         rows={data}
         columns={userColumns.concat(actionColumn)}
         pageSize={9}
