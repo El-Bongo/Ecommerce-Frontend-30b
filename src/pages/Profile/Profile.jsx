@@ -9,7 +9,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 export default function Profile() {
   const { id } = useParams();
-  const datos = useProfile(id);
+  const { datos, reFetch, resync } = useProfile(id);
   const { user, isLoading, isAuthenticated } = useAuth0();
   const [owner, setOwner] = useState(false);
   const [selected, setSelected] = useState("compras");
@@ -18,20 +18,44 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setFormData({ nickname: datos.nickname, avatar: datos.avatar });
+  }, [datos]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/cart/getCart/", {
+      method: "POST",
+      body: JSON.stringify({ user: { email: datos.email } }),
+      headers: new Headers({ "content-type": "application/json" }),
+    })
+      .then((answer) => answer.json())
+      .then((data) => console.log(data));
+
+    fetch("http://localhost:3001/wishlist/user/" + id, {
+      method: "GET",
+    })
+      .then((answer) => answer.json())
+      .then((data) => data);
+  }, [datos, id]);
+
+  useEffect(() => {
     if ((!isLoading, isAuthenticated)) {
       setOwner(user.email === datos.email);
     }
   }, [user, datos.email, isLoading, isAuthenticated]);
 
-  async function handleSaveChanges(e) {
-    fetch("http://localhost:3001/users/update", {
+  async function handleSaveChanges() {
+    fetch("http://localhost:3001/users/updateProfile/" + id, {
       method: "POST",
-      body: JSON.stringify({ user }),
+      body: JSON.stringify(formData),
       headers: new Headers({ "content-type": "application/json" }),
     })
       .then((answer) => answer.json)
-      .then((data) => setEditing(false))
-      .then(() => toast.success("Cambios Guardados Correctamente"));
+      .then((data) => {
+        setEditing(false);
+        toast.success("Cambios Guardados Correctamente");
+        reFetch(!resync);
+      })
+      .catch((e) => toast.error("Algo salio mal"));
   }
 
   async function handleUploadPhoto(e) {

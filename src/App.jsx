@@ -1,5 +1,5 @@
 import Products from "./pages/Products/Products";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { localStorageCart } from "./redux/slices/cartSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,9 +17,16 @@ import { BottomNav } from "./components/BottomNavigation/BottomNav";
 import { addWidthAndHeight } from "./redux/slices/windowSlice";
 import Profile from "./pages/Profile/Profile";
 import toast, { Toaster } from "react-hot-toast";
+import NotFound from "./pages/NotFound/NotFound";
+import { inputUserData } from "./redux/slices/userSlice";
 
 //MercadoPago
 import { useMercadopago } from "react-sdk-mercadopago";
+import { RutasProtegidas } from "./components/RutasProtegidas/RutasProtegidas";
+import { Dashboard } from "./pages/Dashboard/home/Dashboard";
+import { DUsers } from "./pages/Dashboard/users/DUsers";
+import { DNewUser } from "./pages/Dashboard/NewUser/DNewUser";
+import { DSingleUser } from "./pages/Dashboard/SingleUser/DSingleUser";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,13 +37,18 @@ function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   // eslint-disable-next-line
-  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
-    locale: "es-AR",
-  });
+  const mercadopago = useMercadopago.v2(
+    "TEST-4d76826e-3115-416c-bc70-f7a46fa75820",
+    {
+      locale: "es-AR",
+    }
+  );
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
+      dispatch(
+        localStorageCart(JSON.parse(window.localStorage.getItem("cart")))
+      );
     }
   }, [dispatch, isLoading, isAuthenticated]);
 
@@ -46,23 +58,32 @@ function App() {
         method: "POST",
         body: JSON.stringify(user),
         headers: new Headers({ "content-type": "application/json" }),
-      }).then(() =>
-        fetch("http://localhost:3001/cart/getCart", {
-          method: "POST",
-          body: JSON.stringify({ user }),
-          headers: new Headers({ "content-type": "application/json" }),
-        })
-          .then((answer) => answer.json())
-          .then((data) =>
-            dispatch(
-              localStorageCart(
-                data.articles.map((x) => {
-                  return { ...x, quantity: x.cartitems.quantity };
-                })
-              )
-            )
-          )
-      );
+      })
+        .then((answer) => answer.json())
+        .then((data) => dispatch(inputUserData(data)))
+        .then(() =>
+          fetch("http://localhost:3001/cart/getCart", {
+            method: "POST",
+            body: JSON.stringify({ user }),
+            headers: new Headers({ "content-type": "application/json" }),
+          })
+            .then((answer) => answer.json())
+            .then((data) => {
+              data.articles.length > 0
+                ? dispatch(
+                    localStorageCart(
+                      data.articles.map((x) => {
+                        return { ...x, quantity: x.cartitems.quantity };
+                      })
+                    )
+                  )
+                : dispatch(
+                    localStorageCart(
+                      JSON.parse(window.localStorage.getItem("cart"))
+                    )
+                  );
+            })
+        );
     }
   }, [isLoading, isAuthenticated, user, dispatch]);
 
@@ -100,24 +121,44 @@ function App() {
 
   // Fin add Width y Height
 
-  return (
-    <div>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/detalles/:id" element={<Detalles />} />
-        <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
-        <Route path="/addItem" element={<AddArticle />} />
-        <Route path="/successBuy" element={<SuccessPurchase />} />
-        <Route path="/profile/:id" element={<Profile />} />
-      </Routes>
-      <Footer />
-      <BottomNav />
-      <Toaster position="bottom-right" reverseOrder={false} />
-    </div>
-  );
+  if (useLocation().pathname.split("/")[1] !== "admin")
+    return (
+      <div>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/detalles/:id" element={<Detalles />} />
+          <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
+          <Route path="/addItem" element={<AddArticle />} />
+          <Route path="/successBuy" element={<SuccessPurchase />} />
+          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+        <Footer />
+        <BottomNav />
+
+        <Toaster position="bottom-right" reverseOrder={false} />
+      </div>
+    );
+  else
+    return (
+      <div>
+        <Routes>
+          <Route element={<RutasProtegidas />}>
+            <Route path="/admin">
+              <Route index element={<Dashboard />} />
+              <Route path="users">
+                <Route index element={<DUsers />} />
+                <Route path="new" element={<DNewUser />} />
+                <Route path=":userId" element={<DSingleUser />} />
+              </Route>
+            </Route>
+          </Route>
+        </Routes>
+      </div>
+    );
 }
 
 export default App;
