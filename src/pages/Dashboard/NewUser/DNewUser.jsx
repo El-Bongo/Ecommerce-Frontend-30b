@@ -1,15 +1,15 @@
-import styles from './DNewUser.module.scss';
+import styles from "./DNewUser.module.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
-import { DSidebar } from '../components/Sidebar/DSidebar';
-import { DNavbar } from '../components/Navbar/DNavbar';
-import { userInputs } from './formSource';
-import dark from '../Dark.module.scss';
-import { useSelector } from 'react-redux'
+import { DSidebar } from "../components/Sidebar/DSidebar";
+import { DNavbar } from "../components/Navbar/DNavbar";
+import { userInputs } from "./formSource";
+import dark from "../Dark.module.scss";
+import { useSelector } from "react-redux";
 
 export const DNewUser = () => {
   const [file, setFile] = useState("");
-  const { darkMode } =useSelector( state => state.darkmode );
+  const { darkMode } = useSelector((state) => state.darkmode);
 
   return (
     <div className={`${styles.new} ${darkMode && dark.dark}`}>
@@ -34,7 +34,8 @@ export const DNewUser = () => {
             <form>
               <div className={styles.formInput}>
                 <label htmlFor="file">
-                  Imagen: <DriveFolderUploadOutlinedIcon className={styles.icon} />
+                  Imagen:{" "}
+                  <DriveFolderUploadOutlinedIcon className={styles.icon} />
                 </label>
                 <input
                   type="file"
@@ -47,7 +48,11 @@ export const DNewUser = () => {
               {userInputs.map((input) => (
                 <div className={styles.formInput} key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <input
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    style={{ color: darkMode && "white" }}
+                  />
                 </div>
               ))}
               <button>Enviar</button>
@@ -57,4 +62,4 @@ export const DNewUser = () => {
       </div>
     </div>
   );
-}
+};
