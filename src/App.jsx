@@ -27,6 +27,7 @@ import { Dashboard } from "./pages/Dashboard/home/Dashboard";
 import { DUsers } from "./pages/Dashboard/users/DUsers";
 import { DNewUser } from "./pages/Dashboard/NewUser/DNewUser";
 import { DSingleUser } from "./pages/Dashboard/SingleUser/DSingleUser";
+import Orders from "./pages/Dashboard/Orders/Orders";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,18 +38,13 @@ function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   // eslint-disable-next-line
-  const mercadopago = useMercadopago.v2(
-    "TEST-4d76826e-3115-416c-bc70-f7a46fa75820",
-    {
-      locale: "es-AR",
-    }
-  );
+  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
+    locale: "es-AR",
+  });
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      dispatch(
-        localStorageCart(JSON.parse(window.localStorage.getItem("cart")))
-      );
+      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
     }
   }, [dispatch, isLoading, isAuthenticated]);
 
@@ -77,11 +73,7 @@ function App() {
                       })
                     )
                   )
-                : dispatch(
-                    localStorageCart(
-                      JSON.parse(window.localStorage.getItem("cart"))
-                    )
-                  );
+                : dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
             })
         );
     }
@@ -156,6 +148,7 @@ function App() {
               </Route>
             </Route>
           </Route>
+          <Route path="/admin/ordenes" element={<Orders />}></Route>
         </Routes>
       </div>
     );
