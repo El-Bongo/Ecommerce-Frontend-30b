@@ -12,7 +12,7 @@ export function useProfile(id) {
   const [resync, reFetch] = useState(true);
 
   useEffect(() => {
-    fetch("https://pf-30b-backend-production.up.railway.app//users/profile/" + id, { method: "GET" })
+    fetch("https://pf-30b-backend-production.up.railway.app/users/profile/" + id, { method: "GET" })
       .then((answer) => answer.json())
       .then((answerjs) => setData(answerjs));
   }, [id, resync]);

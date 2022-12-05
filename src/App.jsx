@@ -58,7 +58,7 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("https://pf-30b-backend-production.up.railway.app//users/checkGoogleFacebook", {
+      fetch("https://pf-30b-backend-production.up.railway.app/users/checkGoogleFacebook", {
         method: "POST",
         body: JSON.stringify(user),
         headers: new Headers({ "content-type": "application/json" }),
@@ -66,7 +66,7 @@ function App() {
         .then((answer) => answer.json())
         .then((data) => dispatch(inputUserData(data)))
         .then(() =>
-          fetch("https://pf-30b-backend-production.up.railway.app//cart/getCart", {
+          fetch("https://pf-30b-backend-production.up.railway.app/cart/getCart", {
             method: "POST",
             body: JSON.stringify({ user }),
             headers: new Headers({ "content-type": "application/json" }),
@@ -91,7 +91,7 @@ function App() {
     if (!isLoading && isAuthenticated) {
       if (!peticion && carro !== sentCarro) {
         setSentCarro(carro);
-        fetch("https://pf-30b-backend-production.up.railway.app//cart/updateCart", {
+        fetch("https://pf-30b-backend-production.up.railway.app/cart/updateCart", {
           method: "POST",
           body: JSON.stringify({ user, carro }),
           headers: new Headers({ "content-type": "application/json" }),

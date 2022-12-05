@@ -22,7 +22,7 @@ export default function Profile() {
   }, [datos]);
 
   useEffect(() => {
-    fetch("https://pf-30b-backend-production.up.railway.app//cart/getCart/", {
+    fetch("https://pf-30b-backend-production.up.railway.app/cart/getCart/", {
       method: "POST",
       body: JSON.stringify({ user: { email: datos.email } }),
       headers: new Headers({ "content-type": "application/json" }),
@@ -30,7 +30,7 @@ export default function Profile() {
       .then((answer) => answer.json())
       .then((data) => console.log(data));
 
-    fetch("https://pf-30b-backend-production.up.railway.app//wishlist/user/" + id, {
+    fetch("https://pf-30b-backend-production.up.railway.app/wishlist/user/" + id, {
       method: "GET",
     })
       .then((answer) => answer.json())
@@ -44,7 +44,7 @@ export default function Profile() {
   }, [user, datos.email, isLoading, isAuthenticated]);
 
   async function handleSaveChanges() {
-    fetch("https://pf-30b-backend-production.up.railway.app//users/updateProfile/" + id, {
+    fetch("https://pf-30b-backend-production.up.railway.app/users/updateProfile/" + id, {
       method: "POST",
       body: JSON.stringify(formData),
       headers: new Headers({ "content-type": "application/json" }),
