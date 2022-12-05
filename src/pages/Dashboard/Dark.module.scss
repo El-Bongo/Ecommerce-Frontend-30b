@@ -1,5 +1,5 @@
 .dark {
-  background-color: #111;
+  background-color: #111 !important;
   color: rgb(156, 156, 156);
 
   .chartGrid {
@@ -51,8 +51,7 @@
 
   .datatable {
     .datagrid {
-      color: gray;
-      border: none;
+      color: gray !important;
 
       .viewButton,
       .deleteButton,

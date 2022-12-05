@@ -1,6 +1,7 @@
 .home {
   display: flex;
-
+  position: relative;
+  
   .homeContainer {
     flex: 6;
 
@@ -28,4 +29,17 @@
       }
     }
   }
+}
+
+
+@media screen and ( max-width: 600px ) {
+  
+  .home{
+    display: block;
+
+    .widgets{
+      flex-direction: column;
+    }
+  }
+
 }
