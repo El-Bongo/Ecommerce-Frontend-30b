@@ -31,7 +31,10 @@ export default function Article({ data }) {
           }
         </Button>
         <Link to={`/detalles/${data.id}`} style={{ textDecoration: "none" }}>
-          <CardMedia component="img" height="240" image={data.images[0]} />
+          <CardMedia component="img" 
+          height="240" 
+          image={data.images[0]} 
+          />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div" style={{ textAlign: "center", color: "black" }}>
               {data.title}

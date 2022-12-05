@@ -10,14 +10,14 @@ export default function Detalles() {
 
   useEffect(() => {
     function checkStatus() {
-      fetch("https://pf-30b-backend.onrender.com/metaMask/checkPurchase/" + id, { method: "GET" })
+      fetch("https://pf-30b-backend-production.up.railway.app//metaMask/checkPurchase/" + id, { method: "GET" })
         .then((dataJson) => dataJson.json())
         .then((data) => {
           setDetails(data);
           if (data.result.status === "") {
             setTimeout(() => checkStatus(), 10000);
           } else {
-            if (data.results.status === "1") {
+            if (data.result.status === "1") {
               dispatch(cleanCart());
             }
           }
