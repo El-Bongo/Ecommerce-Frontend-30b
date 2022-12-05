@@ -22,7 +22,7 @@ export default function Profile() {
   }, [datos]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/cart/getCart/", {
+    fetch("https://ecommerce-frontend-30b.vercel.app/cart/getCart/", {
       method: "POST",
       body: JSON.stringify({ user: { email: datos.email } }),
       headers: new Headers({ "content-type": "application/json" }),
@@ -30,7 +30,7 @@ export default function Profile() {
       .then((answer) => answer.json())
       .then((data) => console.log(data));
 
-    fetch("http://localhost:3001/wishlist/user/" + id, {
+    fetch("https://ecommerce-frontend-30b.vercel.app/wishlist/user/" + id, {
       method: "GET",
     })
       .then((answer) => answer.json())
@@ -44,7 +44,7 @@ export default function Profile() {
   }, [user, datos.email, isLoading, isAuthenticated]);
 
   async function handleSaveChanges() {
-    fetch("http://localhost:3001/users/updateProfile/" + id, {
+    fetch("https://ecommerce-frontend-30b.vercel.app/users/updateProfile/" + id, {
       method: "POST",
       body: JSON.stringify(formData),
       headers: new Headers({ "content-type": "application/json" }),

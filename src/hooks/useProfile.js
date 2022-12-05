@@ -12,7 +12,7 @@ export function useProfile(id) {
   const [resync, reFetch] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3001/users/profile/" + id, { method: "GET" })
+    fetch("https://ecommerce-frontend-30b.vercel.app/users/profile/" + id, { method: "GET" })
       .then((answer) => answer.json())
       .then((answerjs) => setData(answerjs));
   }, [id, resync]);

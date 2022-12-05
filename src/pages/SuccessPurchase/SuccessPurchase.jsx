@@ -11,7 +11,7 @@ export default function SuccessPurchase() {
   const [comprado, setComprado] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/mercadoPago/checkPurchase/${payment_id}`, {
+    fetch(`https://ecommerce-frontend-30b.vercel.app/mercadoPago/checkPurchase/${payment_id}`, {
       method: "GET",
     })
       .then((a) => a.json())
@@ -20,7 +20,7 @@ export default function SuccessPurchase() {
           dispatch(cleanCart());
           setComprado(a.compra);
         } else {
-          window.location.href = "http://localhost:3001/cart";
+          window.location.href = "https://ecommerce-frontend-30b.vercel.app/cart";
         }
       });
   }, [dispatch, payment_id]);

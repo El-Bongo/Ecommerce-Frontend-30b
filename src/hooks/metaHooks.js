@@ -21,7 +21,7 @@ export async function handleMetaPayment(ethereum, ethers, carro, email, ARS, ETH
     params: [transactionParameters],
   });
   if (!txHash.message) {
-    fetch("http://localhost:3001/metaMask/createOrder", { method: "POST", body: JSON.stringify({ txHash: txHash, carro, email }), headers: new Headers({ "content-type": "application/json" }) })
+    fetch("https://ecommerce-frontend-30b.vercel.app/metaMask/createOrder", { method: "POST", body: JSON.stringify({ txHash: txHash, carro, email }), headers: new Headers({ "content-type": "application/json" }) })
       .then((data) => data.json())
       .then((answer) => (window.location.href = "http://localhost:3000/MetaMaskStatus/" + answer.id));
   }

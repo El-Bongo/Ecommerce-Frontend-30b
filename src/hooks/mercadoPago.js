@@ -1,5 +1,5 @@
 export async function mercadoPagoHook(carro, user, mercadopago) {
-  return fetch("http://localhost:3001/mercadoPago/createOrder", { method: "POST", body: JSON.stringify({ carro, user: user }), headers: new Headers({ "content-type": "application/json" }) })
+  return fetch("https://ecommerce-frontend-30b.vercel.app/mercadoPago/createOrder", { method: "POST", body: JSON.stringify({ carro, user: user }), headers: new Headers({ "content-type": "application/json" }) })
     .then((dataJson) => dataJson.json())
     .then((data) => {
       if (mercadopago) {

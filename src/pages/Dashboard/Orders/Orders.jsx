@@ -5,7 +5,7 @@ export default function Orders() {
   const [ordenes, setOrdenes] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/orders/getAll", { method: "GET" })
+    fetch("https://ecommerce-frontend-30b.vercel.app/orders/getAll", { method: "GET" })
       .then((answer) => answer.json())
       .then((data) => setOrdenes(data.filter((x) => !x.despachada && x.payment_status === "approved")));
   }, []);
