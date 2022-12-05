@@ -10,7 +10,7 @@ export default function Detalles() {
 
   useEffect(() => {
     function checkStatus() {
-      fetch("http://localhost:3001/metaMask/checkPurchase/" + id, { method: "GET" })
+      fetch("https://pf-30b-backend-production.up.railway.app//metaMask/checkPurchase/" + id, { method: "GET" })
         .then((dataJson) => dataJson.json())
         .then((data) => {
           setDetails(data);
