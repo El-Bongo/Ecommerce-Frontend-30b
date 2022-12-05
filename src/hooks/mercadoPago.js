@@ -1,5 +1,5 @@
 export async function mercadoPagoHook(carro, user, mercadopago) {
-  return fetch("https://pf-30b-backend-production.up.railway.app//mercadoPago/createOrder", { method: "POST", body: JSON.stringify({ carro, user: user }), headers: new Headers({ "content-type": "application/json" }) })
+  return fetch("https://pf-30b-backend-production.up.railway.app/mercadoPago/createOrder", { method: "POST", body: JSON.stringify({ carro, user: user }), headers: new Headers({ "content-type": "application/json" }) })
     .then((dataJson) => dataJson.json())
     .then((data) => {
       if (mercadopago) {
