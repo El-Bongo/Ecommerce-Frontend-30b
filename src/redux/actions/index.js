@@ -36,6 +36,15 @@ export const postArticle = (item) => () => {
   }).then((res) => console.log(res));
 };
 
+export const createReview = (item) => () => {
+  fetch("https://pf-30b-backend-production.up.railway.app/articulo/addReview", {
+    method: "POST",
+    body: JSON.stringify(item),
+    headers: new Headers({ "content-type": "application/json" }),
+  }).then((res) => console.log(res));
+};
+
+
 export const despachar = (id) => {
   fetch("https://pf-30b-backend-production.up.railway.app/orders/update/" + id, {
     method: "POST",

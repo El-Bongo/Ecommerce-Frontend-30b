@@ -1,0 +1,4 @@
+.Rating--Star {
+    filter: grayscale(100%);
+    opacity: .3; 
+  }
