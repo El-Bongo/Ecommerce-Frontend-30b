@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOneUser } from "../../../redux/actions";
 import { uploadPhotoToCloudinary } from "../../../hooks/uploadToCloudinary";
+import Swal from "sweetalert2";
 
 export const DEditUser = () => {
   const [avatar, setAvatar] = useState(null);
@@ -22,31 +23,46 @@ export const DEditUser = () => {
     dispatch(getOneUser(userId));
   }, [dispatch, userId]);
 
-
-  const handleUpdateUser = async(user, avatar) => {
-    const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/users/updateProfile/${userId}`,
+  const handleUpdateUser = async (user, avatar) => {
+    const resp = await fetch(
+      `https://pf-30b-backend-production.up.railway.app/users/updateProfile/${userId}`,
       {
-        method: 'POST',
-        body: JSON.stringify({...user, avatar}),
+        method: "POST",
+        body: JSON.stringify({ ...user, avatar }),
         headers: new Headers({ "content-type": "application/json" }),
       }
     );
     const data = await resp.json();
 
     console.log(data);
+    return data;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    var d ;
+    var d;
 
     if (avatar) {
       const response = uploadPhotoToCloudinary(avatar);
       d = await response();
     }
 
-    handleUpdateUser(userUpdate, d && d[0])
+    Swal.fire({
+      title: "Quieres aceptar los cambios?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Editar",
+      denyButtonText: `No Editar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Editado!", "", "success");
+        handleUpdateUser(userUpdate, d && d[0]);
+      } else if (result.isDenied) {
+        Swal.fire("Los cambios no se guardaron", "", "info");
+      }
+    });
   };
+
 
   return (
     <div className={`${styles.new} ${darkMode && dark.dark}`}>
@@ -116,7 +132,16 @@ export const DEditUser = () => {
                   }
                 />
               </div>
-              <button>Enviar</button>
+              {!avatar?.target.files.length &&
+              ((userUpdate?.role === "" || !userUpdate?.role) &&
+                (userUpdate?.nickname === "" || !userUpdate?.nickname) &&
+                (userUpdate?.email === "" || !userUpdate?.email)) ? (
+                <button disabled style={{ backgroundColor: "#ac96fd" }}>
+                  Enviar
+                </button>
+              ) : (
+                <button>Enviar</button>
+              )}
             </form>
           </div>
         </div>
