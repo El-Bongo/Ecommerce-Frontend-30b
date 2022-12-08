@@ -1,7 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "./datatablesource";
+import { userColumns } from "./datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import styles from './DUserDatatable.module.scss'
 import dark from '../../Dark.module.scss';
 import { useSelector } from 'react-redux';
@@ -9,27 +8,23 @@ import { useSelector } from 'react-redux';
 export const DUserDatatable = () => {
 
   const { darkMode } = useSelector(state => state.darkmode);
-  const [data, setData] = useState(userRows);
 
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+  const {users} = useSelector(state => state.panel)
 
   const actionColumn = [
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      flex: 1,
       renderCell: (params) => {
         return (
           <div className={styles.cellAction}>
-            <Link to="/admin/users/test" style={{ textDecoration: "none" }}>
+            <Link to={`/admin/users/${params.row.id}`} style={{ textDecoration: "none" }}>
               <div className={`${styles.viewButton} ${darkMode && dark.viewButton}`}>Ver mas</div>
             </Link>
             <div
               className={`${styles.deleteButton} ${darkMode && dark.deleteButton}`}
-              onClick={() => handleDelete(params.row.id)}
+              // onClick={() => handleDelete(params.row.id)}
             >
               Borrar
             </div>
@@ -49,10 +44,10 @@ export const DUserDatatable = () => {
       </div>
       <DataGrid
         className={`${styles.datagrid} ${ darkMode && dark.datagrid }`}
-        rows={data}
+        rows={users}
         columns={userColumns.concat(actionColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection
       />
     </div>

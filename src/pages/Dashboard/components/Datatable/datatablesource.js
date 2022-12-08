@@ -1,16 +1,22 @@
+import { Avatar } from '@mui/material';
 import styles from './DUserDatatable.module.scss'
 
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "id", headerName: "ID", flex: 1 },
   {
     field: "user",
     headerName: "Usuario",
-    width: 230,
+    flex: 1,
     renderCell: (params) => {
       return (
         <div className={styles.cellWithImg}>
-          <img className={styles.cellImg} src={params.row.img} alt="avatar" />
-          {params.row.username}
+          {
+            !params.row.avatar 
+            ? <Avatar className={styles.cellImg}>{params.row.nickname.substr(0,2).toUpperCase()}</Avatar>
+            : <Avatar src={params.row.avatar} />
+
+          }
+          {params.row.nickname}
         </div>
       );
     },
@@ -18,112 +24,29 @@ export const userColumns = [
   {
     field: "email",
     headerName: "Email",
-    width: 230,
+    flex: 1,
   },
 
   {
-    field: "age",
-    headerName: "Edad",
-    width: 100,
+    field: "role",
+    headerName: "Role",
+    flex: 1,
   },
   {
-    field: "status",
+    field: "deletedAt",
     headerName: "Estado",
-    width: 160,
+    flex: 1,
     renderCell: (params) => {
       return (
         <div className={ 
-          params.row.status === 'activo' ? `${styles.cellWithStatus} ${styles.activo}` 
-          : params.row.status === 'inactivo' ? `${styles.cellWithStatus} ${styles.inactivo}` 
-          : `${styles.cellWithStatus} ${styles.pendiente}`
+          params.row.deletedAt ? `${styles.cellWithStatus} ${styles.inactivo}` 
+          : `${styles.cellWithStatus} ${styles.activo}` 
         }>
-          {params.row.status}
+          {
+            params.row.deletedAt ? 'inactivo' : 'activo'
+          }
         </div>
       );
     },
-  },
-];
-
-//temporary data
-export const userRows = [
-  {
-    id: 1,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    status: "activo",
-    email: "santis@gmail.com",
-    age: 35,
-  },
-  {
-    id: 2,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    email: "santis@gmail.com",
-    status: "inactivo",
-    age: 42,
-  },
-  {
-    id: 3,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    email: "santis@gmail.com",
-    status: "pendiente",
-    age: 45,
-  },
-  {
-    id: 4,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    email: "santis@gmail.com",
-    status: "activo",
-    age: 16,
-  },
-  {
-    id: 5,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    email: "santis@gmail.com",
-    status: "inactivo",
-    age: 22,
-  },
-  {
-    id: 6,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    email: "santis@gmail.com",
-    status: "activo",
-    age: 15,
-  },
-  {
-    id: 7,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    email: "santis@gmail.com",
-    status: "inactivo",
-    age: 44,
-  },
-  {
-    id: 8,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    email: "santis@gmail.com",
-    status: "activo",
-    age: 36,
-  },
-  {
-    id: 9,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    email: "santis@gmail.com",
-    status: "pendiente",
-    age: 65,
-  },
-  {
-    id: 10,
-    username: "Santiago",
-    img: "https://avatars.githubusercontent.com/u/56309904?s=96&v=4",
-    email: "santis@gmail.com",
-    status: "activo",
-    age: 65,
   },
 ];
