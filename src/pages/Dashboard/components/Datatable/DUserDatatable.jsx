@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 export const DUserDatatable = () => {
 
   const { darkMode } = useSelector(state => state.darkmode);
-
   const {users} = useSelector(state => state.panel)
 
   const actionColumn = [
@@ -24,7 +23,7 @@ export const DUserDatatable = () => {
             </Link>
             <div
               className={`${styles.deleteButton} ${darkMode && dark.deleteButton}`}
-              // onClick={() => handleDelete(params.row.id)}
+              // onClick={() =>)}
             >
               Borrar
             </div>

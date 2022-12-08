@@ -13,7 +13,7 @@ export const userColumns = [
           {
             !params.row.avatar 
             ? <Avatar className={styles.cellImg}>{params.row.nickname.substr(0,2).toUpperCase()}</Avatar>
-            : <Avatar src={params.row.avatar} />
+            : <Avatar className={styles.cellImg} src={params.row.avatar} />
 
           }
           {params.row.nickname}
