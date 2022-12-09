@@ -37,7 +37,7 @@ export const DSidebar = () => {
               <span>Usuarios</span>
             </li>
           </Link>
-          <Link to="/admin/users" style={{ textDecoration: "none" }}>
+          <Link to="/admin/products" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className={styles.icon} />
               <span>Productos</span>

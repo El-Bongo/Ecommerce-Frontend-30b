@@ -32,6 +32,7 @@ import { persist } from "./redux/slices/darkmodeSlice";
 import { Perfil } from "./pages/Dashboard/Perfil/Perfil";
 import { DBottomNav } from "./pages/Dashboard/components/BottomNavDashboard/DBottomNav";
 import { DEditUser } from "./pages/Dashboard/EditUser/DEditUSer";
+import { DProducts } from "./pages/Dashboard/products/DProducts";
 
 function App() {
   const dispatch = useDispatch();
@@ -174,6 +175,9 @@ function App() {
                 <Route path="new" element={<DNewUser />} />
                 <Route path="edit/:userId" element={<DEditUser />} />
                 <Route path=":userId" element={<DSingleUser />} />
+              </Route>
+              <Route path="products">
+                <Route index element={<DProducts/>}/>
               </Route>
             </Route>
           </Route>
