@@ -1,35 +1,29 @@
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "./datatablesource";
+import { productColumns } from "./datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import styles from './DUserDatatable.module.scss'
+import styles from './DProductDatatable.module.scss'
 import dark from '../../Dark.module.scss';
 import { useSelector } from 'react-redux';
 
-export const DUserDatatable = () => {
+export const DProductDatatable = () => {
 
   const { darkMode } = useSelector(state => state.darkmode);
-  const [data, setData] = useState(userRows);
-
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+  const {allArticles} = useSelector(state => state.articles)
 
   const actionColumn = [
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      flex: 1,
       renderCell: (params) => {
         return (
           <div className={styles.cellAction}>
-            <Link to="/admin/users/test" style={{ textDecoration: "none" }}>
+            <Link to={`/admin/users/${params.row.id}`} style={{ textDecoration: "none" }}>
               <div className={`${styles.viewButton} ${darkMode && dark.viewButton}`}>Ver mas</div>
             </Link>
             <div
               className={`${styles.deleteButton} ${darkMode && dark.deleteButton}`}
-              onClick={() => handleDelete(params.row.id)}
+              // onClick={() =>)}
             >
               Borrar
             </div>
@@ -42,17 +36,17 @@ export const DUserDatatable = () => {
   return (
     <div className={`${styles.datatable} ${ darkMode && dark.datatable }`}>
       <div className={styles.datatableTitle}>
-        Agregar Nuevo Usuario
+        Agregar Nuevo Producto
         <Link to="/admin/users/new" className={styles.link}>
           Agregar
         </Link>
       </div>
       <DataGrid
         className={`${styles.datagrid} ${ darkMode && dark.datagrid }`}
-        rows={data}
-        columns={userColumns.concat(actionColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        rows={allArticles}
+        columns={productColumns.concat(actionColumn)}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection
       />
     </div>
