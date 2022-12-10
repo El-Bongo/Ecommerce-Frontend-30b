@@ -31,6 +31,8 @@ import Orders from "./pages/Dashboard/Orders/Orders";
 import { persist } from "./redux/slices/darkmodeSlice";
 import { Perfil } from "./pages/Dashboard/Perfil/Perfil";
 import { DBottomNav } from "./pages/Dashboard/components/BottomNavDashboard/DBottomNav";
+import { DEditUser } from "./pages/Dashboard/EditUser/DEditUSer";
+import { DProducts } from "./pages/Dashboard/products/DProducts";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,9 +43,12 @@ function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   // eslint-disable-next-line
-  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
-    locale: "es-AR",
-  });
+  const mercadopago = useMercadopago.v2(
+    "TEST-4d76826e-3115-416c-bc70-f7a46fa75820",
+    {
+      locale: "es-AR",
+    }
+  );
 
   // Persistencia del DarkMode
   useEffect(() => {
@@ -52,25 +57,33 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
+      dispatch(
+        localStorageCart(JSON.parse(window.localStorage.getItem("cart")))
+      );
     }
   }, [dispatch, isLoading, isAuthenticated]);
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("https://pf-30b-backend-production.up.railway.app/users/checkGoogleFacebook", {
-        method: "POST",
-        body: JSON.stringify(user),
-        headers: new Headers({ "content-type": "application/json" }),
-      })
+      fetch(
+        "https://pf-30b-backend-production.up.railway.app/users/checkGoogleFacebook",
+        {
+          method: "POST",
+          body: JSON.stringify(user),
+          headers: new Headers({ "content-type": "application/json" }),
+        }
+      )
         .then((answer) => answer.json())
         .then((data) => dispatch(inputUserData(data)))
         .then(() =>
-          fetch("https://pf-30b-backend-production.up.railway.app/cart/getCart", {
-            method: "POST",
-            body: JSON.stringify({ user }),
-            headers: new Headers({ "content-type": "application/json" }),
-          })
+          fetch(
+            "https://pf-30b-backend-production.up.railway.app/cart/getCart",
+            {
+              method: "POST",
+              body: JSON.stringify({ user }),
+              headers: new Headers({ "content-type": "application/json" }),
+            }
+          )
             .then((answer) => answer.json())
             .then((data) => {
               data.articles.length > 0
@@ -81,7 +94,11 @@ function App() {
                       })
                     )
                   )
-                : dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
+                : dispatch(
+                    localStorageCart(
+                      JSON.parse(window.localStorage.getItem("cart"))
+                    )
+                  );
             })
         );
     }
@@ -91,11 +108,14 @@ function App() {
     if (!isLoading && isAuthenticated) {
       if (!peticion && carro !== sentCarro) {
         setSentCarro(carro);
-        fetch("https://pf-30b-backend-production.up.railway.app/cart/updateCart", {
-          method: "POST",
-          body: JSON.stringify({ user, carro }),
-          headers: new Headers({ "content-type": "application/json" }),
-        })
+        fetch(
+          "https://pf-30b-backend-production.up.railway.app/cart/updateCart",
+          {
+            method: "POST",
+            body: JSON.stringify({ user, carro }),
+            headers: new Headers({ "content-type": "application/json" }),
+          }
+        )
           .then(() => {
             toast.success("Carro Actualizado!");
             setPeticion(false);
@@ -153,7 +173,11 @@ function App() {
               <Route path="users">
                 <Route index element={<DUsers />} />
                 <Route path="new" element={<DNewUser />} />
+                <Route path="edit/:userId" element={<DEditUser />} />
                 <Route path=":userId" element={<DSingleUser />} />
+              </Route>
+              <Route path="products">
+                <Route index element={<DProducts/>}/>
               </Route>
             </Route>
           </Route>

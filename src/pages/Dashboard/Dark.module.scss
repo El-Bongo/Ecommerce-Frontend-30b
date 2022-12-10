@@ -53,11 +53,9 @@
     .datagrid {
       color: gray !important;
 
-      .viewButton,
       .deleteButton,
-      .cellWithStatus {
-        color: gray;
-        border: none;
+      .viewButton{
+        color: #6439ff;
       }
     }
   }

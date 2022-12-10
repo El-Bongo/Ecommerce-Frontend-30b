@@ -6,6 +6,7 @@ import favorite from "./slices/favoriteSlice";
 import windows from "./slices/windowSlice";
 import darkmode from './slices/darkmodeSlice'
 import user from './slices/userSlice';
+import panel from './slices/adminPanel';
 
 export default configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export default configureStore({
     favorite,
     windows,
     darkmode,
-    user
+    user,
+    panel
   },
 });

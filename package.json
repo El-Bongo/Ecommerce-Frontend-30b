@@ -27,6 +27,7 @@
     "react-sdk-mercadopago": "^1.1.1",
     "recharts": "^2.1.16",
     "sass": "^1.56.1",
+    "sweetalert2": "^11.6.15",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

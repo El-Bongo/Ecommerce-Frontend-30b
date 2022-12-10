@@ -1,28 +1,28 @@
-import { DUserDatatable } from "../components/UserDatatable/DUserDatatable";
 import { DNavbar } from "../components/Navbar/DNavbar"
 import { DSidebar } from "../components/Sidebar/DSidebar";
-import styles from './DUsers.module.scss';
+import styles from './DProducts.module.scss';
 import dark from '../Dark.module.scss';
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllUser } from "../../../redux/actions";
+import { getAll } from "../../../redux/actions";
 import { useEffect } from "react";
+import { DProductDatatable } from "../components/ProductDatatable/DProductDatatable";
 
-export const DUsers = () => {
+export const DProducts = () => {
 
   const dispatch = useDispatch();
   const { darkMode } =useSelector( state => state.darkmode );
 
   useEffect(() => {
-    dispatch(getAllUser());
+    dispatch(getAll());
   }, [dispatch])
   
 
   return (
-    <div className={`${styles.users} ${darkMode && dark.dark}`}>
+    <div className={`${styles.products} ${darkMode && dark.dark}`}>
       <DSidebar/>
-      <div className={`${styles.usersContainer}`}>
+      <div className={`${styles.productsContainer}`}>
         <DNavbar/>
-        <DUserDatatable/>
+        <DProductDatatable/>
       </div>
     </div>
   )

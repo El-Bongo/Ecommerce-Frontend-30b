@@ -1,12 +1,12 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { Outlet, Navigate } from 'react-router-dom'
-
+import { useSelector } from 'react-redux'
 
 export const RutasProtegidas = () => {
 
-  const { isAuthenticated } = useAuth0()
+  const { data } = useSelector(state => state.user)
 
-  if (!isAuthenticated) {
+
+  if (data.role !== 'admin') {
     return <Navigate to='/' />
   }
 
