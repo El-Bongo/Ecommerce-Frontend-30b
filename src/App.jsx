@@ -29,7 +29,6 @@ import Orders from "./pages/Dashboard/Orders/Orders";
 import { persist } from "./redux/slices/darkmodeSlice";
 import { Perfil } from "./pages/Dashboard/Perfil/Perfil";
 import { DBottomNav } from "./pages/Dashboard/components/BottomNavDashboard/DBottomNav";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { DEditUser } from "./pages/Dashboard/EditUser/DEditUSer";
 import { DProducts } from "./pages/Dashboard/products/DProducts";
 
@@ -59,7 +58,7 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("http://localhost:3001/users/checkGoogleFacebook", {
+      fetch("https://pf-30b-backend-production.up.railway.app/users/checkGoogleFacebook", {
         method: "POST",
         body: JSON.stringify(user),
         headers: new Headers({ "content-type": "application/json" }),
@@ -67,7 +66,7 @@ function App() {
         .then((answer) => answer.json())
         .then((data) => dispatch(inputUserData(data)))
         .then(() =>
-          fetch("http://localhost:3001/cart/getCart", {
+          fetch("https://pf-30b-backend-production.up.railway.app/cart/getCart", {
             method: "POST",
             body: JSON.stringify({ user }),
             headers: new Headers({ "content-type": "application/json" }),
@@ -92,7 +91,7 @@ function App() {
     if (!isLoading && isAuthenticated) {
       if (!peticion && carro !== sentCarro) {
         setSentCarro(carro);
-        fetch("http://localhost:3001/cart/updateCart", {
+        fetch("https://pf-30b-backend-production.up.railway.app/cart/updateCart", {
           method: "POST",
           body: JSON.stringify({ user, carro }),
           headers: new Headers({ "content-type": "application/json" }),

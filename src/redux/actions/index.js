@@ -1,4 +1,5 @@
 import { getUser, getUsers } from "../slices/adminPanel";
+import { getUser, getUsers } from "../slices/adminPanel";
 import { getAllCateg, getAllData } from "../slices/articlesSlice";
 import { insertDataDetails } from "../slices/detailSlice";
 
