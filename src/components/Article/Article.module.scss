@@ -1,21 +1,17 @@
-
-
-
-
-.articleContainer{
+.articleContainer {
   margin: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
 
-  .favBtn{
+  .favBtn {
     position: absolute;
     top: 0;
     right: 0;
   }
 
-  .articleImage{
+  .articleImage {
     max-width: 300px;
   }
 }

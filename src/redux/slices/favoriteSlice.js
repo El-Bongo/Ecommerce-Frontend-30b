@@ -19,7 +19,6 @@ const favoriteSlice = createSlice({
       window.localStorage.setItem("favorite", JSON.stringify(state.favItem));
     },
     localStorageFavs: (state, { payload }) => {
-      console.log(payload);
       state.favItem = payload || [];
     },
   },

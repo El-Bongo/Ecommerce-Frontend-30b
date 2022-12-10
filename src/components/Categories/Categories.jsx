@@ -17,7 +17,7 @@ export const Categories = () => {
       <h2>Categorias</h2>
       <div className={styles.categoryWrapper}>
         {categorias.map((c) => (
-          <Link to='/products' key={c.id}>
+          <Link to="/products" key={c.id} state={{ categoria: { value: c.id, label: c.name } }}>
             <div className={styles.categoryContainer}>
               <img src={c.image} alt="" />
               <div className={styles.infoContainer}>

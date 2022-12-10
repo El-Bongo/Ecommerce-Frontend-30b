@@ -24,17 +24,13 @@ export const DEditUser = () => {
   }, [dispatch, userId]);
 
   const handleUpdateUser = async (user, avatar) => {
-    const resp = await fetch(
-      `https://pf-30b-backend-production.up.railway.app/users/updateProfile/${userId}`,
-      {
-        method: "POST",
-        body: JSON.stringify({ ...user, avatar }),
-        headers: new Headers({ "content-type": "application/json" }),
-      }
-    );
+    const resp = await fetch(`http://localhost:3001/users/updateProfile/${userId}`, {
+      method: "POST",
+      body: JSON.stringify({ ...user, avatar }),
+      headers: new Headers({ "content-type": "application/json" }),
+    });
     const data = await resp.json();
 
-    console.log(data);
     return data;
   };
 
@@ -63,7 +59,6 @@ export const DEditUser = () => {
     });
   };
 
-
   return (
     <div className={`${styles.new} ${darkMode && dark.dark}`}>
       <DSidebar />
@@ -74,21 +69,13 @@ export const DEditUser = () => {
         </div>
         <div className={styles.bottom}>
           <div className={styles.left}>
-            <img
-              src={
-                avatar?.target?.files[0]
-                  ? URL.createObjectURL(avatar?.target?.files[0])
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
+            <img src={avatar?.target?.files[0] ? URL.createObjectURL(avatar?.target?.files[0]) : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="" />
           </div>
           <div className={styles.right}>
             <form onSubmit={handleSubmit}>
               <div className={styles.formInput}>
                 <label htmlFor="file">
-                  Imagen:{" "}
-                  <DriveFolderUploadOutlinedIcon className={styles.icon} />
+                  Imagen: <DriveFolderUploadOutlinedIcon className={styles.icon} />
                 </label>
                 <input
                   type="file"
@@ -101,41 +88,17 @@ export const DEditUser = () => {
               </div>
               <div className={styles.formInput}>
                 <label>Nickname</label>
-                <input
-                  type="text"
-                  placeholder={user.nickname}
-                  style={{ color: darkMode && "white" }}
-                  onChange={(e) =>
-                    setUserUpdate({ ...userUpdate, nickname: e.target.value })
-                  }
-                />
+                <input type="text" placeholder={user.nickname} style={{ color: darkMode && "white" }} onChange={(e) => setUserUpdate({ ...userUpdate, nickname: e.target.value })} />
               </div>
               <div className={styles.formInput}>
                 <label>Email</label>
-                <input
-                  type="email"
-                  placeholder={user.email}
-                  style={{ color: darkMode && "white" }}
-                  onChange={(e) =>
-                    setUserUpdate({ ...userUpdate, email: e.target.value })
-                  }
-                />
+                <input type="email" placeholder={user.email} style={{ color: darkMode && "white" }} onChange={(e) => setUserUpdate({ ...userUpdate, email: e.target.value })} />
               </div>
               <div className={styles.formInput}>
                 <label>Rol</label>
-                <input
-                  type="text"
-                  style={{ color: darkMode && "white" }}
-                  placeholder={user.role}
-                  onChange={(e) =>
-                    setUserUpdate({ ...userUpdate, role: e.target.value })
-                  }
-                />
+                <input type="text" style={{ color: darkMode && "white" }} placeholder={user.role} onChange={(e) => setUserUpdate({ ...userUpdate, role: e.target.value })} />
               </div>
-              {!avatar?.target.files.length &&
-              ((userUpdate?.role === "" || !userUpdate?.role) &&
-                (userUpdate?.nickname === "" || !userUpdate?.nickname) &&
-                (userUpdate?.email === "" || !userUpdate?.email)) ? (
+              {!avatar?.target.files.length && (userUpdate?.role === "" || !userUpdate?.role) && (userUpdate?.nickname === "" || !userUpdate?.nickname) && (userUpdate?.email === "" || !userUpdate?.email) ? (
                 <button disabled style={{ backgroundColor: "#ac96fd" }}>
                   Enviar
                 </button>
