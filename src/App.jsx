@@ -74,11 +74,12 @@ function App() {
           })
             .then((answer) => answer.json())
             .then((data) => {
+              console.log(data);
               data.articles.length > 0
                 ? dispatch(
                     localStorageCart(
                       data.articles.map((x) => {
-                        return { ...x, quantity: x.cartitems.quantity };
+                        return { ...x, quantity: x.itemEnCarro.quantity };
                       })
                     )
                   )
@@ -102,7 +103,7 @@ function App() {
             setPeticion(false);
             return answer.json();
           })
-          .then((data) => console.log(data, "updatedcarro"))
+          .then((data) => data)
           .catch((e) => toast.error("Error actualizando el carro."));
       }
     }
