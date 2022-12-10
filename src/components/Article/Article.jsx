@@ -3,7 +3,7 @@ import styles from "./Article.module.scss";
 import { addItemToCart, cleanItem, changeQuantity } from "../../redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Card, CardActions, CardContent, Button, Typography } from "@mui/material";
+import { Card, CardActions, CardContent, Button, CardMedia, Typography } from "@mui/material";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { addFav, removeFav } from "../../redux/slices/favoriteSlice";
 import { Carousel } from "react-responsive-carousel";
@@ -32,13 +32,17 @@ export default function Article({ data }) {
           {favClick ? <AiOutlineHeart size={"1.5em"} style={{ padding: "0", margin: "0" }} /> : <AiFillHeart size={"1.5em"} style={{ padding: "0", margin: "0" }} />}
         </Button>
         <Carousel showArrows={true} showIndicators={true}>
-          {data.images.map((x, i) => (
-            <div key={x + i} height="240" with="240">
-              <img src={x} alt="carrousel del item" maxHeight="250" />
-            </div>
-          ))}
+          {data.images.length > 1
+            ? data.images.map((x, i) => (
+                <div key={x + i} height="240" with="240">
+                  <img src={x} alt="carrousel del item" maxHeight="250" />
+                </div>
+              ))
+            : null}
         </Carousel>
         <Link to={`/detalles/${data.id}`} style={{ textDecoration: "none" }}>
+          {data.images.length === 1 ? <CardMedia component="img" height="240" image={data.images[0]} /> : null}
+
           <CardContent>
             <Typography gutterBottom variant="h5" component="div" style={{ textAlign: "center", color: "black" }}>
               {data.title}

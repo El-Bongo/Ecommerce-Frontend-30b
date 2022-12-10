@@ -1,5 +1,4 @@
 import { getUser, getUsers } from "../slices/adminPanel";
-import { getUser, getUsers } from "../slices/adminPanel";
 import { getAllCateg, getAllData } from "../slices/articlesSlice";
 import { insertDataDetails } from "../slices/detailSlice";
 
@@ -30,13 +29,13 @@ export const getSingleArticle = (id) => async (dispatch) => {
 };
 
 export const getAllUser = () => async (dispatch) => {
-  const resp = await fetch("https://pf-30b-backend-production.up.railway.app/users/getAll");
+  const resp = await fetch("http://localhost:3001/users/getAll");
   const data = await resp.json();
   dispatch(getUsers(data));
 };
 
 export const getOneUser = (id) => async (dispatch) => {
-  const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/users/profile/${id}`);
+  const resp = await fetch(`http://localhost:3001/users/profile/${id}`);
   const data = await resp.json();
   dispatch(getUser(data));
 };

@@ -31,6 +31,7 @@ import { Perfil } from "./pages/Dashboard/Perfil/Perfil";
 import { DBottomNav } from "./pages/Dashboard/components/BottomNavDashboard/DBottomNav";
 import { DEditUser } from "./pages/Dashboard/EditUser/DEditUSer";
 import { DProducts } from "./pages/Dashboard/products/DProducts";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,7 +59,7 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      fetch("https://pf-30b-backend-production.up.railway.app/users/checkGoogleFacebook", {
+      fetch("http://localhost:3001/users/checkGoogleFacebook", {
         method: "POST",
         body: JSON.stringify(user),
         headers: new Headers({ "content-type": "application/json" }),
@@ -66,7 +67,7 @@ function App() {
         .then((answer) => answer.json())
         .then((data) => dispatch(inputUserData(data)))
         .then(() =>
-          fetch("https://pf-30b-backend-production.up.railway.app/cart/getCart", {
+          fetch("http://localhost:3001/cart/getCart", {
             method: "POST",
             body: JSON.stringify({ user }),
             headers: new Headers({ "content-type": "application/json" }),
@@ -91,15 +92,17 @@ function App() {
     if (!isLoading && isAuthenticated) {
       if (!peticion && carro !== sentCarro) {
         setSentCarro(carro);
-        fetch("https://pf-30b-backend-production.up.railway.app/cart/updateCart", {
+        fetch("http://localhost:3001/cart/updateCart", {
           method: "POST",
           body: JSON.stringify({ user, carro }),
           headers: new Headers({ "content-type": "application/json" }),
         })
-          .then(() => {
+          .then((answer) => {
             toast.success("Carro Actualizado!");
             setPeticion(false);
+            return answer.json();
           })
+          .then((data) => console.log(data, "updatedcarro"))
           .catch((e) => toast.error("Error actualizando el carro."));
       }
     }
