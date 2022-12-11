@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Fragment, useState } from "react";
 import styles from "./Navbar.module.scss";
 import imgLogo2 from "../../assets/logoShop.png";
+//import Chatbot from '../Chatbot/Chatbot.jsx';
+
 import {
   AiOutlineShoppingCart,
   AiOutlineUser,
