@@ -32,6 +32,7 @@ import { DBottomNav } from "./pages/Dashboard/components/BottomNavDashboard/DBot
 import { DEditUser } from "./pages/Dashboard/EditUser/DEditUSer";
 import { DProducts } from "./pages/Dashboard/products/DProducts";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { DSingleProduct } from "./pages/Dashboard/SigleProduct/DSigleProduct";
 
 function App() {
   const dispatch = useDispatch();
@@ -74,7 +75,6 @@ function App() {
           })
             .then((answer) => answer.json())
             .then((data) => {
-              console.log(data);
               data.articles.length > 0
                 ? dispatch(
                     localStorageCart(
@@ -162,6 +162,7 @@ function App() {
               </Route>
               <Route path="products">
                 <Route index element={<DProducts />} />
+                <Route path=":productId" element={<DSingleProduct/>}/>
               </Route>
             </Route>
           </Route>

@@ -40,6 +40,13 @@ export const getOneUser = (id) => async (dispatch) => {
   dispatch(getUser(data));
 };
 
+export const restoreArticle = async(id) => {
+  const resp = await fetch(`http://localhost:3001/articulo/restore/${id}`);
+  const data = await resp.json();
+
+  console.log(data)
+};
+
 // Posts
 export const postArticle = (item) => () => {
   fetch("http://localhost:3001/articulo/create", {
@@ -55,4 +62,14 @@ export const despachar = (id) => {
     body: JSON.stringify({ despachada: true }),
     headers: new Headers({ "content-type": "application/json" }),
   }).then((res) => console.log(res));
+};
+
+// Delete
+export const deleteProduct = async (id) => {
+  const resp = await fetch(`http://localhost:3001/articulo/delete/${id}`,{
+    method: "DELETE",
+  });
+  const data = await resp.json();
+
+  console.log(data);
 };
