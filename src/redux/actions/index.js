@@ -1,6 +1,7 @@
 import { getUser, getUsers } from "../slices/adminPanel";
 import { getAllCateg, getAllData } from "../slices/articlesSlice";
 import { insertDataDetails } from "../slices/detailSlice";
+import { getAllReviews } from "../slices/reviewsSlice";
 
 // Gets
 
@@ -34,6 +35,12 @@ export const getAllUser = () => async (dispatch) => {
   dispatch(getUsers(data));
 };
 
+export const getReviews = (id) => async (dispatch) => {
+  const resp = await fetch(`http://localhost:3001/articulo/reviews/` + id, { method: "GET" });
+  const data = await resp.json();
+  dispatch(getAllReviews(data));
+};
+
 export const getOneUser = (id) => async (dispatch) => {
   const resp = await fetch(`http://localhost:3001/users/profile/${id}`);
   const data = await resp.json();
@@ -50,7 +57,7 @@ export const postArticle = (item) => () => {
 };
 
 export const createReview = (item) => () => {
-  fetch("https://pf-30b-backend-production.up.railway.app/articulo/addReview", {
+  fetch("http://localhost:3001/articulo/addReview", {
     method: "POST",
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),

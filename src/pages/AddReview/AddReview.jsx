@@ -17,8 +17,8 @@ import { useNavigate } from "react-router-dom";
   if (!input.rating) {
     errors.rating = '¡Debes seleccionar una calificación!'
   }
-  if (input.description.length >= 250) {
-    errors.description = '¡El máximo de caracteres es 250!'
+  if (input.review.length >= 250) {
+    errors.review = '¡El máximo de caracteres es 250!'
   }
 
   return errors
@@ -36,8 +36,8 @@ const AddReview = () => {
     const [errors, setErrors] = useState({})
     const [input, setInput] = useState({
       rating: "",
-      description: "",
-      user: "testuser",
+      review: "",
+      username: "testuser",
       item: id,
 /*       image: '', Por ahora no, debo charlar como lo haremos.
  */    });
@@ -80,12 +80,11 @@ const AddReview = () => {
     <div className="review">
         <label htmlFor="name">Inserta tu comentario o reseña</label>
         <input
-          value={input.description}
-          className={errors.description && 'danger'}
+          value={input.review}
+          className={errors.review && 'danger'}
           type="text"
-          name="description"
+          name="review"
           onChange={handleChange}
-
         />
     </div>
     <div className="stars">
@@ -106,8 +105,8 @@ const AddReview = () => {
 
       </div>
        <div class="flex flex-row product-star-con" id="w__stars"></div>
-      <button disabled={errors.description || errors.rating || justloaded === true} type="submit" className>Añadir reseña</button>
-      { errors.description && (<p className="danger">{errors.description}</p>) }
+      <button disabled={errors.review || errors.rating || justloaded === true} type="submit" className>Añadir reseña</button>
+      { errors.review && (<p className="danger">{errors.review}</p>) }
       { errors.rating && (<p className="danger">{errors.rating}</p>) }
 
       </form>
