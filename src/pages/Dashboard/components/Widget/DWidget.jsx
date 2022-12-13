@@ -21,6 +21,7 @@ export const DWidget = ({ type }) => {
   useEffect(() => {
     dispatch(getAllUser())
     dispatch(getAll());
+
   }, [dispatch])
   
 

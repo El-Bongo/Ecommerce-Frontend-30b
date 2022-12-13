@@ -48,6 +48,13 @@ export const getWishlist = (id) => async (dispatch) => {
     });
 };
 
+export const restoreArticle = async(id) => {
+  const resp = await fetch(`http://localhost:3001/articulo/restore/${id}`);
+  const data = await resp.json();
+
+  console.log(data)
+};
+
 // Posts
 export const postArticle = (item) => () => {
   fetch("http://localhost:3001/articulo/create", {
@@ -74,6 +81,7 @@ export const despachar = (id) => {
   }).then((res) => console.log(res));
 };
 
+
 export const wishlistAssign = (data) => {
   fetch(`http://localhost:3001/wishlist/assign`, {
     method: "POST",
@@ -90,3 +98,14 @@ export const deleteFromWishlist = (id) => {
     method: "DELETE",
   }).then((res) => console.log(res));
 };
+
+// Delete
+export const deleteProduct = async (id) => {
+  const resp = await fetch(`http://localhost:3001/articulo/delete/${id}`,{
+    method: "DELETE",
+  });
+  const data = await resp.json();
+
+  console.log(data);
+};
+
