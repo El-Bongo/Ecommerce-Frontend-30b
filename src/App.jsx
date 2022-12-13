@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Cart from "./pages/Cart/Cart";
 import NavBar from "./components/NavBar/NavBar";
 import Detalles from "./pages/Detalles/Detalles";
+import Favorites from "./pages/Favorites/Favorites";
 import AddArticle from "./pages/AddArticle/AddArticle";
 import SuccessPurchase from "./pages/SuccessPurchase/SuccessPurchase";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -133,6 +134,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/detalles/:id" element={<Detalles />} />
           <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
           <Route path="/addItem" element={<AddArticle />} />

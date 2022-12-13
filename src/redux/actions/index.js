@@ -1,7 +1,7 @@
 import { getUser, getUsers } from "../slices/adminPanel";
 import { getAllCateg, getAllData } from "../slices/articlesSlice";
 import { insertDataDetails } from "../slices/detailSlice";
-
+import { getWishes } from "../slices/favoriteSlice"
 // Gets
 
 export const getAll = () => async (dispatch) => {
@@ -38,6 +38,14 @@ export const getOneUser = (id) => async (dispatch) => {
   const resp = await fetch(`http://localhost:3001/users/profile/${id}`);
   const data = await resp.json();
   dispatch(getUser(data));
+}
+
+export const getWishlist = (id) => async (dispatch) => {
+  await fetch(`http://localhost:3001/wishlist/user/${id}`, { method: "GET" })
+    .then((dataJson) => dataJson.json())
+    .then((data) => {
+      dispatch(getWishes(data));
+    });
 };
 
 // Posts
@@ -63,5 +71,22 @@ export const despachar = (id) => {
     method: "POST",
     body: JSON.stringify({ despachada: true }),
     headers: new Headers({ "content-type": "application/json" }),
+  }).then((res) => console.log(res));
+};
+
+export const wishlistAssign = (data) => {
+  fetch(`http://localhost:3001/wishlist/assign`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: new Headers({ "content-type": "application/json" }),
+  }).then((res) => console.log(res));
+};
+
+
+//deletes
+
+export const deleteFromWishlist = (id) => {
+  fetch(`http://localhost:3001/wishlist/delete/${id}`, {
+    method: "DELETE",
   }).then((res) => console.log(res));
 };
