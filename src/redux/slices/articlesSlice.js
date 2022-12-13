@@ -5,7 +5,7 @@ const initialState = {
   filterArticles: [],
   categorias: [],
   loading: true,
-  deletedArticles: []
+  deletedArticles: [],
 };
 
 const articlesSlice = createSlice({

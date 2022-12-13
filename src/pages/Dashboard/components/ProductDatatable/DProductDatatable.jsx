@@ -16,6 +16,7 @@ export const DProductDatatable = () => {
   );
   const dispatch = useDispatch();
 
+
   const handdleDelete = (id) => {
     Swal.fire({
       title: "Quieres aceptar los cambios?",
@@ -24,8 +25,8 @@ export const DProductDatatable = () => {
       denyButtonText: `No Borrar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteProduct(id);
         dispatch(deleteArticle(id));
+        deleteProduct(id);
         Swal.fire("Producto Borrado!", "", "success");
       } else if (result.isDenied) {
         Swal.fire("El producto no fue borrado", "", "info");
@@ -82,14 +83,16 @@ export const DProductDatatable = () => {
                 </div>
               </>
             ) : (
-              <div
-                className={`${styles.viewButton} ${
-                  darkMode && dark.viewButton
-                }`}
-                onClick={() => haddleRestore(params.row.id)}
-              >
-                Restaurar
-              </div>
+              <>
+                <div
+                  className={`${styles.viewButton} ${
+                    darkMode && dark.viewButton
+                  }`}
+                  onClick={() => haddleRestore(params.row.id)}
+                >
+                  Restaurar
+                </div>
+              </>
             )}
           </div>
         );
@@ -101,14 +104,16 @@ export const DProductDatatable = () => {
     <div className={`${styles.datatable} ${darkMode && dark.datatable}`}>
       <div className={styles.datatableTitle}>
         Agregar Nuevo Producto
-        <Link to="/admin/users/new" className={styles.link}>
+        <Link to="/admin/products/new" className={styles.link}>
           Agregar
         </Link>
       </div>
       <DataGrid
         className={`${styles.datagrid} ${darkMode && dark.datagrid}`}
         rows={
-          deletedArticles ? deletedArticles.concat(allArticles) : allArticles
+          deletedArticles
+            ? deletedArticles?.concat(allArticles)
+            : allArticles.concat(deletedArticles)
         }
         columns={productColumns.concat(actionColumn)}
         pageSize={10}

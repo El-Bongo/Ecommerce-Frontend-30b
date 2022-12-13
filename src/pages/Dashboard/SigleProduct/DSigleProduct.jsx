@@ -12,13 +12,11 @@ export const DSingleProduct = () => {
   const { articulo } = useSelector((state) => state.details.detailedArticle);
   const dispatch = useDispatch();
   const { productId } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getSingleArticle(productId));
   }, [dispatch, productId]);
-
-  console.log(articulo);
 
   return (
     <div className={`${styles.single} ${darkMode && dark.dark}`}>
@@ -30,7 +28,7 @@ export const DSingleProduct = () => {
             <div className={styles.left}>
               <div
                 className={styles.editButton}
-                // onClick={() => navigate(`/admin/users/edit/${userId}`)}>Editar</div
+                onClick={() => navigate(`/admin/products/edit/${productId}`)}
               >
                 Editar
               </div>
@@ -50,25 +48,25 @@ export const DSingleProduct = () => {
                   />
                 )}
                 <div className={styles.details}>
-                  <h1 className={styles.itemTitle}>{articulo.title}</h1>
+                  <h1 className={styles.itemTitle}>{articulo?.title}</h1>
                   <div className={styles.itemsProps}>
                     <div>
                       <div className={styles.detailItem}>
                         <span className={styles.itemKey}>Stock:</span>
                         <span className={styles.itemValue}>
-                          {articulo.stock} unidades
+                          {articulo?.stock} unidades
                         </span>
                       </div>
                       <div className={styles.detailItem}>
                         <span className={styles.itemKey}>Precio:</span>
                         <span className={styles.itemValue}>
-                          ${articulo.price}
+                          ${articulo?.price}
                         </span>
                       </div>
                       <div className={styles.detailItem}>
                         <span className={styles.itemKey}>Categoria:</span>
                         <span className={styles.itemValue}>
-                          {articulo.category.name}
+                          {articulo?.category.name}
                         </span>
                       </div>
                     </div>
@@ -76,19 +74,32 @@ export const DSingleProduct = () => {
                       <div className={styles.detailItem}>
                         <span className={styles.itemKey}>Creado:</span>
                         <span className={styles.itemValue}>
-                          {articulo.createdAt.substr(0, 10)}
+                          {articulo.createdAt?.substr(0, 10)}
                         </span>
                       </div>
                       <div className={styles.detailItem}>
                         <span className={styles.itemKey}>Editado:</span>
                         <span className={styles.itemValue}>
-                          {articulo.updatedAt.substr(0, 10)}
+                          {articulo.updatedAt?.substr(0, 10)}
                         </span>
                       </div>
                       <div className={styles.detailItem}>
                         <span className={styles.itemKey}>Estado:</span>
                         <span className={styles.itemValue}>
-                          {articulo.category.deletedAt ? 'Inactivo' : 'Activo'}
+                          {articulo.deletedAt ? (
+                            "Inactivo"
+                          ) : (
+                            <span
+                              style={{
+                                color: "#008000",
+                                backgroundColor: "#0080000d",
+                                padding: 3,
+                                borderRadius: 5,
+                              }}
+                            >
+                              Activo
+                            </span>
+                          )}
                         </span>
                       </div>
                     </div>
