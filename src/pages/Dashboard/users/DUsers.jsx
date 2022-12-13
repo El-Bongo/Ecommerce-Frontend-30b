@@ -10,11 +10,12 @@ import { useEffect } from "react";
 export const DUsers = () => {
 
   const dispatch = useDispatch();
-  const { darkMode } =useSelector( state => state.darkmode );
+  const { darkMode } = useSelector( state => state.darkmode );
 
   useEffect(() => {
     dispatch(getAllUser());
   }, [dispatch])
+
   
 
   return (
