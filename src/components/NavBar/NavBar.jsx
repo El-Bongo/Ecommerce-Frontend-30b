@@ -5,13 +5,7 @@ import styles from "./Navbar.module.scss";
 import imgLogo2 from "../../assets/logoShop.png";
 //import Chatbot from '../Chatbot/Chatbot.jsx';
 
-import {
-  AiOutlineShoppingCart,
-  AiOutlineUser,
-  AiOutlineUserDelete,
-  AiOutlineHeart,
-  AiFillHeart,
-} from "react-icons/ai";
+import { AiOutlineShoppingCart, AiOutlineUser, AiOutlineUserDelete, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { Button, Avatar } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { Box, SwipeableDrawer } from "@mui/material";
@@ -32,6 +26,7 @@ export default function NavBar() {
   const reduxUser = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
 
   // Handlers
   const handleChangeNavbarBg = () => {
@@ -43,11 +38,7 @@ export default function NavBar() {
   };
 
   const toggleDrawer = (types) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
+    if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
       return;
     }
     if (types === "cart") setCartOpen(!cartOpen);
@@ -59,11 +50,7 @@ export default function NavBar() {
 
   // Componentes detro del drawer
   const cart = () => (
-    <Box
-      sx={{ width: 350 }}
-      role="presentation"
-      className={styles.cartDrawerContainer}
-    >
+    <Box sx={{ width: 350 }} role="presentation" className={styles.cartDrawerContainer}>
       <div className={styles.cartDrawerTitle}>
         <h3>Carrito de Compras</h3>
       </div>
@@ -84,10 +71,7 @@ export default function NavBar() {
                   </div>
                 </dir>
               </div>
-              <HighlightOffIcon
-                style={{ cursor: "pointer" }}
-                onClick={() => dispatch(cleanItem(c.id))}
-              />
+              <HighlightOffIcon style={{ cursor: "pointer" }} onClick={() => dispatch(cleanItem(c.id))} />
             </div>
           ))
         ) : (
@@ -97,13 +81,7 @@ export default function NavBar() {
       <div className={styles.cartFooterContainer}>
         <div className={styles.subtotalContainer}>
           <h3>Subtotal:</h3>
-          <span>
-            $
-            {cartItems.reduce(
-              (subtotal, c) => subtotal + Number(c.price) * Number(c.quantity),
-              0
-            )}
-          </span>
+          <span>${cartItems.reduce((subtotal, c) => subtotal + Number(c.price) * Number(c.quantity), 0)}</span>
         </div>
         <Button
           variant="outlined"
@@ -122,11 +100,7 @@ export default function NavBar() {
 
   // Componentes detro del drawer favs
   const favorites = () => (
-    <Box
-      sx={{ width: 350 }}
-      role="presentation"
-      className={styles.cartDrawerContainer}
-    >
+    <Box sx={{ width: 350 }} role="presentation" className={styles.cartDrawerContainer}>
       <div className={styles.cartDrawerTitle}>
         <h3>Favoritos</h3>
       </div>
@@ -145,11 +119,7 @@ export default function NavBar() {
                   </dir>
                 </div>
                 <div>
-                  <AiFillHeart
-                    style={{ cursor: "pointer" }}
-                    size={"1.5em"}
-                    onClick={() => dispatch(removeFav(c.id))}
-                  />
+                  <AiFillHeart style={{ cursor: "pointer" }} size={"1.5em"} onClick={() => dispatch(removeFav(c.id))} />
                 </div>
               </div>
             ))
@@ -184,43 +154,21 @@ export default function NavBar() {
           {isLoading ? (
             "Cargando"
           ) : isAuthenticated ? (
-            <div
-              style={{ display: "flex" }}
-              className={styles.btnLogoutContainer}
-            >
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => logout({ returnTo: window.location.origin })}
-                startIcon={<AiOutlineUserDelete style={{ fontSize: 18 }} />}
-                className={styles.btnLogout}
-                style={{ fontFamily: "inherit" }}
-              >
+            <div style={{ display: "flex" }} className={styles.btnLogoutContainer}>
+              <Button variant="outlined" color="error" onClick={() => logout({ returnTo: window.location.origin })} startIcon={<AiOutlineUserDelete style={{ fontSize: 18 }} />} className={styles.btnLogout} style={{ fontFamily: "inherit" }}>
                 Logout
               </Button>
-              <Button
-                color="success"
-                variant="contained"
-                className={styles.btnDashboard}
-                style={{ fontFamily: "inherit" }}
-                onClick={() => navigate("/admin")}
-              >
-                Dashboard
-              </Button>
+
+              {user.data.role === "client" ? null : (
+                <Button color="success" variant="contained" className={styles.btnDashboard} style={{ fontFamily: "inherit" }} onClick={() => navigate("/admin")}>
+                  Dashboard
+                </Button>
+              )}
               <div className={styles.userAvatar}>
-                {reduxUser.avatar ? (
-                  <Avatar src={reduxUser.avatar} alt={reduxUser.nickname} />
-                ) : (
-                  <Avatar alt={reduxUser.nickname}>
-                    {reduxUser.nickname.substr(0, 1)}
-                  </Avatar>
-                )}
+                {reduxUser.avatar ? <Avatar src={reduxUser.avatar} alt={reduxUser.nickname} /> : <Avatar alt={reduxUser.nickname}>{reduxUser.nickname.substr(0, 1)}</Avatar>}
                 <span style={{ marginLeft: 3 }}>
                   Hola
-                  <Link
-                    to={"/profile/" + reduxUser.id}
-                    style={{ textDecoration: "None", color: "black" }}
-                  >
+                  <Link to={"/profile/" + reduxUser.id} style={{ textDecoration: "None", color: "black" }}>
                     {" " + reduxUser.nickname.toLocaleUpperCase()}!
                   </Link>
                 </span>
@@ -228,13 +176,7 @@ export default function NavBar() {
             </div>
           ) : (
             <div style={{ display: "flex" }}>
-              <Button
-                variant="outlined"
-                onClick={() => loginWithRedirect()}
-                startIcon={<AiOutlineUser />}
-                className={styles.btnLogin}
-                style={{ fontFamily: "inherit" }}
-              >
+              <Button variant="outlined" onClick={() => loginWithRedirect()} startIcon={<AiOutlineUser />} className={styles.btnLogin} style={{ fontFamily: "inherit" }}>
                 Login
               </Button>
               <Avatar style={{ marginLeft: 5 }} />
@@ -242,11 +184,7 @@ export default function NavBar() {
           )}
         </div>
         <div className={styles.center}>
-          <img
-            src={imgLogo2}
-            alt="Logo Santiago Segurado"
-            className={styles.logoBrand}
-          />
+          <img src={imgLogo2} alt="Logo Santiago Segurado" className={styles.logoBrand} />
         </div>
         <div className={styles.right}>
           <Link className={styles.menuItem} to="/" id={styles.home}>
@@ -258,10 +196,7 @@ export default function NavBar() {
           <div className={styles.menuItem}>
             {/* input Menu desplegable favoritos */}
             <Fragment>
-              <div
-                className={`${styles.menuItem} ${styles.cartItem}`}
-                onClick={toggleDrawer("fav")}
-              >
+              <div className={`${styles.menuItem} ${styles.cartItem}`} onClick={toggleDrawer("fav")}>
                 {favItem.length !== 0 && (
                   <div className={styles.cartCounter}>
                     <span>{favItem.length}</span>
@@ -269,12 +204,7 @@ export default function NavBar() {
                 )}
                 <AiOutlineHeart style={{ width: 25, height: 25 }} />
               </div>
-              <SwipeableDrawer
-                anchor={"left"}
-                open={favOpen}
-                onClose={toggleDrawer("fav")}
-                onOpen={toggleDrawer("fav")}
-              >
+              <SwipeableDrawer anchor={"left"} open={favOpen} onClose={toggleDrawer("fav")} onOpen={toggleDrawer("fav")}>
                 {favorites()}
               </SwipeableDrawer>
             </Fragment>
@@ -282,10 +212,7 @@ export default function NavBar() {
           <div>
             {/* input Menu desplegable carrito*/}
             <Fragment>
-              <div
-                className={`${styles.menuItem} ${styles.cartItem}`}
-                onClick={toggleDrawer("cart")}
-              >
+              <div className={`${styles.menuItem} ${styles.cartItem}`} onClick={toggleDrawer("cart")}>
                 {cartItems.length !== 0 && (
                   <div className={styles.cartCounter}>
                     <span>{cartItems.length}</span>
@@ -293,23 +220,14 @@ export default function NavBar() {
                 )}
                 <AiOutlineShoppingCart style={{ width: 25, height: 25 }} />
               </div>
-              <SwipeableDrawer
-                anchor={"right"}
-                open={cartOpen}
-                onClose={toggleDrawer("cart")}
-                onOpen={toggleDrawer("cart")}
-              >
+              <SwipeableDrawer anchor={"right"} open={cartOpen} onClose={toggleDrawer("cart")} onOpen={toggleDrawer("cart")}>
                 {cart()}
               </SwipeableDrawer>
             </Fragment>
           </div>
         </div>
       </div>
-      <FloatNav
-        loginWithRedirect={loginWithRedirect}
-        logout={logout}
-        isAuthenticated={isAuthenticated}
-      />
+      <FloatNav loginWithRedirect={loginWithRedirect} logout={logout} isAuthenticated={isAuthenticated} />
     </nav>
   );
 }

@@ -6,6 +6,7 @@ import "./Profile.css";
 import Compras from "../../components/Compras/Compras";
 import { uploadPhotoToCloudinary } from "../../hooks/uploadToCloudinary";
 import toast, { Toaster } from "react-hot-toast";
+import CartItems from "../../components/CartItems/CartItems";
 
 export default function Profile() {
   const { id } = useParams();
@@ -22,19 +23,11 @@ export default function Profile() {
   }, [datos]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/cart/getCart/", {
-      method: "POST",
-      body: JSON.stringify({ user: { email: datos.email } }),
-      headers: new Headers({ "content-type": "application/json" }),
-    })
-      .then((answer) => answer.json())
-      .then((data) => console.log(data));
-
-    fetch("http://localhost:3001/wishlist/user/" + id, {
+    /* fetch("http://localhost:3001/wishlist/user/" + id, {
       method: "GET",
     })
       .then((answer) => answer.json())
-      .then((data) => data);
+      .then((data) => data);*/
   }, [datos, id]);
 
   useEffect(() => {
@@ -99,7 +92,7 @@ export default function Profile() {
           </button>
         </div>
       </div>
-      <div>{selected === "compras" ? <Compras facturas={datos.facturas} /> : selected === "cart" ? null : null}</div>
+      <div>{selected === "compras" ? <Compras facturas={datos.facturas} /> : selected === "cart" ? <CartItems items={datos.articles} /> : null}</div>
       <Toaster position="bottom-right" reverseOrder={false} />
     </div>
   );
