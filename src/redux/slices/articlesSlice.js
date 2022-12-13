@@ -5,6 +5,7 @@ const initialState = {
   filterArticles: [],
   categorias: [],
   loading: true,
+  deletedArticles: [],
 };
 
 const articlesSlice = createSlice({
@@ -15,6 +16,7 @@ const articlesSlice = createSlice({
       state.allArticles = payload.articulos;
       state.filterArticles = state.filterArticles.length > 0 ? state.filterArticles : payload.articulos;
       state.categorias = payload.categorias;
+      state.deletedArticles = payload.deletedArticles
       state.loading = false;
     },
     getDataForFiltering: (state, { payload }) => {
@@ -32,8 +34,22 @@ const articlesSlice = createSlice({
     getAllCateg: (state, { payload }) => {
       state.categorias = payload;
     },
+    deleteArticle: (state, { payload }) => {
+      state.allArticles.forEach((article) => {
+        if(article.id === payload){
+          article.deletedAt = new Date().toString();
+        }
+      })
+    },
+    restore: (state, { payload }) => {
+      state.allArticles.forEach((article) => {
+        if(article.id === payload){
+          article.deletedAt = null;
+        }
+      })
+    },
   },
 });
 
-export const { getAllData, getDataForFiltering, getAllCateg } = articlesSlice.actions;
+export const { getAllData, getDataForFiltering, getAllCateg, deleteArticle, restore } = articlesSlice.actions;
 export default articlesSlice.reducer;

@@ -23,7 +23,6 @@ import { useMercadopago } from "react-sdk-mercadopago";
 import { RutasProtegidas } from "./components/RutasProtegidas/RutasProtegidas";
 import { Dashboard } from "./pages/Dashboard/home/Dashboard";
 import { DUsers } from "./pages/Dashboard/users/DUsers";
-import { DNewUser } from "./pages/Dashboard/NewUser/DNewUser";
 import { DSingleUser } from "./pages/Dashboard/SingleUser/DSingleUser";
 import Orders from "./pages/Dashboard/Orders/Orders";
 import { persist } from "./redux/slices/darkmodeSlice";
@@ -32,6 +31,9 @@ import { DBottomNav } from "./pages/Dashboard/components/BottomNavDashboard/DBot
 import { DEditUser } from "./pages/Dashboard/EditUser/DEditUSer";
 import { DProducts } from "./pages/Dashboard/products/DProducts";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { DSingleProduct } from "./pages/Dashboard/SigleProduct/DSigleProduct";
+import { DEditProduct } from "./pages/Dashboard/EditProduct/DEditProduct";
+import { DCreateProduct } from "./pages/Dashboard/CreateProduct/DCreateProduct";
 
 function App() {
   const dispatch = useDispatch();
@@ -74,7 +76,6 @@ function App() {
           })
             .then((answer) => answer.json())
             .then((data) => {
-              console.log(data);
               data.articles.length > 0
                 ? dispatch(
                     localStorageCart(
@@ -156,12 +157,14 @@ function App() {
               <Route path="profile" element={<Perfil />} />
               <Route path="users">
                 <Route index element={<DUsers />} />
-                <Route path="new" element={<DNewUser />} />
                 <Route path="edit/:userId" element={<DEditUser />} />
                 <Route path=":userId" element={<DSingleUser />} />
               </Route>
               <Route path="products">
                 <Route index element={<DProducts />} />
+                <Route path="new" element={<DCreateProduct />} />
+                <Route path=":productId" element={<DSingleProduct/>}/>
+                <Route path="edit/:productId" element={<DEditProduct />} />
               </Route>
             </Route>
           </Route>
