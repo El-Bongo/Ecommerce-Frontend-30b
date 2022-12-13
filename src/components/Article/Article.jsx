@@ -47,13 +47,13 @@ export default function Article({ data }) {
   return (
     <div className={styles.articleContainer}>
       <Card sx={{ maxWidth: 345 }}>
-      { reduxUser.id !== 0 ? 
+        { reduxUser.id !== 0 ? 
           <Button className={styles.favBtn} onClick={handleClick}>
-            {/* {
+            {
               favItem.some(e => e.id === data.id) ? 
               <AiFillHeart size={"1.5em"} style={{padding:"0", margin:"0"}} /> : 
               <AiOutlineHeart size={"1.5em"} style={{padding:"0", margin:"0"}}/>
-            } */}
+            }
           </Button> : null
         }
         <Carousel showArrows={true} showIndicators={true}>
