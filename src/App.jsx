@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Cart from "./pages/Cart/Cart";
 import NavBar from "./components/NavBar/NavBar";
 import Detalles from "./pages/Detalles/Detalles";
+import Favorites from "./pages/Favorites/Favorites";
 import AddArticle from "./pages/AddArticle/AddArticle";
 import SuccessPurchase from "./pages/SuccessPurchase/SuccessPurchase";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -23,7 +24,6 @@ import { useMercadopago } from "react-sdk-mercadopago";
 import { RutasProtegidas } from "./components/RutasProtegidas/RutasProtegidas";
 import { Dashboard } from "./pages/Dashboard/home/Dashboard";
 import { DUsers } from "./pages/Dashboard/users/DUsers";
-import { DNewUser } from "./pages/Dashboard/NewUser/DNewUser";
 import { DSingleUser } from "./pages/Dashboard/SingleUser/DSingleUser";
 import Orders from "./pages/Dashboard/Orders/Orders";
 import { persist } from "./redux/slices/darkmodeSlice";
@@ -32,6 +32,9 @@ import { DBottomNav } from "./pages/Dashboard/components/BottomNavDashboard/DBot
 import { DEditUser } from "./pages/Dashboard/EditUser/DEditUSer";
 import { DProducts } from "./pages/Dashboard/products/DProducts";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { DSingleProduct } from "./pages/Dashboard/SigleProduct/DSigleProduct";
+import { DEditProduct } from "./pages/Dashboard/EditProduct/DEditProduct";
+import { DCreateProduct } from "./pages/Dashboard/CreateProduct/DCreateProduct";
 
 function App() {
   const dispatch = useDispatch();
@@ -133,6 +136,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/detalles/:id" element={<Detalles />} />
           <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
           <Route path="/addItem" element={<AddArticle />} />
@@ -156,12 +160,14 @@ function App() {
               <Route path="profile" element={<Perfil />} />
               <Route path="users">
                 <Route index element={<DUsers />} />
-                <Route path="new" element={<DNewUser />} />
                 <Route path="edit/:userId" element={<DEditUser />} />
                 <Route path=":userId" element={<DSingleUser />} />
               </Route>
               <Route path="products">
                 <Route index element={<DProducts />} />
+                <Route path="new" element={<DCreateProduct />} />
+                <Route path=":productId" element={<DSingleProduct/>}/>
+                <Route path="edit/:productId" element={<DEditProduct />} />
               </Route>
             </Route>
           </Route>

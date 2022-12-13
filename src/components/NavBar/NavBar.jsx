@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useNavigate } from "react-router-dom";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styles from "./Navbar.module.scss";
 import imgLogo2 from "../../assets/logoShop.png";
 //import Chatbot from '../Chatbot/Chatbot.jsx';
@@ -14,6 +14,8 @@ import { cleanItem } from "../../redux/slices/cartSlice";
 import { removeFav } from "../../redux/slices/favoriteSlice";
 // import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { FloatNav } from "../NavegacionFlotante/FloatNav";
+import { getWishlist } from "../../redux/actions";
+import { deleteFromWishlist } from "../../redux/actions";
 
 export default function NavBar() {
   // Hooks
@@ -26,7 +28,10 @@ export default function NavBar() {
   const reduxUser = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (reduxUser.id !== 0) dispatch(getWishlist(reduxUser.id));
+  }, [reduxUser, favOpen]);
 
   // Handlers
   const handleChangeNavbarBg = () => {
@@ -120,6 +125,17 @@ export default function NavBar() {
                 </div>
                 <div>
                   <AiFillHeart style={{ cursor: "pointer" }} size={"1.5em"} onClick={() => dispatch(removeFav(c.id))} />
+                  <AiFillHeart
+                    style={{ cursor: "pointer" }}
+                    size={"1.5em"}
+                    onClick={() => {
+                      const deleteWish = {
+                        id: c.id,
+                        wish: c.wishlist.id,
+                      };
+                      dispatch(removeFav(deleteWish));
+                    }}
+                  />
                 </div>
               </div>
             ))
@@ -208,6 +224,21 @@ export default function NavBar() {
                 {favorites()}
               </SwipeableDrawer>
             </Fragment>
+            {reduxUser.id !== 0 ? (
+              <Fragment>
+                <div className={`${styles.menuItem} ${styles.cartItem}`} onClick={toggleDrawer("fav")}>
+                  {favItem.length !== 0 && (
+                    <div className={styles.cartCounter}>
+                      <span>{favItem.length}</span>
+                    </div>
+                  )}
+                  <AiOutlineHeart style={{ width: 25, height: 25 }} />
+                </div>
+                <SwipeableDrawer anchor={"left"} open={favOpen} onClose={toggleDrawer("fav")} onOpen={toggleDrawer("fav")}>
+                  {favorites()}
+                </SwipeableDrawer>
+              </Fragment>
+            ) : null}
           </div>
           <div>
             {/* input Menu desplegable carrito*/}

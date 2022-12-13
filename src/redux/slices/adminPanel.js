@@ -14,7 +14,7 @@ const adminPanelSlice = createSlice({
     },
     getUser: (state, { payload }) => {
       state.user = payload
-    },
+    }
   },
 });
 
