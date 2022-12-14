@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import styles from "./Navbar.module.scss";
 import imgLogo2 from "../../assets/logoShop.png";
 import Chatbot from '../Chatbot/Chatbot.jsx';
-
+import ChatIcon from '@mui/icons-material/Chat'
 import { AiOutlineShoppingCart, AiOutlineUser, AiOutlineUserDelete, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { Button, Avatar } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,12 +15,14 @@ import { removeFav } from "../../redux/slices/favoriteSlice";
 // import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { FloatNav } from "../NavegacionFlotante/FloatNav";
 import { getWishlist } from "../../redux/actions";
+import Chat from "@mui/icons-material/Chat";
 
 export default function NavBar() {
   // Hooks
   const { loginWithRedirect, isAuthenticated, logout, isLoading, user } = useAuth0();
   const [cartOpen, setCartOpen] = useState(false);
   const [favOpen, setFavOpen] = useState(false);
+  const [ chatBotOpen, SetChatBotOpen ] = useState(false)
   const [navbarChange, setNavbarChange] = useState(false);
   const { cartItems } = useSelector((state) => state.cart);
   const { favItem } = useSelector((state) => state.favorite);
@@ -44,8 +46,17 @@ export default function NavBar() {
     if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
       return;
     }
-    if (types === "cart") setCartOpen(!cartOpen);
-    else if (types === "fav") setFavOpen(!favOpen);
+    switch (types) {
+      case "cart":
+        return setCartOpen(!cartOpen);
+      case "fav":
+        return setFavOpen(!favOpen);
+      case "chatBot" :
+        return SetChatBotOpen(!chatBotOpen);    
+      default:
+        throw new Error('Unknown type');
+    }
+
   };
 
   // Events
@@ -164,7 +175,7 @@ export default function NavBar() {
   
   const handleChatbot = (e) =>{
     e.preventDefault()
-    Chatbot()
+    
   }
 
 
@@ -264,19 +275,28 @@ export default function NavBar() {
             </Fragment>
           </div>
         </div>
-
-        <div style={{ display: "flex" }}>
-              <Button
-                variant="outlined"
-                onClick={(e) => handleChatbot(e)}
-                className={styles.btnLogin}
-                style={{ fontFamily: "inherit" }}
-              >
-                Chatbot
-              </Button>
-            </div>
+        <div style={{ display: "flex", marginTop:"30px"}}>
+            <Fragment>
+              <div className={`${styles.menuItem} ${styles.cartItem}`} onClick={toggleDrawer("chatBot")}>
+                <ChatIcon style={{ width: 25, height: 25 }} />
+              </div>
+              <SwipeableDrawer anchor={"right"} open={chatBotOpen} onClose={toggleDrawer("chatBot")} onOpen={toggleDrawer("chatBot")}>
+                  <Chatbot />
+              </SwipeableDrawer>
+            </Fragment>    
+        </div>
       </div>
       <FloatNav loginWithRedirect={loginWithRedirect} logout={logout} isAuthenticated={isAuthenticated} />
     </nav>
   );
 }
+
+/*<Button
+            variant="outlined"
+            onClick={(e) => handleChatbot(e)}
+            className={styles.btnLogin}
+            style={{ fontFamily: "inherit" }}
+          >
+            Chatbot
+          </Button>
+*/

@@ -111,16 +111,16 @@ let handleSubmit = (e) => {
   return(
 <>
 
-<div id="container" className="container" style={{backgroundColor: "white", opacity:"0.5"}}>
-   <div id="chat" className="chat" style={{overflowY: "scroll", height: "100px", width: "300px", borderWidth: "60px", borderColor: "blue"}}  >
+<div id="container" className="container" style={{backgroundColor: "white"}}>
+   <div id="chat" className="chat" style={{overflowY: "scroll", width:"400px"}}  >
     <div id="messagesUser" className="messagesUser">
-    <span id = "textUser"  style={{backgroundColor: "blue"}}></span>
+    <span id = "textUser"  ></span>
     </div>
     <div id="messagesBot" className="messagesBot" >
-    <span id = "textBot" style={{backgroundColor: "red"}}></span>
+    <span id = "textBot" ></span>
     </div>
     <form onSubmit={handleSubmit}>
-    <input id="input" value={input} type="text" placeholder="Prueba con 'ayuda'" autoComplete="off" onChange={handleChange} style={{position: "fixed"}} />
+    <input id="input" value={input} type="text" placeholder="Prueba con 'ayuda'" autoComplete="off" onChange={handleChange} style={{position:"relative", width:"350px", height:"25px", marginBottom:"2px", marginLeft:"20px"}} />
 
     </form>  
   </div>
