@@ -1,21 +1,19 @@
 import React from 'react';
-import { useState} from "react" 
+import { useState } from "react" 
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from "react-router-dom";
-import './AddReview.css'
 import ReactStars from "react-rating-stars-component";
-import { createReview } from '../../redux/actions';
-
+import { useNavigate } from "react-router-dom";
+import {  editReview } from "../../redux/actions/index";
  var justloaded = true
- var alreadyReviewed = false
+
+ let usuario 
+
  const validate = (input) => {
   const errors = {}
   justloaded = false
-  if (input.username === "Username"){
-    errors.user = '¡Debes logearte para dejar una reseña!'
-  }
-  if (alreadyReviewed === true){
-    errors.user = '¡Solo puedes agregar una reseña!'
+  if (input.username !== usuario){
+    errors.user = '¡No eres la persona que hizo esta reseña!'
   }
   if (!input.rating) {
     errors.rating = '¡Debes seleccionar una calificación!'
@@ -27,51 +25,47 @@ import { createReview } from '../../redux/actions';
   return errors
 }
 
-
-const AddReview = () => {
-
-    let { id } = useParams(); 
+const EditReview = () => {
+    let { idReview } = useParams(); 
+    console.log(idReview)
     const User = useSelector(state => state.user)
-    let user = User
-    console.log(User)
-    const { Article } = useSelector((state) => state.details.detailedArticle);
     const Reviews = useSelector((state) => state.reviews.reviewList.reviews);
+    const Review = (Reviews.filter(review => review.id === idReview))[0]
+    console.log(Review)
 
-
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [errors, setErrors] = useState({})
     const [input, setInput] = useState({
-      rating: "",
-      review: "",
-      username: user.nickname,
-      item: id,
-   });
-   let Chequeo = (Reviews.filter(review => review.username === input.username))
-   if(Chequeo.length > 0) {alreadyReviewed = true}
-    input.username = User.data.nickname
+      rating: Review.rating,
+      review: Review.review,
+ });
+    input.username = Review.username
+    usuario = User.data.nickname
+
+
+
+
     let handleChange = (e) => {
       e.preventDefault();
       setInput({
           ...input,
-          [e.target.name]: e.target.value
+          review: e.target.value
       })
       setErrors(validate({
         ...input,
         [e.target.name]: e.target.value
-      }, Article))
+      }, Review))
     }
 
     
 
     let handleSubmit = (e) => {
        e.preventDefault();
-      dispatch(createReview(input))
-      window.location.reload(false);
-
+       dispatch(editReview(idReview, input))
+       navigate(`/detalles/${Review.articleId}`)
     }
-    const ratingChanged = (newRating) => {
-      console.log(newRating);
-      
+    const ratingChanged = (newRating) => {      
       input.rating=newRating
       setErrors(validate(
         input))
@@ -86,7 +80,10 @@ const AddReview = () => {
     <form id = "form" onSubmit={handleSubmit}>    
 
     <div className="review">
-        <label htmlFor="name">Inserta tu comentario o reseña</label>
+        <label htmlFor="name">Edita tu comentario</label>
+        <br/>
+        <br/>
+
         <input
           value={input.review}
           className={errors.review && 'danger'}
@@ -99,6 +96,7 @@ const AddReview = () => {
     <ReactStars
           count={5}
           onChange={ratingChanged}
+          value={Review.rating}
           size={36}
           activeColor="#ffd700"
         />  
@@ -113,7 +111,7 @@ const AddReview = () => {
 
       </div>
        <div class="flex flex-row product-star-con" id="w__stars"></div>
-      <button disabled={errors.review || errors.rating || errors.user || justloaded === true} type="submit" className>Añadir reseña</button>
+       <button disabled={errors.review || errors.rating || errors.user || justloaded === true} type="submit" className>Editar reseña</button>
       { errors.review && (<p className="danger">{errors.review}</p>) }
       { errors.rating && (<p className="danger">{errors.rating}</p>) }
       { errors.user && (<p className="danger">{errors.user}</p>) }
@@ -127,4 +125,4 @@ const AddReview = () => {
   ); 
 };
 
-export default AddReview;
+export default EditReview;

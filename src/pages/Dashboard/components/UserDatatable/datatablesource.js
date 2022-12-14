@@ -2,11 +2,11 @@ import { Avatar } from '@mui/material';
 import styles from './DUserDatatable.module.scss'
 
 export const userColumns = [
-  { field: "id", headerName: "ID", flex: 1 },
+  { field: "id", headerName: "ID", width: 90 },
   {
     field: "user",
     headerName: "Usuario",
-    flex: 1,
+    width: 180,
     renderCell: (params) => {
       return (
         <div className={styles.cellWithImg}>
@@ -24,18 +24,18 @@ export const userColumns = [
   {
     field: "email",
     headerName: "Email",
-    flex: 1,
+    width: 180,
   },
 
   {
     field: "role",
     headerName: "Role",
-    flex: 1,
+    width: 180,
   },
   {
     field: "deletedAt",
     headerName: "Estado",
-    flex: 1,
+    width: 180,
     renderCell: (params) => {
       return (
         <div className={ 
