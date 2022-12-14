@@ -11,6 +11,7 @@ import { getAllCategories } from "../../../redux/actions";
 
 export const DCreateProduct = () => {
   const categorias = useSelector((state) => state.articles.categorias);
+  const propiedades = useSelector((state) => state.articles.allArticles);
   const { darkMode } = useSelector((state) => state.darkmode);
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(null);
@@ -24,8 +25,35 @@ export const DCreateProduct = () => {
   const [properties, setProperties] = useState({
     brand: "",
     model: "",
+    property1: "",
+    property2: "",
+    property3: "",
   });
   // const navigate = useNavigate();
+
+  var propiedadesNum = 1
+
+  if(productCreate.category.id === "1"){
+    var propiedadesNum = 1
+  } else if(productCreate.category.id === "2"){
+    var propiedadesNum = 30
+  } else if(productCreate.category.id === "3"){
+    var propiedadesNum = 50
+  } else if(productCreate.category.id === "4"){
+    var propiedadesNum = 70
+  } else if(productCreate.category.id === "5"){
+    var propiedadesNum = 90
+  } else if(productCreate.category.id === "6"){
+    var propiedadesNum = 110
+  } else if(productCreate.category.id === "7"){
+    var propiedadesNum = 130
+  } else if(productCreate.category.id === "8"){
+    var propiedadesNum = 150
+  } else if(productCreate.category.id === "9"){
+    var propiedadesNum = 170
+  } else if(productCreate.category.id === "10"){
+    var propiedadesNum = 190
+  }
 
   useEffect(() => {
     dispatch(getAllCategories());
@@ -69,6 +97,7 @@ export const DCreateProduct = () => {
     });
   };
 
+
   function mapImagenes() {
     let a = [];
     for (let i = 0; i < avatar.target.files.length; i++) {
@@ -76,6 +105,7 @@ export const DCreateProduct = () => {
     }
     return a;
   }
+
 
   return (
     <div className={`${styles.new} ${darkMode && dark.dark}`}>
@@ -210,6 +240,45 @@ export const DCreateProduct = () => {
                         setProperties({
                           ...properties,
                           model: e.target.value,
+                        })
+                      }
+                    />
+                  </div>                 
+                  <div className={styles.formInput}>
+                    <label>Propiedad 1: {Object.keys(propiedades[Number(propiedadesNum)].properties)[2]}</label>
+                    <input
+                      type="text"
+                      style={{ color: darkMode && "white" }}
+                      onChange={(e) =>
+                        setProperties({
+                          ...properties,
+                          property1: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className={styles.formInput}>
+                    <label>Propiedad 2: {Object.keys(propiedades[Number(propiedadesNum)].properties)[3]}</label>
+                    <input
+                      type="text"
+                      style={{ color: darkMode && "white" }}
+                      onChange={(e) =>
+                        setProperties({
+                          ...properties,
+                          property2: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className={styles.formInput}>
+                    <label>Propiedad 3: {Object.keys(propiedades[Number(propiedadesNum)].properties)[4]}</label>
+                    <input
+                      type="text"
+                      style={{ color: darkMode && "white" }}
+                      onChange={(e) =>
+                        setProperties({
+                          ...properties,
+                          property3: e.target.value,
                         })
                       }
                     />
