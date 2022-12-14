@@ -1,7 +1,10 @@
 import { getUser, getUsers } from "../slices/adminPanel";
 import { getAllCateg, getAllData } from "../slices/articlesSlice";
 import { insertDataDetails } from "../slices/detailSlice";
+
 import { getAllArticlesReviews, getArticleReviews } from "../slices/reviewsSlice";
+import { getWishes } from "../slices/favoriteSlice"
+import { getAddressData } from "../slices/addressSlice";
 
 // Gets
 
@@ -51,6 +54,21 @@ export const getOneUser = (id) => async (dispatch) => {
   const resp = await fetch(`http://localhost:3001/users/profile/${id}`);
   const data = await resp.json();
   dispatch(getUser(data));
+}
+
+export const getWishlist = (id) => async (dispatch) => {
+  await fetch(`http://localhost:3001/wishlist/user/${id}`, { method: "GET" })
+    .then((dataJson) => dataJson.json())
+    .then((data) => {
+      dispatch(getWishes(data));
+    });
+};
+
+export const restoreArticle = async(id) => {
+  const resp = await fetch(`http://localhost:3001/articulo/restore/${id}`);
+  const data = await resp.json();
+
+  console.log(data)
 };
 
 
@@ -102,4 +120,48 @@ export const despachar = (id) => {
     body: JSON.stringify({ despachada: true }),
     headers: new Headers({ "content-type": "application/json" }),
   }).then((res) => console.log(res));
+};
+
+
+export const wishlistAssign = (data) => {
+  fetch(`http://localhost:3001/wishlist/assign`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: new Headers({ "content-type": "application/json" }),
+  }).then((res) => console.log(res));
+};
+
+
+//deletes
+
+export const deleteFromWishlist = (id) => {
+  fetch(`http://localhost:3001/wishlist/delete/${id}`, {
+    method: "DELETE",
+  }).then((res) => console.log(res));
+};
+
+// Delete
+export const deleteProduct = async (id) => {
+  const resp = await fetch(`http://localhost:3001/articulo/delete/${id}`,{
+    method: "DELETE",
+  });
+  const data = await resp.json();
+
+  console.log(data);
+};
+
+export const postAddress = (item) => () => {
+  fetch("http://localhost:3001/address/insert",{
+    method: "POST",
+    body: JSON.stringify(item),
+    headers: new Headers({ "content-type": "application/json" }),
+    }).then((res) => console.log(res))
+};
+
+export const getAddresses = () => async (dispatch) => {
+  await fetch("http://localhost:3001/address/getAddress", { method: "GET" })
+    .then((dataJson) => dataJson.json())
+    .then((data) => {
+      dispatch(getAddressData(data));
+    });
 };

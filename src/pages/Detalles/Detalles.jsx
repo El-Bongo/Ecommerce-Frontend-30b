@@ -2,9 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getSingleArticle } from "../../redux/actions";
-import AddReview  from "../../pages/AddReview/AddReview";
 import ReviewCard  from "../../pages/ReviewCard/ReviewCard";
-
+import AddReview from "../../pages/AddReview/AddReview";
 import { addItemToCart, cleanItem } from "../../redux/slices/cartSlice";
 import { cleanDetails } from "../../redux/slices/detailSlice";
 import styles from "./Detalles.module.scss";
@@ -23,12 +22,12 @@ export default function Detalles() {
   return (
     <div className={styles.container}>
       {articulo === undefined ? (
-        <div>Cargando...</div>
+        <div className={styles.loading}>Cargando...</div>
       ) : (
         <div className={styles.wrapper}>
           <div className={styles.imgContainer}>
             {articulo.images?.map((a) => (
-              <img src={a} alt="" key={a} />
+              <img src={a} alt="" key={a} className={styles.imagenfix} />
             ))}
           </div>
           <div className={styles.infoContainer}>
@@ -63,9 +62,9 @@ export default function Detalles() {
               </div>
               <div className={styles.addButtonContainer}>
                 {carro.filter((x) => x.id === articulo.id).length > 0 ? (
-                  <input type="button" value="Remover al Carrito" onClick={() => dispatch(cleanItem(articulo.id))}/>
+                  <input type="button" value="Remover al Carrito" onClick={() => dispatch(cleanItem(articulo.id))} />
                 ) : articulo.stock > 0 ? (
-                  <input type="button" value="Agregar al Carrito" onClick={() => dispatch(addItemToCart(articulo))}/>
+                  <input type="button" value="Agregar al Carrito" onClick={() => dispatch(addItemToCart(articulo))} />
                 ) : (
                   "No tenemos Stock"
                 )}

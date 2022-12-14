@@ -1,7 +1,9 @@
 import styles from "./Slider.module.scss";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
-import imgFondo1 from "../../assets/imagenFondo1.png";
-import imgFondo2 from "../../assets/ImagenFondo2.png";
+
+import imgFondo1 from "../../assets/ImgFondo1.png";
+import imgFondo2 from "../../assets/ImgFondo2.png";
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -20,60 +22,41 @@ export const Slider = () => {
 
   return (
     <div className={styles.container}>
-      <div
-        className={styles.arrow}
-        style={{ left: 10 }}
-        onClick={() => handleSlider("left")}
-      >
+      <div className={styles.arrow} style={{ left: 10 }} onClick={() => handleSlider("left")}>
         <BiLeftArrow />
       </div>
 
       <div
         className={styles.wrapper}
         style={{
-          transform:
-            innerWidth > 500
-              ? `translateX(${sliderIndex * -115}vw)`
-              : `translateX(${sliderIndex * -95}vw)`,
+          transform: innerWidth > 500 ? `translateX(${sliderIndex * -115}vw)` : `translateX(${sliderIndex * -95}vw)`,
         }}
       >
         <div className={styles.slider}>
           <div className={styles.infoContainer}>
-            <h2>Smart Watch</h2>
+            <h2>Ventilador Silencioso</h2>
             <Link to="/products" style={{ textDecoration: "none" }}>
-              <input
-                type="button"
-                value="Comprar Ahora"
-                style={{ margin: 10 }}
-              />
+              <input type="button" value="Comprar Ahora" style={{ margin: 10 }} />
             </Link>
           </div>
           <div className={styles.imgContainer}>
-            <img src={imgFondo1} alt="" />
+            <img src={imgFondo1} alt="Not Found" height={350} />
           </div>
         </div>
         <div className={styles.slider}>
           <div className={styles.infoContainer}>
-            <h2>Zapatillas Nike Air </h2>
+            <h2>Teclado Razer</h2>
             <Link to="/products" style={{ textDecoration: "none" }}>
-              <input
-                type="button"
-                value="Comprar Ahora"
-                style={{ margin: 10 }}
-              />
+              <input type="button" value="Comprar Ahora" style={{ margin: 10 }} />
             </Link>
           </div>
           <div className={styles.imgContainer}>
-            <img src={imgFondo2} alt="" />
+            <img src={imgFondo2} alt="Not Found" />
           </div>
         </div>
       </div>
 
-      <div
-        className={styles.arrow}
-        style={{ right: 10 }}
-        onClick={() => handleSlider("right")}
-      >
+      <div className={styles.arrow} style={{ right: 10 }} onClick={() => handleSlider("right")}>
         <BiRightArrow />
       </div>
     </div>
