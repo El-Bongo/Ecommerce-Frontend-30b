@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { cleanCart } from "../../redux/slices/cartSlice";
+import Approved from "./Approved.png";
+import styles from "./SuccessPurchase.module.scss";
 export default function SuccessPurchase() {
   const [searchParams] = useSearchParams();
 
@@ -20,11 +22,37 @@ export default function SuccessPurchase() {
           dispatch(cleanCart());
           setComprado(a.compra);
         } else {
-          window.location.href = "http://localhost:3001/cart";
+          window.location.href = "https://ecommerce-frontend-30b.vercel.app/cart";
         }
       });
   }, [dispatch, payment_id]);
 
-  console.log(comprado);
-  return <div>Usa la variable comprado para mostrar los items que compraste satisfactoriamente y que ya se encuentran en tu historial de compras no te porcupes si salio mal la venta te redirije al carrito</div>;
+  return (
+    <div className={styles.SPContainer}>
+      <div className={styles.approvedImgContainer}>
+        <img src={Approved} alt="Not Found" width={100} />
+      </div>
+      <h3>¡Compra realizada con éxito!</h3>
+      {comprado.length === 0 ? (
+        <h1>Cargando detalles de compra...</h1>
+      ) : (
+        comprado.articles?.map((c) => (
+          <div className={styles.SPproductContainer} key={c.id}>
+            <div className={styles.SPproduct}>
+              <div className={styles.SPproductImgContainer}>
+                <img src={c.images[0]} alt="" width={70} />
+              </div>
+              <span>{c.title}</span>
+            </div>
+            <div className={styles.SPinfoCartContainer} style={{ flex: 6, display: "flex" }}>
+              <h4 className={styles.SPproductQuantity}>X {c.billitems.quantity}</h4>
+              {/* <span className={styles.SPproductSubtotal}>${c.price}</span> */}
+            </div>
+          </div>
+        ))
+      )}
+      <h1>Total ${comprado.total}</h1>
+      <h3>El codigo de esta compra es: {comprado.transaction_id}</h3>
+    </div>
+  );
 }

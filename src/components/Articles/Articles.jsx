@@ -25,32 +25,19 @@ export default function Articles() {
     //   e.target.value >= 1 &&
     //   e.target.value <= Math.ceil(articulos.filterArticles.length / 8)
     // )
-      setPagina(value);
+    setPagina(value);
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.paginationContainer}>
-      <Pagination
-          count={Math.ceil(articulos.filterArticles.length / 8)}
-          page={pagina}
-          onChange={handlePagina}
-        />
+        <Pagination count={Math.ceil(articulos.filterArticles.length / 8)} page={pagina} onChange={handlePagina} />
       </div>
 
       <div className={styles.articleWrapper}>
-        {articulos.filterArticles?.map((x, i) =>
-          i < 8 * pagina && i > 8 * pagina - 9 ? (
-            <Article data={x} key={x.id} />
-          ) : null
-        )}
-        {articulos.loading ? (
-          <div>Cargando....</div>
-        ) : articulos.filterArticles?.length === 0 ? (
-          "No hay coinsidencias"
-        ) : null}
+        {articulos.filterArticles?.map((x, i) => (i < 8 * pagina && i > 8 * pagina - 9 ? <Article data={x} key={x.id} /> : null))}
+        {articulos.loading ? <div>Cargando....</div> : articulos.filterArticles?.length === 0 ? "No hay coinsidencias" : null}
       </div>
-      
     </div>
   );
 }

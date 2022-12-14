@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadPhotoToCloudinary } from "../../hooks/uploadToCloudinary";
 import { getAllCategories, postArticle } from "../../redux/actions";
+import styles from "./FormularioItem.module.scss"
 
 export default function FormularioItem({ data }) {
   const categorias = useSelector((state) => state.articles.categorias);
@@ -50,30 +51,37 @@ export default function FormularioItem({ data }) {
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form className={styles.itemForm} onSubmit={(e) => handleSubmit(e)}>
       <input
+        className={styles.itemTitle}
         placeholder="Titulo"
         value={item.title}
         onChange={(e) => handleTitle(e)}
         type="text"
       ></input>
       <input
+        className={styles.itemPrice}
         placeholder="Precio"
         onChange={(e) => handlePrecio(e)}
         type="number"
         step="0.01"
       ></input>
       <input
+        className={styles.itemStock}
         placeholder="Stock"
         onChange={(e) => handleStock(e)}
         type="number"
-        step="0.01"
+        step="1"
       ></input>
       <textarea
+        className={styles.itemDescription}
+        placeholder="Descripción del producto"
         onChange={(e) => descripcion(e)}
         value={item.description}
+        cols="40" rows="3"
       ></textarea>
       <input
+        className={styles.itemImage}
         name="formulario_uploadPhoto"
         multiple="multiple"
         type="file"
@@ -84,6 +92,7 @@ export default function FormularioItem({ data }) {
         "deberia poner para crear una nueva categoria aca"
       ) : (
         <select
+          className={styles.itemCategory}
           defaultValue="Categorias"
           onChange={(e) =>
             setItem({ ...item, category: { new: false, id: e.target.value } })
@@ -105,6 +114,7 @@ export default function FormularioItem({ data }) {
             <div key={x}>
               <img src={x} alt="articulo"></img>{" "}
               <button
+              className={styles.itemImageDeleteButton}
                 type="button"
                 onClick={() =>
                   setItem({

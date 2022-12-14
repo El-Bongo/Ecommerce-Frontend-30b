@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Cart from "./pages/Cart/Cart";
 import NavBar from "./components/NavBar/NavBar";
 import Detalles from "./pages/Detalles/Detalles";
+import Favorites from "./pages/Favorites/Favorites";
 import AddArticle from "./pages/AddArticle/AddArticle";
 import SuccessPurchase from "./pages/SuccessPurchase/SuccessPurchase";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -26,11 +27,17 @@ import { useMercadopago } from "react-sdk-mercadopago";
 import { RutasProtegidas } from "./components/RutasProtegidas/RutasProtegidas";
 import { Dashboard } from "./pages/Dashboard/home/Dashboard";
 import { DUsers } from "./pages/Dashboard/users/DUsers";
-import { DNewUser } from "./pages/Dashboard/NewUser/DNewUser";
 import { DSingleUser } from "./pages/Dashboard/SingleUser/DSingleUser";
+import Orders from "./pages/Dashboard/Orders/Orders";
 import { persist } from "./redux/slices/darkmodeSlice";
 import { Perfil } from "./pages/Dashboard/Perfil/Perfil";
 import { DBottomNav } from "./pages/Dashboard/components/BottomNavDashboard/DBottomNav";
+import { DEditUser } from "./pages/Dashboard/EditUser/DEditUSer";
+import { DProducts } from "./pages/Dashboard/products/DProducts";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { DSingleProduct } from "./pages/Dashboard/SigleProduct/DSigleProduct";
+import { DEditProduct } from "./pages/Dashboard/EditProduct/DEditProduct";
+import { DCreateProduct } from "./pages/Dashboard/CreateProduct/DCreateProduct";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,14 +46,12 @@ function App() {
   const [peticion, setPeticion] = useState(false);
   const [sentCarro, setSentCarro] = useState(carro);
   const { user, isAuthenticated, isLoading } = useAuth0();
+  const userRole = useSelector((state) => state.user.data.role);
 
   // eslint-disable-next-line
-  const mercadopago = useMercadopago.v2(
-    "TEST-4d76826e-3115-416c-bc70-f7a46fa75820",
-    {
-      locale: "es-AR",
-    }
-  );
+  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
+    locale: "es-AR",
+  });
 
   // Persistencia del DarkMode
   useEffect(() => {
@@ -55,9 +60,7 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      dispatch(
-        localStorageCart(JSON.parse(window.localStorage.getItem("cart")))
-      );
+      dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
     }
   }, [dispatch, isLoading, isAuthenticated]);
 
@@ -82,15 +85,11 @@ function App() {
                 ? dispatch(
                     localStorageCart(
                       data.articles.map((x) => {
-                        return { ...x, quantity: x.cartitems.quantity };
+                        return { ...x, quantity: x.itemEnCarro.quantity };
                       })
                     )
                   )
-                : dispatch(
-                    localStorageCart(
-                      JSON.parse(window.localStorage.getItem("cart"))
-                    )
-                  );
+                : dispatch(localStorageCart(JSON.parse(window.localStorage.getItem("cart"))));
             })
         );
     }
@@ -105,10 +104,12 @@ function App() {
           body: JSON.stringify({ user, carro }),
           headers: new Headers({ "content-type": "application/json" }),
         })
-          .then(() => {
+          .then((answer) => {
             toast.success("Carro Actualizado!");
             setPeticion(false);
+            return answer.json();
           })
+          .then((data) => data)
           .catch((e) => toast.error("Error actualizando el carro."));
       }
     }
@@ -130,7 +131,7 @@ function App() {
 
   // Fin add Width y Height
 
-  if (useLocation().pathname.split("/")[1] !== "admin")
+  if (useLocation().pathname.split("/")[1] !== "admin" || userRole === "client")
     return (
       <div>
         <NavBar />
@@ -138,6 +139,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/detalles/:id" element={<Detalles />} />
           <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
           <Route path="/addItem" element={<AddArticle />} />
@@ -162,13 +164,20 @@ function App() {
               <Route path="profile" element={<Perfil />} />
               <Route path="users">
                 <Route index element={<DUsers />} />
-                <Route path="new" element={<DNewUser />} />
+                <Route path="edit/:userId" element={<DEditUser />} />
                 <Route path=":userId" element={<DSingleUser />} />
+              </Route>
+              <Route path="products">
+                <Route index element={<DProducts />} />
+                <Route path="new" element={<DCreateProduct />} />
+                <Route path=":productId" element={<DSingleProduct/>}/>
+                <Route path="edit/:productId" element={<DEditProduct />} />
               </Route>
             </Route>
           </Route>
+          <Route path="/admin/ordenes" element={<Orders />}></Route>
         </Routes>
-        <DBottomNav/>
+        <DBottomNav />
       </div>
     );
 }

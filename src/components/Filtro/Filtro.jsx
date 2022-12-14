@@ -6,13 +6,13 @@ import { MultiSelect } from "react-multi-select-component";
 import { Button } from "@mui/material";
 import styles from "./Filtro.module.scss";
 
-export default function Filtro() {
+export default function Filtro({ categoria }) {
   const dispatch = useDispatch();
   const initalState = {
     title: "",
     order: null,
     priceRange: { min: "", max: "" },
-    categoria: [],
+    categoria: categoria ? [categoria] : [],
   };
 
   const [filter, setFilter] = useState(initalState);
@@ -27,12 +27,7 @@ export default function Filtro() {
       case "filter_price_order":
         setFilter({
           ...filter,
-          order:
-            filter.order === null
-              ? "+Precio-"
-              : filter.order === "-Precio+"
-              ? null
-              : "-Precio+",
+          order: filter.order === null ? "+Precio-" : filter.order === "-Precio+" ? null : "-Precio+",
         });
         break;
       case "filter_price_min":
@@ -83,9 +78,7 @@ export default function Filtro() {
           flexDirection: "column",
         }}
       >
-        <span style={{ color: "#b1b1b1", margin: "30px 20px 20px 0px" }}>
-          Filtro de Categorias
-        </span>
+        <span style={{ color: "#b1b1b1", margin: "30px 20px 20px 0px" }}>Filtro de Categorias</span>
         <MultiSelect
           options={categorias.map((x) => {
             return { label: x.name, value: x.id };
@@ -104,9 +97,7 @@ export default function Filtro() {
           flexDirection: "column",
         }}
       >
-        <span style={{ color: "#b1b1b1", margin: "30px 20px 20px 0px" }}>
-          Filtro de Precios
-        </span>
+        <span style={{ color: "#b1b1b1", margin: "30px 20px 20px 0px" }}>Filtro de Precios</span>
         <input
           type="number"
           min={0}
@@ -145,17 +136,8 @@ export default function Filtro() {
             marginBottom: 5,
           }}
         />
-        <Button
-          variant="outlined"
-          id="filter_price_order"
-          onClick={handlePrice}
-          style={{ fontFamily: "inherit" }}
-        >
-          {filter.order === null
-            ? "Ordenar por Precio"
-            : filter.order === "+Precio-"
-            ? "Ordenar de Mayor a Menor precio"
-            : "Ordenar de Menor a Mayor Precio"}
+        <Button variant="outlined" id="filter_price_order" onClick={handlePrice} style={{ fontFamily: "inherit" }}>
+          {filter.order === null ? "Ordenar por Precio" : filter.order === "+Precio-" ? "Ordenar de Mayor a Menor precio" : "Ordenar de Menor a Mayor Precio"}
         </Button>
       </div>
       <dir
@@ -165,9 +147,7 @@ export default function Filtro() {
           flexDirection: "column",
         }}
       >
-        <span style={{ color: "#b1b1b1", margin: "30px 20px 20px 0px" }}>
-          Buscar por Nombre
-        </span>
+        <span style={{ color: "#b1b1b1", margin: "30px 20px 20px 0px" }}>Buscar por Nombre</span>
         <input
           type="text"
           onChange={handleTitle}
@@ -185,12 +165,7 @@ export default function Filtro() {
           }}
         />
       </dir>
-      <Button
-        onClick={handleReset}
-        variant="outlined"
-        color="error"
-        style={{ fontFamily: "inherit" }}
-      >
+      <Button onClick={handleReset} variant="outlined" color="error" style={{ fontFamily: "inherit" }}>
         Reset
       </Button>
     </div>

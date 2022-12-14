@@ -4,7 +4,7 @@ export function useProfile(id) {
   const start = {
     email: "tv@gmail.com",
     nickname: "username",
-    avatar: "avatar",
+    avatar: "https://i.pinimg.com/236x/af/de/72/afde727d75f5aa585c407cd89910cb80.jpg",
   };
 
   const [datos, setData] = useState(start);

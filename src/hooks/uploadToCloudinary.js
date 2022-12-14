@@ -13,6 +13,5 @@ export const uploadPhotoToCloudinary = (e) => async () => {
       .then((response) => response.json())
       .then((data) => response.push(data.secure_url));
   }
-
   return response;
 };

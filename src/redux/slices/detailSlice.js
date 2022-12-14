@@ -12,7 +12,6 @@ const detailSlice = createSlice({
   initialState,
   reducers: {
     insertDataDetails: (state, { payload }) => {
-      console.log(payload)
       state.detailedArticle = payload;
     },
     cleanDetails: (state) => {
