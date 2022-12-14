@@ -1,6 +1,6 @@
 import styles from "./Slider.module.scss";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
-import imgFondo1 from "../../assets/imagenFondo1.png";
+import imgFondo1 from "../../assets/ImagenFondo1.png";
 import imgFondo2 from "../../assets/ImagenFondo2.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -39,7 +39,7 @@ export const Slider = () => {
       >
         <div className={styles.slider}>
           <div className={styles.infoContainer}>
-            <h2>Smart Watch</h2>
+            <h2>Ventilador Silencioso</h2>
             <Link to="/products" style={{ textDecoration: "none" }}>
               <input
                 type="button"
@@ -49,12 +49,12 @@ export const Slider = () => {
             </Link>
           </div>
           <div className={styles.imgContainer}>
-            <img src={imgFondo1} alt="" />
+            <img src={imgFondo1} alt="Not Found" height={350}/>
           </div>
         </div>
         <div className={styles.slider}>
           <div className={styles.infoContainer}>
-            <h2>Zapatillas Nike Air </h2>
+            <h2>Teclado Razer</h2>
             <Link to="/products" style={{ textDecoration: "none" }}>
               <input
                 type="button"
@@ -64,7 +64,7 @@ export const Slider = () => {
             </Link>
           </div>
           <div className={styles.imgContainer}>
-            <img src={imgFondo2} alt="" />
+            <img src={imgFondo2} alt="Not Found"/>
           </div>
         </div>
       </div>
