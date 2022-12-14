@@ -20,6 +20,9 @@ import Profile from "./pages/Profile/Profile";
 import toast, { Toaster } from "react-hot-toast";
 import NotFound from "./pages/NotFound/NotFound";
 import { inputUserData } from "./redux/slices/userSlice";
+import Checkout from "./components/CheckOut/Checkout";
+
+//MercadoPago
 import { useMercadopago } from "react-sdk-mercadopago";
 import { RutasProtegidas } from "./components/RutasProtegidas/RutasProtegidas";
 import { Dashboard } from "./pages/Dashboard/home/Dashboard";
@@ -143,6 +146,7 @@ function App() {
           <Route path="/successBuy" element={<SuccessPurchase />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="*" element={<NotFound />}></Route>
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
         <Footer />
         <BottomNav />
