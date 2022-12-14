@@ -294,6 +294,30 @@ export default function NavBar() {
               </Fragment> : null
             }
           </div>
+          <div>
+            {/* input Menu desplegable carrito*/}
+            <Fragment>
+              <div
+                className={`${styles.menuItem} ${styles.cartItem}`}
+                onClick={toggleDrawer("cart")}
+              >
+                {cartItems.length !== 0 && (
+                  <div className={styles.cartCounter}>
+                    <span>{cartItems.length}</span>
+                  </div>
+                )}
+                <AiOutlineShoppingCart style={{ width: 25, height: 25 }} />
+              </div>
+              <SwipeableDrawer
+                anchor={"right"}
+                open={cartOpen}
+                onClose={toggleDrawer("cart")}
+                onOpen={toggleDrawer("cart")}
+              >
+                {cart()}
+              </SwipeableDrawer>
+            </Fragment>
+          </div>
         </div>
       </div>
       <FloatNav
