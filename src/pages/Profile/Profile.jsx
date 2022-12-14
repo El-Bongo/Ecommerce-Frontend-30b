@@ -61,8 +61,8 @@ export default function Profile() {
   }
 
   function handleErrorNick(e){
-    if(e.length < 4) return "El nombre es demaciado corto"
-    else if(e.length > 16) return "El nombre es demaciado largo"
+    if(e.length < 4) return "El nombre es demasiado corto"
+    else if(e.length > 16) return "El nombre es demasiado largo"
     else if(!/^[a-zA-Z0-9\s]+$/i.test(e)) return "El nombre tiene caracteres incorrectos"
     else return null
   }
