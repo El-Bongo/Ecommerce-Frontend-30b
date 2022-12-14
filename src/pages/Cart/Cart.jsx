@@ -103,7 +103,13 @@ export default function Cart() {
                   <div className={styles.productImgContainer}>
                     <img src={c.images[0]} alt="" width={70} />
                   </div>
-                  <span>{c.title}</span>
+                  <span>
+                    {c.category.name + ' ' 
+                    + c.properties.type + ' ' 
+                    + c.properties.brand + ' ' 
+                    + c.properties.model + ' '
+                    + c.properties.size } 
+                  </span>
                 </div>
                 <div className={styles.infoCartContainer} style={{ flex: 6, display: "flex" }}>
                   <span className={styles.productSubtotal}>${c.price}</span>

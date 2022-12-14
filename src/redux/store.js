@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import articles from "./slices/articlesSlice";
 import cart from "./slices/cartSlice";
 import details from "./slices/detailSlice";
+import reviews from "./slices/reviewsSlice";
 import favorite from "./slices/favoriteSlice";
 import windows from "./slices/windowSlice";
 import darkmode from './slices/darkmodeSlice'
@@ -17,6 +18,7 @@ export default configureStore({
     windows,
     darkmode,
     user,
-    panel
+    panel,
+    reviews
   },
 });

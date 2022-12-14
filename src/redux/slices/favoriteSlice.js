@@ -13,15 +13,15 @@ const favoriteSlice = createSlice({
       if (!(state.favItem.filter((x) => x.id === payload.articleData.id).length > 0)) {
         let dataWish = {
           userId: payload.userId,
-          articleId: payload.articleData.id
-        }
-        wishlistAssign(dataWish)
+          articleId: payload.articleData.id,
+        };
+        wishlistAssign(dataWish);
         state.favItem.push({ ...payload.articleData });
       }
     },
     removeFav: (state, { payload }) => {
       state.favItem = state.favItem.filter((x) => x.id !== payload.id);
-      deleteFromWishlist(payload.wish)
+      deleteFromWishlist(payload.wish);
     },
     getWishes: (state, { payload }) => {
       state.favItem = payload.articles || [];

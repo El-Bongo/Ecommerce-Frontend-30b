@@ -6,6 +6,7 @@ import "./Profile.css";
 import Compras from "../../components/Compras/Compras";
 import { uploadPhotoToCloudinary } from "../../hooks/uploadToCloudinary";
 import toast, { Toaster } from "react-hot-toast";
+import CartItems from "../../components/CartItems/CartItems";
 
 export default function Profile() {
   const { id } = useParams();
@@ -16,25 +17,18 @@ export default function Profile() {
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({ nickname: datos.nickname, avatar: datos.avatar });
   const [loading, setLoading] = useState(false);
+  const [wl, setWl] = useState([]);
 
   useEffect(() => {
     setFormData({ nickname: datos.nickname, avatar: datos.avatar });
   }, [datos]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/cart/getCart/", {
-      method: "POST",
-      body: JSON.stringify({ user: { email: datos.email } }),
-      headers: new Headers({ "content-type": "application/json" }),
-    })
-      .then((answer) => answer.json())
-      .then((data) => console.log(data));
-
     fetch("http://localhost:3001/wishlist/user/" + id, {
       method: "GET",
     })
       .then((answer) => answer.json())
-      .then((data) => data);
+      .then((data) => setWl(data.articles));
   }, [datos, id]);
 
   useEffect(() => {
@@ -67,8 +61,8 @@ export default function Profile() {
   }
 
   function handleErrorNick(e){
-    if(e.length < 4) return "El nombre es demaciado corto"
-    else if(e.length > 16) return "El nombre es demaciado largo"
+    if(e.length < 4) return "El nombre es demasiado corto"
+    else if(e.length > 16) return "El nombre es demasiado largo"
     else if(!/^[a-zA-Z0-9\s]+$/i.test(e)) return "El nombre tiene caracteres incorrectos"
     else return null
   }
@@ -115,7 +109,7 @@ export default function Profile() {
           </button>
         </div>
       </div>
-      <div>{selected === "compras" ? <Compras facturas={datos.facturas} /> : selected === "cart" ? null : null}</div>
+      <div>{selected === "compras" ? <Compras facturas={datos.facturas} /> : selected === "cart" ? <CartItems items={datos.articles} /> : <CartItems items={wl} />}</div>
       <Toaster position="bottom-right" reverseOrder={false} />
     </div>
   );
