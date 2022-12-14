@@ -24,7 +24,7 @@ const favoriteSlice = createSlice({
       deleteFromWishlist(payload.wish)
     },
     getWishes: (state, { payload }) => {
-      state.favItem = payload || [];
+      state.favItem = payload.articles || [];
     },
   },
 });
