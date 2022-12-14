@@ -21,7 +21,7 @@ export default function Detalles() {
   return (
     <div className={styles.container}>
       {articulo === undefined ? (
-        <div>Cargando...</div>
+        <div className={styles.loading}>Cargando...</div>
       ) : (
         <div className={styles.wrapper}>
           <div className={styles.imgContainer}>

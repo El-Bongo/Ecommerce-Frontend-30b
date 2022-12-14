@@ -46,15 +46,15 @@ export default function Article({ data }) {
     <div className={styles.articleContainer}>
       <Card sx={{ maxWidth: 345 }}>
         {reduxUser.id !== 0 ? (
+        { reduxUser.id !== 0 ? 
           <Button className={styles.favBtn} onClick={handleClick}>
-            {/* {
+            {
               favItem.some(e => e.id === data.id) ? 
               <AiFillHeart size={"1.5em"} style={{padding:"0", margin:"0"}} /> : 
               <AiOutlineHeart size={"1.5em"} style={{padding:"0", margin:"0"}}/>
-            } */}
-            ASD
-          </Button>
-        ) : null}
+            }
+          </Button> : null
+        }
         <Carousel showArrows={true} showIndicators={true}>
           {data.images.length > 1
             ? data.images.map((x, i) => (
