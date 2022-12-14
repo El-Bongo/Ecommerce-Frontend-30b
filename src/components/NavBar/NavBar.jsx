@@ -41,7 +41,6 @@ export default function NavBar() {
       setNavbarChange(false);
     }
   };
-
   const toggleDrawer = (types) => (event) => {
     if (
       event &&
@@ -173,6 +172,12 @@ export default function NavBar() {
       </div>
     </Box>
   );
+  
+  const handleChatbot = (e) =>{
+    e.preventDefault()
+    Chatbot()
+  }
+
 
   return (
     <nav
@@ -304,7 +309,17 @@ export default function NavBar() {
             </Fragment>
           </div>
         </div>
-      <div>{Chatbot()}</div>
+
+        <div style={{ display: "flex" }}>
+              <Button
+                variant="outlined"
+                onClick={(e) => handleChatbot(e)}
+                className={styles.btnLogin}
+                style={{ fontFamily: "inherit" }}
+              >
+                Chatbot
+              </Button>
+            </div>
       </div>
       <FloatNav
         loginWithRedirect={loginWithRedirect}

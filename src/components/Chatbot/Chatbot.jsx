@@ -1,4 +1,6 @@
 import { useState } from "react" 
+/* import "./Chatbot.css"
+ */
 const Chatbot = () => {
 let product
 const [input, setInput] = useState("");
@@ -12,8 +14,8 @@ const utterances = [
   ["como estas", "todo bien", "que tal"],        //0
   ["hola", "hey", "hello", "buen dia", "buenas tardes", "buenas noches"],      //1
   ["si necesito ayuda", "estoy perdido", "ayuda"],      //2
-  ["respecto a compras"],					//3
-  ['respecto a servicio al cliente'],   //4
+  ["compras"],					//3
+  ['servicio al cliente'],   //4
   ['quiero hablar con un humano'], //5
   ['metamask'], //6
 ] 
@@ -28,11 +30,11 @@ const answers = [
    "¡Hola! Soy el bot de ayuda de Tienda Tech, ¿que necesitas?", "¡Buen día! Soy el bot de ayuda de Tienda Tech, ¿que necesitas?", "¡Que tal! Soy el bot de ayuda de Tienda Tech, ¿que necesitas?"
  ],						//1
  [
-   "¡Con gusto te ayudaré! Responde uno de los siguientes mensajes para que te de más información. 1) 'Respecto a compras', 2) 'Respecto a servicio al cliente', 3) Quiero hablar con un humano",
+   "¡Con gusto te ayudaré! Responde uno de los siguientes mensajes para que te de más información. 1) 'Compras', 2) 'Servicio al cliente', 3) Quiero hablar con un humano",
  ],						//2
  ["Respecto a las compras: Existen dos metodos de pago actualmente en el sitio web, Crypto mediante Metamask, y por Mercadopago, para más información sobre Metamask escribe 'Metamask', si necesitas explicación más avanzada, escribe 'Quiero hablar con un humano'"],					//3
- ["Para quejas referidas al servicio al cliente, envia un email a nonosimporta@gmail.com"],	//4
- ["Lamento no haber sido de suficiente ayuda, puedes dirigirte a un humano mediante discord -inserte discord aquí- o Whatsapp -inserte numero whatsapp aqui-"], //5
+ ["Para quejas referidas al servicio al cliente, envia un email a soportetienda-tech@gmail.com"],	//4
+ ["Lamento no haber sido de suficiente ayuda, puedes dirigirte a un humano mediante Whatsapp +54 9 999-9999"], //5
  ["¡Aquí tienes un vídeo introductorio sobre Metamask! https://www.youtube.com/watch?v=xuY5kJavZbc"], // 6
  
 
@@ -44,13 +46,15 @@ const alternatives = [
  "No entendí, prueba diciendo 'ayuda'",
  "Lo siento, no entendí lo que quisiste decir, prueba diciendo 'ayuda'",
 ];
-
+console.log(input)
 let handleSubmit = (e) => {
   e.preventDefault()
   var respuesta = output(input)
   addUserEntry(input)
   addBotEntry(respuesta) 
-
+  var elem = document.getElementById('chat');
+  elem.scrollTop = elem.scrollHeight;
+  setInput("")
 }
 
  function compare(utterancesArray, answersArray, string) {
@@ -75,7 +79,10 @@ let handleSubmit = (e) => {
     function addBotEntry(product) {
     let botDiv = document.getElementById('chat');
     let botText = document.createElement('div');
-    botText.innerText = "Bot: Typing...";
+    let botImg = document.createElement('img')
+    botImg.src = "https://upload.wikimedia.org/wikipedia/commons/3/38/Robot-clip-art-book-covers-feJCV3-clipart.png"
+    botText.appendChild(botImg)
+    botText.innerText = "Bot: Escribiendo...";
     botDiv.appendChild(botText);
     setTimeout(() => {
       botText.innerText = `Bot: ${product}`;
@@ -100,19 +107,22 @@ let handleSubmit = (e) => {
     return product
   }
 
+
   return(
 <>
-<div id="container" className="container">
-   <div id="chat" className="chat">
+
+<div id="container" className="container" style={{backgroundColor: "white", opacity:"0.5"}}>
+   <div id="chat" className="chat" style={{overflowY: "scroll", height: "100px", width: "300px", borderWidth: "60px", borderColor: "blue"}}  >
     <div id="messagesUser" className="messagesUser">
-    <span id = "textUser"></span>
+    <span id = "textUser"  style={{backgroundColor: "blue"}}></span>
     </div>
-    <div id="messagesBot" className="messagesBot">
-    <span id = "textBot"></span>
+    <div id="messagesBot" className="messagesBot" >
+    <span id = "textBot" style={{backgroundColor: "red"}}></span>
     </div>
     <form onSubmit={handleSubmit}>
-    <input id="input" type="text" placeholder="Write something..." autoComplete="off" onChange={handleChange} />
-    </form>
+    <input id="input" value={input} type="text" placeholder="Prueba con 'ayuda'" autoComplete="off" onChange={handleChange} style={{position: "fixed"}} />
+
+    </form>  
   </div>
 </div>
 
