@@ -8,6 +8,7 @@ import { addFav, removeFav } from "../../redux/slices/favoriteSlice";
 import { Carousel } from "react-responsive-carousel";
 import { useEffect } from "react";
 import { getWishlist } from "../../redux/actions";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 export default function Article({ data }) {
   const carro = useSelector((state) => state.cart.cartItems);
@@ -46,15 +47,10 @@ export default function Article({ data }) {
     <div className={styles.articleContainer}>
       <Card sx={{ maxWidth: 345 }}>
         {reduxUser.id !== 0 ? (
-        { reduxUser.id !== 0 ? 
           <Button className={styles.favBtn} onClick={handleClick}>
-            {
-              favItem.some(e => e.id === data.id) ? 
-              <AiFillHeart size={"1.5em"} style={{padding:"0", margin:"0"}} /> : 
-              <AiOutlineHeart size={"1.5em"} style={{padding:"0", margin:"0"}}/>
-            }
-          </Button> : null
-        }
+            {favItem.some((e) => e.id === data.id) ? <AiFillHeart size={"1.5em"} style={{ padding: "0", margin: "0" }} /> : <AiOutlineHeart size={"1.5em"} style={{ padding: "0", margin: "0" }} />}
+          </Button>
+        ) : null}
         <Carousel showArrows={true} showIndicators={true}>
           {data.images.length > 1
             ? data.images.map((x, i) => (
