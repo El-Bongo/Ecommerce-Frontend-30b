@@ -44,18 +44,20 @@ export const DSidebar = () => {
             </li>
           </Link>
           <li>
-            <CreditCardIcon className={styles.icon} />
-            <span>Ordenes</span>
+            <Link to="/admin/ordenes" style={{ textDecoration: "none" }}>
+              <CreditCardIcon className={styles.icon} />
+              <span>Ordenes</span>
+            </Link>
           </li>
 
           <p className={styles.title}>USER</p>
-          <Link to='/admin/profile' style={{ textDecoration: "none" }}>
+          <Link to="/admin/profile" style={{ textDecoration: "none" }}>
             <li>
               <AccountCircleOutlinedIcon className={styles.icon} />
               <span>Perfil</span>
             </li>
           </Link>
-          <Link to='/' style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <li>
               <ExitToAppIcon className={styles.icon} />
               <span>Volver a Tienda</span>
@@ -64,14 +66,8 @@ export const DSidebar = () => {
         </ul>
       </div>
       <div className={styles.bottom}>
-        <div
-          className={styles.colorOption}
-          onClick={() => dispatch(light())}
-        ></div>
-        <div
-          className={styles.colorOption}
-          onClick={() => dispatch(dark())}
-        ></div>
+        <div className={styles.colorOption} onClick={() => dispatch(light())}></div>
+        <div className={styles.colorOption} onClick={() => dispatch(dark())}></div>
       </div>
     </div>
   );

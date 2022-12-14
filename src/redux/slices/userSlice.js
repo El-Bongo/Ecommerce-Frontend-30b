@@ -5,6 +5,7 @@ const initialState = {
     email: "email",
     nickname: "Username",
     id: 0,
+    role: "client",
   },
 };
 
@@ -13,7 +14,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     inputUserData: (state, { payload }) => {
-      state.data = payload || [];
+      if (payload) state.data = payload;
+      else state = initialState;
     },
   },
 });

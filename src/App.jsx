@@ -43,6 +43,7 @@ function App() {
   const [peticion, setPeticion] = useState(false);
   const [sentCarro, setSentCarro] = useState(carro);
   const { user, isAuthenticated, isLoading } = useAuth0();
+  const userRole = useSelector((state) => state.user.data.role);
 
   // eslint-disable-next-line
   const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
@@ -127,7 +128,7 @@ function App() {
 
   // Fin add Width y Height
 
-  if (useLocation().pathname.split("/")[1] !== "admin")
+  if (useLocation().pathname.split("/")[1] !== "admin" || userRole === "client")
     return (
       <div>
         <NavBar />

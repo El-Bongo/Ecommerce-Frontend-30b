@@ -15,6 +15,7 @@ export const DCreateProduct = () => {
   const { darkMode } = useSelector((state) => state.darkmode);
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(null);
+  const [cargando, setCargando] = useState(false);
   const [productCreate, setProductCreate] = useState({
     title: "",
     precio: "",
@@ -75,9 +76,10 @@ export const DCreateProduct = () => {
 
     if (avatar) {
       const response = uploadPhotoToCloudinary(avatar);
+      setCargando(true);
       images = await response();
+      setCargando(false);
     }
-
 
     Swal.fire({
       title: "Quieres crear un nuevo producto?",
@@ -94,10 +96,17 @@ export const DCreateProduct = () => {
       }
     });
   };
-  console.log(categorias)
-  // console.log(propiedades)
-  // console.log(productCreate)
-  // console.log(properties)
+
+
+  function mapImagenes() {
+    let a = [];
+    for (let i = 0; i < avatar.target.files.length; i++) {
+      a.push(<img src={URL.createObjectURL(avatar.target.files[i])} alt="producto" key={i} className={styles.imgarrayproduct}></img>);
+    }
+    return a;
+  }
+
+
   return (
     <div className={`${styles.new} ${darkMode && dark.dark}`}>
       <DSidebar />
@@ -108,26 +117,24 @@ export const DCreateProduct = () => {
         </div>
         <div className={styles.bottom}>
           <div className={styles.left}>
-            <img
-              src={
-                avatar?.target?.files[0]
-                  ? URL.createObjectURL(avatar?.target?.files[0])
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
+            {avatar?.target?.files?.length > 1 ? (
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}> {mapImagenes()} </div>
+            ) : (
+              <img src={avatar?.target?.files[0] ? URL.createObjectURL(avatar?.target?.files[0]) : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="" />
+            )}
           </div>
           <div className={styles.right}>
             <h3 style={{ padding: 10 }}>Generales</h3>
             <form onSubmit={handleSubmit}>
               <div className={styles.formInput}>
                 <label htmlFor="file">
-                  Imagen:{" "}
-                  <DriveFolderUploadOutlinedIcon className={styles.icon} />
+                  Imagen: <DriveFolderUploadOutlinedIcon className={styles.icon} />
                 </label>
                 <input
                   type="file"
                   id="file"
+                  multiple="multiple"
+                  accept="image/png,image/jpeg"
                   onChange={async (e) => {
                     setAvatar(e);
                   }}
@@ -180,7 +187,7 @@ export const DCreateProduct = () => {
                   onChange={(e) =>
                     setProductCreate({
                       ...productCreate,
-                      category: {id: e.target.value },
+                      category: { id: e.target.value },
                     })
                   }
                 >
@@ -289,7 +296,9 @@ export const DCreateProduct = () => {
               properties?.brand === "" ||
               !properties?.brand ||
               properties?.model === "" ||
-              !properties?.model || !productCreate?.category.id ? (
+              !properties?.model ||
+              !productCreate?.category.id ||
+              cargando ? (
                 <button disabled style={{ backgroundColor: "#ac96fd" }}>
                   Enviar
                 </button>
