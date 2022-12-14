@@ -1,7 +1,9 @@
 import styles from "./Slider.module.scss";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
-import imgFondo1 from "../../assets/imagenFondo1.png";
-import imgFondo2 from "../../assets/ImagenFondo2.png";
+
+import imgFondo1 from "../../assets/ImgFondo1.png";
+import imgFondo2 from "../../assets/ImgFondo2.png";
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
