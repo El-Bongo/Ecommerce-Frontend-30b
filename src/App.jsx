@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Cart from "./pages/Cart/Cart";
 import NavBar from "./components/NavBar/NavBar";
 import Detalles from "./pages/Detalles/Detalles";
+import EditReview from "./pages/EditReview/EditReview";
+import ReportReview from "./pages/ReportReview/ReportReview";
+import DeleteReviews from "./pages/DeleteReviews/DeleteReviews";
 import Favorites from "./pages/Favorites/Favorites";
 import AddArticle from "./pages/AddArticle/AddArticle";
 import SuccessPurchase from "./pages/SuccessPurchase/SuccessPurchase";
@@ -141,6 +144,9 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/detalles/:id" element={<Detalles />} />
+          <Route path="/review/:idReview" element={<EditReview />} />
+          <Route path="/report/:idReview" element={<ReportReview />} />
+          <Route path="/reportedReviews" element={<DeleteReviews />} />
           <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
           <Route path="/addItem" element={<AddArticle />} />
           <Route path="/successBuy" element={<SuccessPurchase />} />

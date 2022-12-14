@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import styles from "./Navbar.module.scss";
 import imgLogo2 from "../../assets/logoShop.png";
-//import Chatbot from '../Chatbot/Chatbot.jsx';
+import Chatbot from '../Chatbot/Chatbot.jsx';
 
 import { AiOutlineShoppingCart, AiOutlineUser, AiOutlineUserDelete, AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { Button, Avatar } from "@mui/material";
@@ -259,6 +259,7 @@ export default function NavBar() {
             </Fragment>
           </div>
         </div>
+      <div>{Chatbot()}</div>
       </div>
       <FloatNav loginWithRedirect={loginWithRedirect} logout={logout} isAuthenticated={isAuthenticated} />
     </nav>
