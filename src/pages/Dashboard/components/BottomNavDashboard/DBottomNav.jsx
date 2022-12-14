@@ -58,7 +58,7 @@ export const DBottomNav = () => {
         <BottomNavigationAction
           label="Productos"
           icon={<StorefrontIcon />}
-          onClick={() => navigate("/admin/users")}
+          onClick={() => navigate("/admin/products")}
           style={{
             color: darkMode && value !== 2 ? "#9c9c9c" : '#8884d8',
             backgroundColor: value === 2 && !darkMode && "#f1efef"
@@ -67,7 +67,7 @@ export const DBottomNav = () => {
         <BottomNavigationAction
           label="Ordenes"
           icon={<LocalShippingIcon />}
-          onClick={() => navigate("/admin/users")}
+          onClick={() => navigate("/admin/orders")}
           style={{
             color: darkMode && value !== 3 ? "#9c9c9c" : '#8884d8',
             backgroundColor: value === 3 && !darkMode && "#f1efef"

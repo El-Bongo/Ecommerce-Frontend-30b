@@ -22,7 +22,7 @@ export default function Orders() {
     fetch("http://localhost:3001/orders/getAll", { method: "GET" })
       .then((answer) => answer.json())
       .then((data) => (orden ? setOrdenes(ordenes.filter((x) => !x.despachada && x.payment_status === "approved")) : setOrdenes(data.reverse())));
-  }, [orden]);
+  }, [orden, ordenes]);
 
   function dispatchOrder(id) {
     ordenes.forEach((x, i) => {

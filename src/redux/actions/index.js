@@ -55,6 +55,13 @@ export const restoreArticle = async(id) => {
   console.log(data)
 };
 
+export const restoreUsers = async(id) => {
+  const resp = await fetch(`http://localhost:3001/users/restoreProfile/${id}`);
+  const data = await resp.json();
+
+  console.log(data)
+};
+
 // Posts
 export const postArticle = (item) => () => {
   fetch("http://localhost:3001/articulo/create", {
@@ -108,4 +115,15 @@ export const deleteProduct = async (id) => {
 
   console.log(data);
 };
+
+export const startDeleteUser = async (id) => {
+  const resp = await fetch(`http://localhost:3001/users/deleteProfile/${id}`,{
+    method: "DELETE",
+  });
+  const data = await resp.json();
+
+  console.log(data);
+};
+
+
 
