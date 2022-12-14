@@ -1,7 +1,7 @@
 import { getUser, getUsers } from "../slices/adminPanel";
 import { getAllCateg, getAllData } from "../slices/articlesSlice";
 import { insertDataDetails } from "../slices/detailSlice";
-import { getAllReviews } from "../slices/reviewsSlice";
+import { getAllArticlesReviews, getArticleReviews } from "../slices/reviewsSlice";
 
 // Gets
 
@@ -36,9 +36,15 @@ export const getAllUser = () => async (dispatch) => {
 };
 
 export const getReviews = (id) => async (dispatch) => {
-  const resp = await fetch(`http://localhost:3001/articulo/reviews/` + id, { method: "GET" });
+  const resp = await fetch(`http://localhost:3001/review/reviews/` + id, { method: "GET" });
   const data = await resp.json();
-  dispatch(getAllReviews(data));
+  dispatch(getArticleReviews(data));
+};
+
+export const getAllReviews = () => async (dispatch) => {
+  const resp = await fetch(`http://localhost:3001/review/allreviews/`, { method: "GET" });
+  const data = await resp.json();
+  dispatch(getAllArticlesReviews(data));
 };
 
 export const getOneUser = (id) => async (dispatch) => {
@@ -46,6 +52,16 @@ export const getOneUser = (id) => async (dispatch) => {
   const data = await resp.json();
   dispatch(getUser(data));
 };
+
+
+export const deleteReview = (id) => {
+  fetch("http://localhost:3001/review/delete/" + id, { 
+    method: 'DELETE',
+   })
+  .then((res) => console.log(res));
+};
+
+
 
 // Posts
 export const postArticle = (item) => () => {
@@ -57,13 +73,28 @@ export const postArticle = (item) => () => {
 };
 
 export const createReview = (item) => () => {
-  fetch("http://localhost:3001/articulo/addReview", {
+  fetch("http://localhost:3001/review/addReview", {
     method: "POST",
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),
   }).then((res) => console.log(res));
 };
 
+export const editReview = (id, item) => async (dispatch) => {
+  fetch(`http://localhost:3001/review/reviews/edit/${id}`, {
+    method: "POST",
+    body: JSON.stringify(item),
+    headers: new Headers({ "content-type": "application/json" }),
+  }).then((res) => console.log(res));
+};
+
+export const reportReview = (id, item) => async (dispatch) => {
+  fetch(`http://localhost:3001/review/reviews/report/${id}`, {
+    method: "POST",
+    body: JSON.stringify(item),
+    headers: new Headers({ "content-type": "application/json" }),
+  }).then((res) => console.log(res));
+};
 
 export const despachar = (id) => {
   fetch("http://localhost:3001/orders/update/" + id, {

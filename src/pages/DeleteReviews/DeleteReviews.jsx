@@ -1,54 +1,37 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getReviews } from "../../redux/actions";
+import { deleteReview, getAllReviews } from "../../redux/actions";
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { useNavigate } from "react-router-dom";
-export default function ReviewCard() {
-  const navigate = useNavigate()
+export default function DeleteReviews() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  let notReported = []
+  let reported = []
   const User = useSelector(state => state.user)
   const reviews = useSelector((state) => state.reviews.reviewList.reviews);
+  console.log(reviews)
   useEffect(() => {
-    dispatch(getReviews(id));
+    dispatch(getAllReviews());
   }, [])
   if(reviews !== null) {
-    notReported = reviews.filter(review => !review.reportedBy.includes(User.data.nickname))} 
+    reported = reviews.filter(review => review.reportedBy.length > 0)} 
 
-    function canEdit(item){
-      //console.log(item)
-      //console.log(User)
-      if (document.getElementById("checked")){return}
-      if(item.username === User.data.nickname){
-        let editButton = document.createElement('button')
-        editButton.innerHTML = "Editar"
-        editButton.id = "checked"
-        editButton.onclick = () => navigate(`/review/${item.id}`)
-        console.log(editButton)
-        
-        let reviewDiv = document.getElementById(item.id);
-        if (reviewDiv === null){return}
-        reviewDiv.appendChild(editButton)
-          }
-      }
       
-      function canReport(item){
-        if (document.getElementById("checkedforReport" + item.username)){return}
+      function canDelete(item){
+        if (document.getElementById("checkedforDelete" + item.username)){return}
         console.log(item.username)
         console.log(User.data.nickname)
-
-        if(item.username !== User.data.nickname && User.data.nickname !== "Username"){
-          let reportButton = document.createElement('button')
-          reportButton.innerHTML = "Reportar"
-          reportButton.id = "checkedforReport" + item.username
-          reportButton.onclick = () => navigate(`/report/${item.id}`)          
-          let reviewDiv = document.getElementById(item.id);
-          if (reviewDiv === null){return}
-          reviewDiv.appendChild(reportButton)
-            }
+        let deleteButton = document.createElement('button')
+        deleteButton.innerHTML = "Eliminar"
+        deleteButton.id = "checkedforDelete" + item.username
+        deleteButton.onclick = () => {
+            deleteReview(item.id)
+            window.location.reload(false);
+        }      
+        let reviewDiv = document.getElementById(item.id);
+        if (reviewDiv === null){return}
+        reviewDiv.appendChild(deleteButton)
         }
 
     function setRatingImages(rating){
@@ -75,18 +58,18 @@ export default function ReviewCard() {
 
 
   return(<>
-          <label>Reseñas:</label>
+          <label>Reportes:</label>
         {
-          notReported.map(t => {
+          reported.map(t => {
             return (
               <div class="col-12 text-left" className="types">
               <div className="review" id={t.id}>
+              Razones: {t.reports} <br/>
               {t.username}
               <div/>
               {t.review}
               {setRatingImages(t.rating)}
-              {canEdit(t)}
-              {canReport(t)}
+              {canDelete(t)}
                </div>
               </div>
             )

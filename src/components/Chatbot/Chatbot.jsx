@@ -9,30 +9,31 @@ let handleChange = (e) => {
 
 
 const utterances = [ 
-  ["how are you", "how is life", "how are things"],        //0
-  ["hi", "hey", "hello", "good morning", "good afternoon"],      //1
-  ["what are you doing", "what is going on", "what is up"],      //2
-  ["how old are you"],					//3
-  ["who are you", "are you human", "are you bot", "are you human or bot"],   //4
-]
+  ["como estas", "todo bien", "que tal"],        //0
+  ["hola", "hey", "hello", "buen dia", "buenas tardes", "buenas noches"],      //1
+  ["si necesito ayuda", "estoy perdido", "ayuda"],      //2
+  ["respecto a compras"],					//3
+  ['respecto a servicio al cliente'],   //4
+  ['quiero hablar con un humano'], //5
+  ['metamask'], //6
+] 
 
 const answers = [
   [
-   "Fine... how are you?",
-   "Pretty well, how are you?",
-   "Fantastic, how are you?"
+   "Estoy bien, ¿tienes alguna consulta?",
+   "Me encuentro bastante bien, ¿quieres consultar algo?",
+   "Estoy maravillosamente bien, ¿necesitas algo?"
  ],                                                                                  	//0
  [
-   "Hello!", "Hi!", "Hey!", "Hi there!", "Howdy"
+   "¡Hola! Soy el bot de ayuda de Tienda Tech, ¿que necesitas?", "¡Buen día! Soy el bot de ayuda de Tienda Tech, ¿que necesitas?", "¡Que tal! Soy el bot de ayuda de Tienda Tech, ¿que necesitas?"
  ],						//1
  [
-   "Nothing much",
-   "About to go to sleep",
-   "Can you guess?",
-   "I don't know actually"
+   "¡Con gusto te ayudaré! Responde uno de los siguientes mensajes para que te de más información. 1) 'Respecto a compras', 2) 'Respecto a servicio al cliente', 3) Quiero hablar con un humano",
  ],						//2
- ["I am infinite"],					//3
- ["I am just a bot", "I am a bot. What are you?"],	//4
+ ["Respecto a las compras: Existen dos metodos de pago actualmente en el sitio web, Crypto mediante Metamask, y por Mercadopago, para más información sobre Metamask escribe 'Metamask', si necesitas explicación más avanzada, escribe 'Quiero hablar con un humano'"],					//3
+ ["Para quejas referidas al servicio al cliente, envia un email a nonosimporta@gmail.com"],	//4
+ ["Lamento no haber sido de suficiente ayuda, puedes dirigirte a un humano mediante discord -inserte discord aquí- o Whatsapp -inserte numero whatsapp aqui-"], //5
+ ["¡Aquí tienes un vídeo introductorio sobre Metamask! https://www.youtube.com/watch?v=xuY5kJavZbc"], // 6
  
 
 ];
@@ -40,8 +41,8 @@ const answers = [
 // For any other user input
 
 const alternatives = [
- "Go on...",
- "Try again",
+ "No entendí, prueba diciendo 'ayuda'",
+ "Lo siento, no entendí lo que quisiste decir, prueba diciendo 'ayuda'",
 ];
 
 let handleSubmit = (e) => {
