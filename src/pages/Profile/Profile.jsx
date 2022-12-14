@@ -17,17 +17,18 @@ export default function Profile() {
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({ nickname: datos.nickname, avatar: datos.avatar });
   const [loading, setLoading] = useState(false);
+  const [wl, setWl] = useState([]);
 
   useEffect(() => {
     setFormData({ nickname: datos.nickname, avatar: datos.avatar });
   }, [datos]);
 
   useEffect(() => {
-    /* fetch("http://localhost:3001/wishlist/user/" + id, {
+    fetch("http://localhost:3001/wishlist/user/" + id, {
       method: "GET",
     })
       .then((answer) => answer.json())
-      .then((data) => data);*/
+      .then((data) => setWl(data.articles));
   }, [datos, id]);
 
   useEffect(() => {
@@ -92,7 +93,7 @@ export default function Profile() {
           </button>
         </div>
       </div>
-      <div>{selected === "compras" ? <Compras facturas={datos.facturas} /> : selected === "cart" ? <CartItems items={datos.articles} /> : null}</div>
+      <div>{selected === "compras" ? <Compras facturas={datos.facturas} /> : selected === "cart" ? <CartItems items={datos.articles} /> : <CartItems items={wl} />}</div>
       <Toaster position="bottom-right" reverseOrder={false} />
     </div>
   );

@@ -4,7 +4,6 @@ import { addItemToCart, cleanItem, changeQuantity } from "../../redux/slices/car
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, CardActions, CardContent, Button, CardMedia, Typography } from "@mui/material";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { addFav, removeFav } from "../../redux/slices/favoriteSlice";
 import { Carousel } from "react-responsive-carousel";
 import { useEffect } from "react";
@@ -16,46 +15,46 @@ export default function Article({ data }) {
   const favItem = useSelector((state) => state.favorite.favItem);
   const dispatch = useDispatch();
 
-  const [favClick, setFavClick] = useState(false)
+  const [favClick, setFavClick] = useState(false);
 
-  useEffect(()=>{
-    setTimeout(()=>{
-      if(reduxUser.id !== 0) dispatch(getWishlist(reduxUser.id))
-    }, 3000)
-  },[favClick])
+  useEffect(() => {
+    setTimeout(() => {
+      if (reduxUser.id !== 0) dispatch(getWishlist(reduxUser.id));
+    }, 3000);
+  }, [favClick]);
 
-  function handleClick(){
-    if(favClick === false){
-      setFavClick(!favClick)
+  function handleClick() {
+    if (favClick === false) {
+      setFavClick(!favClick);
       let assignWish = {
         userId: reduxUser.id,
-        articleData: data
-      }
-      dispatch(addFav(assignWish))
-    }
-    else {
-      setFavClick(!favClick)
-      const article = favItem.find(e => e.id === data.id)
+        articleData: data,
+      };
+      dispatch(addFav(assignWish));
+    } else {
+      setFavClick(!favClick);
+      const article = favItem.find((e) => e.id === data.id);
       const deleteWish = {
         id: data.id,
-        wish: article.wishlist.id
-      }
-      dispatch(removeFav(deleteWish))
+        wish: article.wishlist.id,
+      };
+      dispatch(removeFav(deleteWish));
     }
   }
 
   return (
     <div className={styles.articleContainer}>
       <Card sx={{ maxWidth: 345 }}>
-      { reduxUser.id !== 0 ? 
+        {reduxUser.id !== 0 ? (
           <Button className={styles.favBtn} onClick={handleClick}>
             {/* {
               favItem.some(e => e.id === data.id) ? 
               <AiFillHeart size={"1.5em"} style={{padding:"0", margin:"0"}} /> : 
               <AiOutlineHeart size={"1.5em"} style={{padding:"0", margin:"0"}}/>
             } */}
-          </Button> : null
-        }
+            ASD
+          </Button>
+        ) : null}
         <Carousel showArrows={true} showIndicators={true}>
           {data.images.length > 1
             ? data.images.map((x, i) => (

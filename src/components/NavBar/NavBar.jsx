@@ -15,7 +15,6 @@ import { removeFav } from "../../redux/slices/favoriteSlice";
 // import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { FloatNav } from "../NavegacionFlotante/FloatNav";
 import { getWishlist } from "../../redux/actions";
-import { deleteFromWishlist } from "../../redux/actions";
 
 export default function NavBar() {
   // Hooks
@@ -31,7 +30,7 @@ export default function NavBar() {
 
   useEffect(() => {
     if (reduxUser.id !== 0) dispatch(getWishlist(reduxUser.id));
-  }, [reduxUser, favOpen]);
+  }, [reduxUser, favOpen, dispatch]);
 
   // Handlers
   const handleChangeNavbarBg = () => {
@@ -174,8 +173,7 @@ export default function NavBar() {
               <Button variant="outlined" color="error" onClick={() => logout({ returnTo: window.location.origin })} startIcon={<AiOutlineUserDelete style={{ fontSize: 18 }} />} className={styles.btnLogout} style={{ fontFamily: "inherit" }}>
                 Logout
               </Button>
-
-              {user.data.role === "client" ? null : (
+              {reduxUser.role === "client" ? null : (
                 <Button color="success" variant="contained" className={styles.btnDashboard} style={{ fontFamily: "inherit" }} onClick={() => navigate("/admin")}>
                   Dashboard
                 </Button>
