@@ -21,7 +21,7 @@ import { FloatNav } from "../NavegacionFlotante/FloatNav";
 
 export default function NavBar() {
   // Hooks
-  const { loginWithRedirect, isAuthenticated, logout, isLoading } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, logout, isLoading, user } = useAuth0();
   const [cartOpen, setCartOpen] = useState(false);
   const [favOpen, setFavOpen] = useState(false);
   const [navbarChange, setNavbarChange] = useState(false);
@@ -70,9 +70,7 @@ export default function NavBar() {
           cartItems.map((c) => (
             <div className={styles.cartItem} key={c.id}>
               <div className={styles.cartInfoContainer}>
-                <div className={styles.cartItemImg}>
-                  <img src={c.images[0]} alt="" width={70} />
-                </div>
+                
                 <dir className={styles.cartItemTitle}>
                   <h4>{c.title}</h4>
                   <div className={styles.cartItemQuantity}>
@@ -108,7 +106,11 @@ export default function NavBar() {
           style={{ width: "90%", fontFamily: "inherit" }}
           onClick={() => {
             setCartOpen(false);
-            navigate("/cart");
+            if(user){
+              navigate("/checkout");
+            } else {
+              alert("Inicia sesion para ir al checkout")
+            }
           }}
           disabled={cartItems.length === 0 ? true : false}
         >
@@ -166,7 +168,7 @@ export default function NavBar() {
           }}
           disabled={favItem.length === 0 ? true : false}
         >
-          Ir al Favoritos
+          Ir a Favoritos
         </Button>
       </div>
     </Box>

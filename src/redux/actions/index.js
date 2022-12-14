@@ -35,3 +35,11 @@ export const postArticle = (item) => () => {
     headers: new Headers({ "content-type": "application/json" }),
   }).then((res) => console.log(res));
 };
+
+export const postAddress = (item) => () => {
+  fetch("http://localhost:3001/address/insert",{
+    method: "POST",
+    body: JSON.stringify(item),
+    headers: new Headers({ "content-type": "application/json" }),
+    }).then((res) => console.log(res))
+};
