@@ -90,10 +90,12 @@ export default function NavBar() {
           style={{ width: "90%", fontFamily: "inherit" }}
           onClick={() => {
             setCartOpen(false);
-            if(user){
+           // navigate("/checkout");
+           if(user){
               navigate("/checkout");
             } else {
               alert("Inicia sesion para ir al checkout")
+              loginWithRedirect()
             }
           }}
           disabled={cartItems.length === 0 ? true : false}
@@ -195,7 +197,7 @@ export default function NavBar() {
               <Button variant="outlined" onClick={() => loginWithRedirect()} startIcon={<AiOutlineUser />} className={styles.btnLogin} style={{ fontFamily: "inherit" }}>
                 Login
               </Button>
-              <Avatar style={{ marginLeft: 5 }} />
+            <Avatar style={{ marginLeft: 5 }} />
             </div>
           )}
         </div>

@@ -2,6 +2,7 @@ import { getUser, getUsers } from "../slices/adminPanel";
 import { getAllCateg, getAllData } from "../slices/articlesSlice";
 import { insertDataDetails } from "../slices/detailSlice";
 import { getWishes } from "../slices/favoriteSlice"
+import { getAddressData } from "../slices/addressSlice";
 // Gets
 
 export const getAll = () => async (dispatch) => {
@@ -115,4 +116,12 @@ export const postAddress = (item) => () => {
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),
     }).then((res) => console.log(res))
+};
+
+export const getAddresses = () => async (dispatch) => {
+  await fetch("http://localhost:3001/address/getAddress", { method: "GET" })
+    .then((dataJson) => dataJson.json())
+    .then((data) => {
+      dispatch(getAddressData(data));
+    });
 };

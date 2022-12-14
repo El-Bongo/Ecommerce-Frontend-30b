@@ -10,10 +10,14 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm from './AddressForm';
-import Review from './Review';
-import { React, Fragment, useState } from 'react';
+import { React, Fragment, useState, useEffect } from 'react';
 import Cart from '../../pages/Cart/Cart';
-import PaymentForm from './PaymentForm'
+import { useDispatch } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
+import { cleanCart } from '../../redux/slices/cartSlice';
+
+
+
 
 function Copyright() {
   return (
@@ -28,7 +32,7 @@ function Copyright() {
   );
 }
 
-const steps = ['Shipping address', 'Cart', 'Review your order', 'Payment details'];
+const steps = ['Shipping address', 'Cart'];
 
 function getStepContent(step) {
   switch (step) {
@@ -36,10 +40,7 @@ function getStepContent(step) {
       return <AddressForm />;
     case 1:
       return <Cart />;
-    case 2:
-      return <Review />;
-    case 3:
-      return <PaymentForm />;
+    
     default:
       throw new Error('Unknown step');
   }
@@ -48,6 +49,29 @@ function getStepContent(step) {
 const theme = createTheme();
 
 export default function Checkout() {
+
+  const [searchParams] = useSearchParams();
+
+  const payment_id = searchParams.get("payment_id");
+
+  const dispatch = useDispatch();
+  const [comprado, setComprado] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/mercadoPago/checkPurchase/${payment_id}`, {
+      method: "GET",
+    })
+      .then((a) => a.json())
+      .then((a) => {
+        if (a.estado === "approved") {
+          dispatch(cleanCart());
+          setComprado(a.compra);
+        } else {
+          window.location.href = "https://ecommerce-frontend-30b.vercel.app/cart";
+        }
+      });
+  }, [dispatch, payment_id]);
+
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -84,7 +108,7 @@ export default function Checkout() {
                 Thank you for your order.
               </Typography>
               <Typography variant="subtitle1">
-                Your order number is #2001539. We have emailed your order
+                Your order number is {comprado.transaction_id}. We have emailed your order
                 confirmation, and will send you an update when your order has
                 shipped.
               </Typography>
