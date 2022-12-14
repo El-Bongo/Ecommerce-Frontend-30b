@@ -2,11 +2,11 @@ import { Avatar } from "@mui/material";
 import styles from "./DProductDatatable.module.scss";
 
 export const productColumns = [
-  { field: "id", headerName: "ID", flex: 0.5 },
+  { field: "id", headerName: "ID", width: 90},
   {
     field: "product",
     headerName: "Producto",
-    flex: 2,
+    width: 180,
     renderCell: (params) => {
       return (
         <div className={styles.cellWithImg}>
@@ -19,7 +19,7 @@ export const productColumns = [
   {
     field: "price",
     headerName: "Precio",
-    flex: 1,
+    width: 180,
     renderCell: (params) => {
       return <span style={{marginLeft: 10}}>${params.row.price}</span>;
     },
@@ -28,7 +28,7 @@ export const productColumns = [
   {
     field: "stock",
     headerName: "Stock",
-    flex: 1,
+    width: 180,
     renderCell: (params) => {
       return <span>{params.row.stock} unidades</span>;
     },
@@ -36,7 +36,7 @@ export const productColumns = [
   {
     field: "deletedAt",
     headerName: "Estado",
-    flex: 1,
+    width: 180,
     renderCell: (params) => {
       return (
         <div

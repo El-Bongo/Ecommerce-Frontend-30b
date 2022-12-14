@@ -34,25 +34,25 @@ export const DCreateProduct = () => {
   var propiedadesNum = 1
 
   if(productCreate.category.id === "1"){
-    var propiedadesNum = 1
+     propiedadesNum = 1
   } else if(productCreate.category.id === "2"){
-    var propiedadesNum = 30
+     propiedadesNum = 30
   } else if(productCreate.category.id === "3"){
-    var propiedadesNum = 50
+     propiedadesNum = 50
   } else if(productCreate.category.id === "4"){
-    var propiedadesNum = 70
+     propiedadesNum = 70
   } else if(productCreate.category.id === "5"){
-    var propiedadesNum = 90
+     propiedadesNum = 90
   } else if(productCreate.category.id === "6"){
-    var propiedadesNum = 110
+     propiedadesNum = 110
   } else if(productCreate.category.id === "7"){
-    var propiedadesNum = 130
+     propiedadesNum = 130
   } else if(productCreate.category.id === "8"){
-    var propiedadesNum = 150
+     propiedadesNum = 150
   } else if(productCreate.category.id === "9"){
-    var propiedadesNum = 170
+     propiedadesNum = 170
   } else if(productCreate.category.id === "10"){
-    var propiedadesNum = 190
+     propiedadesNum = 190
   }
 
   useEffect(() => {
