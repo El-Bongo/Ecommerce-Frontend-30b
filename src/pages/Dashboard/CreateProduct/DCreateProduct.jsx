@@ -97,6 +97,19 @@ export const DCreateProduct = () => {
     });
   };
 
+  const HandleErrorTitle = (e) =>{
+    if(e.length < 10) return "El título es demasiado corto"
+    else if(e.length > 200) return "El título es demasiado largo"
+  }
+  const HandleErrorPrice = (e) =>{
+    if(!/^[0-9\.,]+$/i.test(e)) return "El precio debe ser un número"
+    else if(e < 1) return "El precio no puede ser 0"
+  }
+  const HandleErrorStock = (e) =>{
+    if(!/^[0-9]+$/i.test(e)) return "El stock debe ser un número"
+    else if(e < 1) return "El stock no puede ser 0"
+  }
+
 
   function mapImagenes() {
     let a = [];
@@ -105,7 +118,6 @@ export const DCreateProduct = () => {
     }
     return a;
   }
-
 
   return (
     <div className={`${styles.new} ${darkMode && dark.dark}`}>
@@ -142,7 +154,7 @@ export const DCreateProduct = () => {
                 />
               </div>
               <div className={styles.formInput}>
-                <label>Titulo</label>
+                <label>Título</label>
                 <input
                   type="text"
                   style={{ color: darkMode && "white" }}
@@ -153,11 +165,13 @@ export const DCreateProduct = () => {
                     })
                   }
                 />
+                <b style={{color:"red"}}>{HandleErrorTitle(productCreate.title)}</b>
               </div>
               <div className={styles.formInput}>
                 <label>Precio</label>
                 <input
-                  type="text"
+                  type="number"
+                  min="0"
                   style={{ color: darkMode && "white" }}
                   onChange={(e) =>
                     setProductCreate({
@@ -166,11 +180,13 @@ export const DCreateProduct = () => {
                     })
                   }
                 />
+                <b style={{color:"red"}}>{HandleErrorPrice(productCreate.precio)}</b>
               </div>
               <div className={styles.formInput}>
                 <label>Stock</label>
                 <input
                   type="number"
+                  min="0"
                   style={{ color: darkMode && "white" }}
                   onChange={(e) =>
                     setProductCreate({
@@ -179,6 +195,7 @@ export const DCreateProduct = () => {
                     })
                   }
                 />
+                <b style={{color:"red"}}>{HandleErrorStock(productCreate.stock)}</b>
               </div>
               <div className={styles.formInput}>
                 <label>Categorias</label>

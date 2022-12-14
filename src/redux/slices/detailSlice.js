@@ -23,5 +23,5 @@ const detailSlice = createSlice({
   },
 });
 
-export const { insertDataDetails, cleanDetails } = detailSlice.actions;
+export const { insertDataDetails, cleanDetails} = detailSlice.actions;
 export default detailSlice.reducer;
