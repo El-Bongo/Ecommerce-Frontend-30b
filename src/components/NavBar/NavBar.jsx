@@ -15,14 +15,14 @@ import { removeFav } from "../../redux/slices/favoriteSlice";
 // import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { FloatNav } from "../NavegacionFlotante/FloatNav";
 import { getWishlist } from "../../redux/actions";
-import Chat from "@mui/icons-material/Chat";
+
 
 export default function NavBar() {
   // Hooks
   const { loginWithRedirect, isAuthenticated, logout, isLoading, user } = useAuth0();
   const [cartOpen, setCartOpen] = useState(false);
   const [favOpen, setFavOpen] = useState(false);
-  const [ chatBotOpen, SetChatBotOpen ] = useState(false)
+  const [ chatBotOpen, SetChatBotOpen ] = useState(false);
   const [navbarChange, setNavbarChange] = useState(false);
   const { cartItems } = useSelector((state) => state.cart);
   const { favItem } = useSelector((state) => state.favorite);
@@ -172,12 +172,6 @@ export default function NavBar() {
       </div>
     </Box>
   );
-  
-  const handleChatbot = (e) =>{
-    e.preventDefault()
-    
-  }
-
 
   return (
     <nav
