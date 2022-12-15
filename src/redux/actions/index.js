@@ -9,14 +9,14 @@ import { getAddressData } from "../slices/addressSlice";
 // Gets
 
 export const getAll = () => async (dispatch) => {
-  await fetch("http://localhost:3001/articulo/getall", { method: "GET" })
+  await fetch("https://pf-30b-backend-production.up.railway.app/articulo/getall", { method: "GET" })
     .then((dataJson) => dataJson.json())
     .then((data) => {
       dispatch(getAllData(data));
     });
 };
 export const getAllCategories = () => async (dispatch) => {
-  await fetch("http://localhost:3001/category/getall", { method: "GET" })
+  await fetch("https://pf-30b-backend-production.up.railway.app/category/getall", { method: "GET" })
     .then(async (dataJson) => await dataJson.json())
     .then((data) => {
       dispatch(getAllCateg(data));
@@ -25,7 +25,7 @@ export const getAllCategories = () => async (dispatch) => {
 };
 
 export const getSingleArticle = (id) => async (dispatch) => {
-  await fetch("http://localhost:3001/articulo/" + id, { method: "GET" })
+  await fetch("https://pf-30b-backend-production.up.railway.app/articulo/" + id, { method: "GET" })
     .then((dataJson) => dataJson.json())
     .then((data) => {
       dispatch(insertDataDetails(data));
@@ -33,31 +33,31 @@ export const getSingleArticle = (id) => async (dispatch) => {
 };
 
 export const getAllUser = () => async (dispatch) => {
-  const resp = await fetch("http://localhost:3001/users/getAll");
+  const resp = await fetch("https://pf-30b-backend-production.up.railway.app/users/getAll");
   const data = await resp.json();
   dispatch(getUsers(data));
 };
 
 export const getReviews = (id) => async (dispatch) => {
-  const resp = await fetch(`http://localhost:3001/review/reviews/` + id, { method: "GET" });
+  const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/review/reviews/` + id, { method: "GET" });
   const data = await resp.json();
   dispatch(getArticleReviews(data));
 };
 
 export const getAllReviews = () => async (dispatch) => {
-  const resp = await fetch(`http://localhost:3001/review/allreviews/`, { method: "GET" });
+  const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/review/allreviews/`, { method: "GET" });
   const data = await resp.json();
   dispatch(getAllArticlesReviews(data));
 };
 
 export const getOneUser = (id) => async (dispatch) => {
-  const resp = await fetch(`http://localhost:3001/users/profile/${id}`);
+  const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/users/profile/${id}`);
   const data = await resp.json();
   dispatch(getUser(data));
 }
 
 export const getWishlist = (id) => async (dispatch) => {
-  await fetch(`http://localhost:3001/wishlist/user/${id}`, { method: "GET" })
+  await fetch(`https://pf-30b-backend-production.up.railway.app/wishlist/user/${id}`, { method: "GET" })
     .then((dataJson) => dataJson.json())
     .then((data) => {
       dispatch(getWishes(data));
@@ -65,14 +65,14 @@ export const getWishlist = (id) => async (dispatch) => {
 };
 
 export const restoreArticle = async(id) => {
-  const resp = await fetch(`http://localhost:3001/articulo/restore/${id}`);
+  const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/articulo/restore/${id}`);
   const data = await resp.json();
 
   console.log(data)
 };
 
 export const restoreUsers = async(id) => {
-  const resp = await fetch(`http://localhost:3001/users/restoreProfile/${id}`);
+  const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/users/restoreProfile/${id}`);
   const data = await resp.json();
 
   console.log(data)
@@ -80,7 +80,7 @@ export const restoreUsers = async(id) => {
 
 
 export const deleteReview = (id) => {
-  fetch("http://localhost:3001/review/delete/" + id, { 
+  fetch("https://pf-30b-backend-production.up.railway.app/review/delete/" + id, { 
     method: 'DELETE',
    })
   .then((res) => console.log(res));
@@ -90,7 +90,7 @@ export const deleteReview = (id) => {
 
 // Posts
 export const postArticle = (item) => () => {
-  fetch("http://localhost:3001/articulo/create", {
+  fetch("https://pf-30b-backend-production.up.railway.app/articulo/create", {
     method: "POST",
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),
@@ -98,7 +98,7 @@ export const postArticle = (item) => () => {
 };
 
 export const createReview = (item) => () => {
-  fetch("http://localhost:3001/review/addReview", {
+  fetch("https://pf-30b-backend-production.up.railway.app/review/addReview", {
     method: "POST",
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),
@@ -106,7 +106,7 @@ export const createReview = (item) => () => {
 };
 
 export const editReview = (id, item) => async (dispatch) => {
-  fetch(`http://localhost:3001/review/reviews/edit/${id}`, {
+  fetch(`https://pf-30b-backend-production.up.railway.app/review/reviews/edit/${id}`, {
     method: "POST",
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),
@@ -114,7 +114,7 @@ export const editReview = (id, item) => async (dispatch) => {
 };
 
 export const reportReview = (id, item) => async (dispatch) => {
-  fetch(`http://localhost:3001/review/reviews/report/${id}`, {
+  fetch(`https://pf-30b-backend-production.up.railway.app/review/reviews/report/${id}`, {
     method: "POST",
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),
@@ -122,7 +122,7 @@ export const reportReview = (id, item) => async (dispatch) => {
 };
 
 export const despachar = (id) => {
-  fetch("http://localhost:3001/orders/update/" + id, {
+  fetch("https://pf-30b-backend-production.up.railway.app/orders/update/" + id, {
     method: "POST",
     body: JSON.stringify({ despachada: true }),
     headers: new Headers({ "content-type": "application/json" }),
@@ -131,7 +131,7 @@ export const despachar = (id) => {
 
 
 export const wishlistAssign = (data) => {
-  fetch(`http://localhost:3001/wishlist/assign`, {
+  fetch(`https://pf-30b-backend-production.up.railway.app/wishlist/assign`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: new Headers({ "content-type": "application/json" }),
@@ -142,14 +142,14 @@ export const wishlistAssign = (data) => {
 //deletes
 
 export const deleteFromWishlist = (id) => {
-  fetch(`http://localhost:3001/wishlist/delete/${id}`, {
+  fetch(`https://pf-30b-backend-production.up.railway.app/wishlist/delete/${id}`, {
     method: "DELETE",
   }).then((res) => console.log(res));
 };
 
 // Delete
 export const deleteProduct = async (id) => {
-  const resp = await fetch(`http://localhost:3001/articulo/delete/${id}`,{
+  const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/articulo/delete/${id}`,{
     method: "DELETE",
   });
   const data = await resp.json();
@@ -158,7 +158,7 @@ export const deleteProduct = async (id) => {
 };
 
 export const startDeleteUser = async (id) => {
-  const resp = await fetch(`http://localhost:3001/users/deleteProfile/${id}`,{
+  const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/users/deleteProfile/${id}`,{
     method: "DELETE",
   });
   const data = await resp.json();
@@ -169,7 +169,7 @@ export const startDeleteUser = async (id) => {
 
 
 export const postAddress = (item) => () => {
-  fetch("http://localhost:3001/address/insert",{
+  fetch("https://pf-30b-backend-production.up.railway.app/address/insert",{
     method: "POST",
     body: JSON.stringify(item),
     headers: new Headers({ "content-type": "application/json" }),
@@ -177,7 +177,7 @@ export const postAddress = (item) => () => {
 };
 
 export const getAddresses = () => async (dispatch) => {
-  await fetch("http://localhost:3001/address/getAddress", { method: "GET" })
+  await fetch("https://pf-30b-backend-production.up.railway.app/address/getAddress", { method: "GET" })
     .then((dataJson) => dataJson.json())
     .then((data) => {
       dispatch(getAddressData(data));

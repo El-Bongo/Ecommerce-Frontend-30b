@@ -24,7 +24,7 @@ export const DWidget = ({ type }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/orders/getAll", { method: "GET" })
+    fetch("https://pf-30b-backend-production.up.railway.app/orders/getAll", { method: "GET" })
       .then((answer) => answer.json())
       .then((data) => setOrdenes(data)
       );
