@@ -30,8 +30,8 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (reduxUser.id !== 0) dispatch(getWishlist(reduxUser.id));
-  }, [reduxUser, favOpen, dispatch]);
+    if (isAuthenticated) dispatch(getWishlist(reduxUser.id));
+  }, [reduxUser, favOpen]);
 
   // Handlers
   const handleChangeNavbarBg = () => {
