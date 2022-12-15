@@ -58,9 +58,13 @@ export const DEditProduct = () => {
   };
 
   const handleErrorTitle = (e) =>{
-    if(e.length < 10) return "El título es demasiado corto"
-    else if(e.length > 200) return "El título es demasiado largo"
-    else return null
+    if(e === undefined){
+      return null
+    }else{
+      if(e.length < 10) return "El título es demasiado corto"
+      else if(e.length > 200) return "El título es demasiado largo"
+      else return null
+    }
   }
   const handleErrorPrice = (e) =>{
     if(!/^[0-9\.,]+$/i.test(e)) return "El precio debe ser un número"
@@ -131,7 +135,8 @@ export const DEditProduct = () => {
               <div className={styles.formInput}>
                 <label>Precio</label>
                 <input
-                  type="text"
+                  type="number"
+                  min="0"
                   placeholder={`$ ${articulo.price}`}
                   style={{ color: darkMode && "white" }}
                   onChange={(e) =>
@@ -149,6 +154,7 @@ export const DEditProduct = () => {
                 <label>Stock</label>
                 <input
                   type="number"
+                  min="0"
                   style={{ color: darkMode && "white" }}
                   placeholder={`${articulo.stock} unidades`}
                   onChange={(e) =>
@@ -163,13 +169,10 @@ export const DEditProduct = () => {
                 }</b>
               </div>
               {!avatar?.target.files.length &&
-              (productUpdate?.title === "" || !productUpdate?.title) &&
-              (productUpdate?.price === "" || !productUpdate?.price) &&
-              (productUpdate?.stock === "" || !productUpdate?.stock) &&
               ((typeof handleErrorTitle(productUpdate.title) || 
                 typeof handleErrorPrice(productUpdate.price) || 
                 typeof handleErrorStock(productUpdate.stock)) === "string") ? (
-                <button disabled style={{ backgroundColor: "#ac96fd" }}>
+                <button disabled style={{ backgroundColor: "#ac96fd", cursor: "not-allowed" }}>
                   Enviar
                 </button>
               ) : (
