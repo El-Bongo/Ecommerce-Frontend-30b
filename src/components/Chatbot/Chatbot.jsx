@@ -79,10 +79,8 @@ let handleSubmit = (e) => {
     function addBotEntry(product) {
     let botDiv = document.getElementById('chat');
     let botText = document.createElement('div');
-    let botImg = document.createElement('img')
-    botImg.src = "https://upload.wikimedia.org/wikipedia/commons/3/38/Robot-clip-art-book-covers-feJCV3-clipart.png"
-    botText.appendChild(botImg)
     botText.innerText = "Bot: Escribiendo...";
+    botText.style.color = "#76b5c5"
     botDiv.appendChild(botText);
     setTimeout(() => {
       botText.innerText = `Bot: ${product}`;

@@ -15,7 +15,6 @@ import { removeFav } from "../../redux/slices/favoriteSlice";
 // import { autoBatchEnhancer } from "@reduxjs/toolkit";
 import { FloatNav } from "../NavegacionFlotante/FloatNav";
 import { getWishlist } from "../../redux/actions";
-import Chat from "@mui/icons-material/Chat";
 
 export default function NavBar() {
   // Hooks
@@ -172,11 +171,6 @@ export default function NavBar() {
       </div>
     </Box>
   );
-  
-  const handleChatbot = (e) =>{
-    e.preventDefault()
-    
-  }
 
 
   return (
@@ -290,13 +284,3 @@ export default function NavBar() {
     </nav>
   );
 }
-
-/*<Button
-            variant="outlined"
-            onClick={(e) => handleChatbot(e)}
-            className={styles.btnLogin}
-            style={{ fontFamily: "inherit" }}
-          >
-            Chatbot
-          </Button>
-*/
