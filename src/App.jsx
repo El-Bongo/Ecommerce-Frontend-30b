@@ -48,7 +48,7 @@ function App() {
   const { darkMode } = useSelector((state) => state.darkmode);
   const [peticion, setPeticion] = useState(false);
   const [sentCarro, setSentCarro] = useState(carro);
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, isLoading, logout } = useAuth0();
   const userRole = useSelector((state) => state.user.data.role);
 
   // eslint-disable-next-line
@@ -75,7 +75,11 @@ function App() {
         headers: new Headers({ "content-type": "application/json" }),
       })
         .then((answer) => answer.json())
-        .then((data) => dispatch(inputUserData(data)))
+        .then((data) => {
+          if (data.deletedAt) {
+            logout();
+          } else dispatch(inputUserData(data));
+        })
         .then(() =>
           fetch("http://localhost:3001/cart/getCart", {
             method: "POST",
@@ -176,7 +180,7 @@ function App() {
               <Route path="products">
                 <Route index element={<DProducts />} />
                 <Route path="new" element={<DCreateProduct />} />
-                <Route path=":productId" element={<DSingleProduct/>}/>
+                <Route path=":productId" element={<DSingleProduct />} />
                 <Route path="edit/:productId" element={<DEditProduct />} />
               </Route>
             </Route>
