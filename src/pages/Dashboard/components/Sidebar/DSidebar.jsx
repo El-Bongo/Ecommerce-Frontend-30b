@@ -18,7 +18,7 @@ export const DSidebar = () => {
     <div className={`${styles.sidebar} ${darkMode && darkk.sidebar}`}>
       <div className={styles.top}>
         <Link to="/admin" style={{ textDecoration: "none" }}>
-          <span className={styles.logo}>Santiago Segurado</span>
+          <span className={styles.logo}>Tienda Tech</span>
         </Link>
       </div>
       <hr />
