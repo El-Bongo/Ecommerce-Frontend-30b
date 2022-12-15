@@ -7,7 +7,8 @@ import ReactStars from "react-rating-stars-component";
 import { createReview } from '../../redux/actions';
 
  var justloaded = true
- var alreadyReviewed = false
+ let alreadyReviewed = false
+ let oldId = -1
  const validate = (input) => {
   const errors = {}
   justloaded = false
@@ -29,11 +30,13 @@ import { createReview } from '../../redux/actions';
 
 
 const AddReview = () => {
-
     let { id } = useParams(); 
+    if(oldId === -1 || oldId !== id){
+      oldId = id
+      alreadyReviewed = false
+    }
     const User = useSelector(state => state.user)
     let user = User
-    console.log(User)
     const { Article } = useSelector((state) => state.details.detailedArticle);
     const Reviews = useSelector((state) => state.reviews.reviewList.reviews);
 
@@ -47,7 +50,10 @@ const AddReview = () => {
       item: id,
    });
    let Chequeo = (Reviews.filter(review => review.username === input.username))
-   if(Chequeo.length > 0) {alreadyReviewed = true}
+   if(Chequeo.length > 0) {
+    if(Chequeo[0].articleId.toString() === id.toString()){
+    alreadyReviewed = true
+  }}
     input.username = User.data.nickname
     let handleChange = (e) => {
       e.preventDefault();
@@ -61,7 +67,6 @@ const AddReview = () => {
       }, Article))
     }
 
-    
 
     let handleSubmit = (e) => {
        e.preventDefault();
@@ -70,7 +75,6 @@ const AddReview = () => {
 
     }
     const ratingChanged = (newRating) => {
-      console.log(newRating);
       
       input.rating=newRating
       setErrors(validate(
@@ -81,8 +85,7 @@ const AddReview = () => {
     <>
     <div id="background2">
     <div/>
-{/*     <Nav/>
- */}    <div>
+    <div>
     <form id = "form" onSubmit={handleSubmit}>    
 
     <div className="review">
@@ -104,13 +107,6 @@ const AddReview = () => {
         />  
     </div>
     <div >
-{/*     <input type="file"  accept="image/*" name="image" id="file"  onChange={loadFile}></input>
-    <img id="output" width="200" alt="Sin imagen" />
-      </div>        
-        <div id='types'> */}
-
-
-
       </div>
        <div class="flex flex-row product-star-con" id="w__stars"></div>
       <button disabled={errors.review || errors.rating || errors.user || justloaded === true} type="submit" className>Añadir reseña</button>
