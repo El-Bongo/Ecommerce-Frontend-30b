@@ -83,7 +83,7 @@ const AddReview = () => {
     
   return (
     <>
-    <div id="background2">
+    <div className="bakcground2" id="background2">
     <div/>
     <div>
     <form id = "form" onSubmit={handleSubmit}>    

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { reportReview } from "../../redux/actions/index";
+import "./ReportReview.module.css"
  var justloaded = true
 
 
@@ -61,7 +62,7 @@ const ReportReview = () => {
     
   return (
     <>
-    <div id="background2">
+    <div className='background2' id="background2">
     <div/>
 {/*     <Nav/>
  */}    <div>
