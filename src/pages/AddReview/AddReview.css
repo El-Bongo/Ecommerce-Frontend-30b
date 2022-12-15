@@ -2,3 +2,7 @@
     filter: grayscale(100%);
     opacity: .3; 
   }
+
+  .background2{
+    margin-left: 60px;
+  }

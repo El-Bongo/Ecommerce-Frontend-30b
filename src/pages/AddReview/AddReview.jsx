@@ -66,14 +66,15 @@ const AddReview = () => {
         [e.target.name]: e.target.value
       }, Article))
     }
-
+    const recarga = () => {
+      window.location.reload(false)
+    }
 
     let handleSubmit = (e) => {
        e.preventDefault();
       dispatch(createReview(input))
-      window.location.reload(false);
-
-    }
+      justloaded = true
+      setTimeout(recarga, 1000)}
     const ratingChanged = (newRating) => {
       
       input.rating=newRating
@@ -83,7 +84,7 @@ const AddReview = () => {
     
   return (
     <>
-    <div id="background2">
+    <div className="bakcground2" id="background2">
     <div/>
     <div>
     <form id = "form" onSubmit={handleSubmit}>    

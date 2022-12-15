@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { reportReview } from "../../redux/actions/index";
+import "./ReportReview.module.css"
  var justloaded = true
 
 
@@ -51,17 +52,19 @@ const ReportReview = () => {
       }))
     }
 
-    
+    const recarga = () => {
+      navigate(`/detalles/${Review.articleId}`)
+    }
 
     let handleSubmit = (e) => {
        e.preventDefault();
        dispatch(reportReview(idReview, input))
-       navigate(`/detalles/${Review.articleId}`)
-    }
+       setTimeout(recarga, 1000)}
+    
     
   return (
     <>
-    <div id="background2">
+    <div className='background2' id="background2">
     <div/>
 {/*     <Nav/>
  */}    <div>
