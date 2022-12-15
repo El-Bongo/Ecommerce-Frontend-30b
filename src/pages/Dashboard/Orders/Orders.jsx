@@ -19,7 +19,7 @@ export default function Orders() {
   const { darkMode } = useSelector((state) => state.darkmode);
 
   useEffect(() => {
-    fetch("http://localhost:3001/orders/getAll", { method: "GET" })
+    fetch("https://pf-30b-backend-production.up.railway.app/orders/getAll", { method: "GET" })
       .then((answer) => answer.json())
       .then((data) => (orden ? setOrdenes(ordenes.filter((x) => !x.despachada && x.payment_status === "approved")) : setOrdenes(data.reverse())));
   }, [orden, ordenes]);

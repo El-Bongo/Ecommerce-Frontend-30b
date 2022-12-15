@@ -13,7 +13,7 @@ export default function SuccessPurchase() {
   const [comprado, setComprado] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/mercadoPago/checkPurchase/${payment_id}`, {
+    fetch(`https://pf-30b-backend-production.up.railway.app/mercadoPago/checkPurchase/${payment_id}`, {
       method: "GET",
     })
       .then((a) => a.json())
