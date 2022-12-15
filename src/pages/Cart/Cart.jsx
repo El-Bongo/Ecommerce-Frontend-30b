@@ -103,13 +103,6 @@ export default function Cart() {
                   <div className={styles.productImgContainer}>
                     <img src={c.images[0]} alt="" width={70} />
                   </div>
-                  <span>
-                    {c.category.name + ' ' 
-                    + c.properties.type + ' ' 
-                    + c.properties.brand + ' ' 
-                    + c.properties.model + ' '
-                    + c.properties.size } 
-                  </span>
                 </div>
                 <div className={styles.infoCartContainer} style={{ flex: 6, display: "flex" }}>
                   <span className={styles.productSubtotal}>${c.price}</span>
@@ -134,14 +127,14 @@ export default function Cart() {
               <div style={{ display: "flex", flexDirection: "column" }}>
                 {carro.map((c) => (
                   <span style={{ marginBottom: 5 }} key={c.id}>
-                    ${c.price * c.quantity}
+                    ${Math.round(c.price * c.quantity * 100) / 100}
                   </span>
                 ))}
               </div>
             </div>
             <div className={styles.total}>
               <h3>Total</h3>
-              <span>${carro.reduce((acumulador, currentValue) => acumulador + Number(currentValue.price) * currentValue.quantity, 0)}</span>
+              <span>${Math.round(carro.reduce((acumulador, currentValue) => acumulador + Number(currentValue.price) * currentValue.quantity, 0) * 100) / 100}</span>
             </div>
             <FormControl style={{ marginTop: 10, marginBottom: 10 }}>
               <FormLabel id="demo-controlled-radio-buttons-group" style={{ fontFamily: "inherit" }}>

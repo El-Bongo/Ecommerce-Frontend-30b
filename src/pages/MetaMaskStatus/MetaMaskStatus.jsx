@@ -30,6 +30,8 @@ export default function Detalles() {
     checkStatus();
   }, [id, dispatch]);
 
+  console.log(details);
+
   return (
     <div className={styles.SPContainer}>
       <div className={styles.approvedImgContainer}>{details.result?.status === "1" ? <img src={Approved} alt="Not Found" width={100} /> : null}</div>
