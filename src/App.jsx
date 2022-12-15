@@ -104,7 +104,9 @@ function App() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
+      console.log("considero enviar");
       if (!peticion && carro !== sentCarro) {
+        console.log("envio");
         setSentCarro(carro);
         fetch("http://localhost:3001/cart/updateCart", {
           method: "POST",

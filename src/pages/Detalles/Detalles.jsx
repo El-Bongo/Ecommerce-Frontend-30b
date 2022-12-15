@@ -56,14 +56,14 @@ export default function Detalles() {
                     <span onClick={() => dispatch(changeQuantity({ quantity: carro.filter((x) => (x = x.id === articulo.id))[0].quantity - 1, id: articulo.id }))}>-</span>
                   </div>
                   <div style={{ cursor: "none" }}>
-                    <input type="number" value={carro.filter((x) => (x = x.id === articulo.id))[0].quantity} onChange={(e) => dispatch(changeQuantity({ quantity: e.target.value, id: articulo.id }))} />
+                    <input type="number" className={styles.inputDetalles} value={carro.filter((x) => (x = x.id === articulo.id))[0].quantity} onChange={(e) => dispatch(changeQuantity({ quantity: e.target.value, id: articulo.id }))} />
                   </div>
                   <div>
                     <span onClick={() => dispatch(changeQuantity({ quantity: carro.filter((x) => (x = x.id === articulo.id))[0].quantity + 1, id: articulo.id }))}>+</span>
                   </div>
                 </div>
 
-                <div className={styles.addButtonContainer}>{carro.filter((x) => x.id === articulo.id).length > 0 ? <input type="button" value="Remover al Carrito" onClick={() => dispatch(cleanItem(articulo.id))} /> : null}</div>
+                <div className={styles.addButtonContainer}>{carro.filter((x) => x.id === articulo.id).length > 0 ? <input type="button" value="Remover del Carrito" onClick={() => dispatch(cleanItem(articulo.id))} /> : null}</div>
               </div>
             ) : articulo.stock > 0 ? (
               <div className={styles.addButtonContainer}>
@@ -75,6 +75,7 @@ export default function Detalles() {
           </div>
         </div>
       )}
+
       <div> {AddReview()}</div>
       <div> {ReviewCard()}</div>
     </div>
