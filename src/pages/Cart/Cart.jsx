@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { cleanCart, cleanItem } from "../../redux/slices/cartSlice";
+import { changeQuantity, cleanCart, cleanItem } from "../../redux/slices/cartSlice";
 import { useMercadopago } from "react-sdk-mercadopago";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,25 +10,15 @@ import { metaHookARSandETH } from "../../hooks/metaHooks";
 import { handleMetaPayment } from "../../hooks/metaHooks";
 import styles from "./Cart.module.scss";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import {
-  Button,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-} from "@mui/material";
+import { Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
 
 export default function Cart() {
   const carro = useSelector((state) => state.cart.cartItems);
   const [value, setValue] = useState("mp");
   const dispatch = useDispatch();
-  const mercadopago = useMercadopago.v2(
-    "TEST-4d76826e-3115-416c-bc70-f7a46fa75820",
-    {
-      locale: "es-AR",
-    }
-  );
+  const mercadopago = useMercadopago.v2("TEST-4d76826e-3115-416c-bc70-f7a46fa75820", {
+    locale: "es-AR",
+  });
   // eslint-disable-next-line
   const { status, connect, account, chainId, ethereum } = useMetaMask();
 
@@ -58,6 +48,10 @@ export default function Cart() {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+
+  function ichangeQuantity(e, id) {
+    dispatch(changeQuantity({ id, quantity: e.target.value }));
+  }
 
   return (
     // <div>
@@ -99,11 +93,7 @@ export default function Cart() {
               <h4>PRODUCTO</h4>
               <h4>PRECIO</h4>
               <h4>CANTIDAD</h4>
-              <Button
-                color="error"
-                style={{ fontWeight: 600, fontFamily: 'inherit' }}
-                onClick={() => dispatch(cleanCart())}
-              >
+              <Button color="error" style={{ fontWeight: 600, fontFamily: "inherit" }} onClick={() => dispatch(cleanCart())}>
                 Vaciar Carrito
               </Button>
             </div>
@@ -113,14 +103,10 @@ export default function Cart() {
                   <div className={styles.productImgContainer}>
                     <img src={c.images[0]} alt="" width={70} />
                   </div>
-                  <span>{c.title}</span>
                 </div>
-                <div
-                  className={styles.infoCartContainer}
-                  style={{ flex: 6, display: "flex" }}
-                >
+                <div className={styles.infoCartContainer} style={{ flex: 6, display: "flex" }}>
                   <span className={styles.productSubtotal}>${c.price}</span>
-                  <input type="number" value={c.quantity} />
+                  <input type="number" value={c.quantity} onChange={(e) => ichangeQuantity(e, c.id)} />
                   <HighlightOffIcon
                     style={{
                       cursor: "pointer",
@@ -141,82 +127,42 @@ export default function Cart() {
               <div style={{ display: "flex", flexDirection: "column" }}>
                 {carro.map((c) => (
                   <span style={{ marginBottom: 5 }} key={c.id}>
-                    ${c.price * c.quantity}
+                    ${Math.round(c.price * c.quantity * 100) / 100}
                   </span>
                 ))}
               </div>
             </div>
             <div className={styles.total}>
               <h3>Total</h3>
-              <span>
-                $
-                {carro.reduce(
-                  (acumulador, currentValue) =>
-                    acumulador +
-                    Number(currentValue.price) * currentValue.quantity,
-                  0
-                )}
-              </span>
+              <span>${Math.round(carro.reduce((acumulador, currentValue) => acumulador + Number(currentValue.price) * currentValue.quantity, 0) * 100) / 100}</span>
             </div>
             <FormControl style={{ marginTop: 10, marginBottom: 10 }}>
-              <FormLabel
-                id="demo-controlled-radio-buttons-group"
-                style={{ fontFamily: "inherit" }}
-              >
+              <FormLabel id="demo-controlled-radio-buttons-group" style={{ fontFamily: "inherit" }}>
                 Metodo de pago
               </FormLabel>
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={value}
-                onChange={handleChange}
-              >
-                <FormControlLabel
-                  value="mp"
-                  control={<Radio />}
-                  label="Mercado Pago"
-                />
-                <FormControlLabel
-                  value="meta"
-                  control={<Radio />}
-                  label="Metamask"
-                />
+              <RadioGroup aria-labelledby="demo-controlled-radio-buttons-group" name="controlled-radio-buttons-group" value={value} onChange={handleChange}>
+                <FormControlLabel value="mp" control={<Radio />} label="Mercado Pago" />
+                <FormControlLabel value="meta" control={<Radio />} label="Metamask" />
               </RadioGroup>
             </FormControl>
             {/* <input type="button" value="Check Out" /> */}
-            {carro.length !== 0 && (
-              <div
-                id="cho-container"
-                style={{ display: value !== "mp" && "none" }}
-              />
-            )}
+            {carro.length !== 0 && <div id="cho-container" style={{ display: value !== "mp" && "none" }} />}
 
             {status === "initializing" ? (
               <h3>Synchronisation with MetaMask ongoing...</h3>
             ) : status === "unavailable" ? (
               <h3>Descarga MetaMask para pagar con Crypto</h3>
             ) : status === "notConnected" ? (
-              <Button style={{fontFamily: "inherit"}} color="secondary" onClick={connect} variant="outlined">Connect to MetaMask</Button>
+              <Button style={{ fontFamily: "inherit" }} color="secondary" onClick={connect} variant="outlined">
+                Connect to MetaMask
+              </Button>
             ) : status === "connecting" ? (
               <div>Connecting...</div>
             ) : status === "connected" ? (
               <div>
                 {/* Connected account {account} on chain ID {chainId} */}
                 {carro.length !== 0 && value === "meta" && (
-                  <Button
-                    onClick={() =>
-                      handleMetaPayment(
-                        ethereum,
-                        ethers,
-                        carro,
-                        user.email,
-                        ARS,
-                        ETH
-                      )
-                    }
-                    variant="contained"
-                    style={{ fontFamily: "inherit" }}
-                  >
+                  <Button onClick={() => handleMetaPayment(ethereum, ethers, carro, user.email, ARS, ETH)} variant="contained" style={{ fontFamily: "inherit" }}>
                     Pagar
                   </Button>
                 )}

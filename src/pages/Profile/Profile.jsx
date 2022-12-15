@@ -6,6 +6,7 @@ import "./Profile.css";
 import Compras from "../../components/Compras/Compras";
 import { uploadPhotoToCloudinary } from "../../hooks/uploadToCloudinary";
 import toast, { Toaster } from "react-hot-toast";
+import CartItems from "../../components/CartItems/CartItems";
 
 export default function Profile() {
   const { id } = useParams();
@@ -16,25 +17,18 @@ export default function Profile() {
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({ nickname: datos.nickname, avatar: datos.avatar });
   const [loading, setLoading] = useState(false);
+  const [wl, setWl] = useState([]);
 
   useEffect(() => {
     setFormData({ nickname: datos.nickname, avatar: datos.avatar });
   }, [datos]);
 
   useEffect(() => {
-    fetch("https://pf-30b-backend-production.up.railway.app/cart/getCart/", {
-      method: "POST",
-      body: JSON.stringify({ user: { email: datos.email } }),
-      headers: new Headers({ "content-type": "application/json" }),
-    })
-      .then((answer) => answer.json())
-      .then((data) => console.log(data));
-
     fetch("https://pf-30b-backend-production.up.railway.app/wishlist/user/" + id, {
       method: "GET",
     })
       .then((answer) => answer.json())
-      .then((data) => data);
+      .then((data) => setWl(data.articles));
   }, [datos, id]);
 
   useEffect(() => {
@@ -66,6 +60,13 @@ export default function Profile() {
     setLoading(false);
   }
 
+  function handleErrorNick(e){
+    if(e.length < 4) return "El nombre es demasiado corto"
+    else if(e.length > 30) return "El nombre es demasiado largo"
+    else if(!/^[a-zA-Z0-9\s\-\_.]+$/i.test(e)) return "El nombre tiene caracteres incorrectos"
+    else return null
+  }
+
   return (
     <div id="profile_general_container">
       <div id="profile_header_container">
@@ -74,19 +75,28 @@ export default function Profile() {
             <div>
               {loading ? "Cargando foto..." : null}
               <img src={formData.avatar} alt="user" id="profile_user_photo"></img>
-              <input type="file" onChange={(e) => handleUploadPhoto(e)}></input>
+              <input type="file" accept="image/*" onChange={(e) => handleUploadPhoto(e)}></input>
             </div>
           ) : (
             <img src={datos.avatar} alt="user" id="profile_user_photo"></img>
           )}
 
           {owner ? (
-            <button id="profile_editar_btn" onClick={() => (editing ? handleSaveChanges() : setEditing(true))}>
+            <button disabled={typeof handleErrorNick(formData.nickname) === "string" ? true : false} id="profile_editar_btn" onClick={() => (editing ? handleSaveChanges() : setEditing(true))}>
               {editing ? "Guardar Cambios" : "Editar Perfil"}
             </button>
           ) : null}
         </div>
-        <div id="profile_nickname_container">{editing ? <input value={formData.nickname} onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}></input> : <div id="profile_nickname">{datos.nickname}</div>}</div>
+        <div id="profile_nickname_container">{
+          editing ? 
+          <input value={formData.nickname} onChange={(e) => setFormData({
+             ...formData, nickname: e.target.value 
+            })}>
+          </input> :
+          <div id="profile_nickname">{datos.nickname}</div>
+        }
+        <b style={{color:"red"}}>{handleErrorNick(formData.nickname)}</b> 
+        </div>
         <div id="profile_buttons">
           <button className={selected === "compras" ? "profile_button_clicked" : "profile_button_unclicked"} onClick={() => setSelected("compras")}>
             Compras
@@ -99,7 +109,7 @@ export default function Profile() {
           </button>
         </div>
       </div>
-      <div>{selected === "compras" ? <Compras facturas={datos.facturas} /> : selected === "cart" ? null : null}</div>
+      <div>{selected === "compras" ? <Compras facturas={datos.facturas} /> : selected === "cart" ? <CartItems items={datos.articles} /> : <CartItems items={wl} />}</div>
       <Toaster position="bottom-right" reverseOrder={false} />
     </div>
   );

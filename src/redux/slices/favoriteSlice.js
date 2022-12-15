@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { deleteFromWishlist, wishlistAssign } from "../actions";
 
 const initialState = {
   favItem: [],
@@ -9,21 +10,24 @@ const favoriteSlice = createSlice({
   initialState,
   reducers: {
     addFav: (state, { payload }) => {
-      if (!(state.favItem.filter((x) => x.id === payload.id).length > 0)) {
-        state.favItem.push({ ...payload });
-        window.localStorage.setItem("favorite", JSON.stringify(state.favItem));
+      if (!(state.favItem.filter((x) => x.id === payload.articleData.id).length > 0)) {
+        let dataWish = {
+          userId: payload.userId,
+          articleId: payload.articleData.id,
+        };
+        wishlistAssign(dataWish);
+        state.favItem.push({ ...payload.articleData });
       }
     },
     removeFav: (state, { payload }) => {
-      state.favItem = state.favItem.filter((x) => x.id !== payload);
-      window.localStorage.setItem("favorite", JSON.stringify(state.favItem));
+      state.favItem = state.favItem.filter((x) => x.id !== payload.id);
+      deleteFromWishlist(payload.wish);
     },
-    localStorageFavs: (state, { payload }) => {
-      console.log(payload);
-      state.favItem = payload || [];
+    getWishes: (state, { payload }) => {
+      state.favItem = payload.articles || [];
     },
   },
 });
 
-export const { addFav, removeFav, localStorageFavs } = favoriteSlice.actions;
+export const { addFav, removeFav, getWishes } = favoriteSlice.actions;
 export default favoriteSlice.reducer;

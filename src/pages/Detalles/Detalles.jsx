@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getSingleArticle } from "../../redux/actions";
-import { addItemToCart, cleanItem } from "../../redux/slices/cartSlice";
+import ReviewCard from "../../pages/ReviewCard/ReviewCard";
+import AddReview from "../../pages/AddReview/AddReview";
+import { addItemToCart, changeQuantity, cleanItem } from "../../redux/slices/cartSlice";
 import { cleanDetails } from "../../redux/slices/detailSlice";
 import styles from "./Detalles.module.scss";
 
@@ -20,12 +22,12 @@ export default function Detalles() {
   return (
     <div className={styles.container}>
       {articulo === undefined ? (
-        <div>Cargando...</div>
+        <div className={styles.loading}>Cargando...</div>
       ) : (
         <div className={styles.wrapper}>
           <div className={styles.imgContainer}>
             {articulo.images?.map((a) => (
-              <img src={a} alt="" key={a} />
+              <img src={a} alt="" key={a} className={styles.imagenfix} />
             ))}
           </div>
           <div className={styles.infoContainer}>
@@ -46,31 +48,36 @@ export default function Detalles() {
                 </div>
               ))}
             </div>
-            <div className={styles.addContainer}>
-              <div className={styles.amoutContainer}>
-                <div>
-                  <span>-</span>
+
+            {carro.some((x) => x.id === articulo.id) ? (
+              <div className={styles.addContainer}>
+                <div className={styles.amoutContainer}>
+                  <div>
+                    <span onClick={() => dispatch(changeQuantity({ quantity: carro.filter((x) => (x = x.id === articulo.id))[0].quantity - 1, id: articulo.id }))}>-</span>
+                  </div>
+                  <div style={{ cursor: "none" }}>
+                    <input type="number" className={styles.inputDetalles} value={carro.filter((x) => (x = x.id === articulo.id))[0].quantity} onChange={(e) => dispatch(changeQuantity({ quantity: e.target.value, id: articulo.id }))} />
+                  </div>
+                  <div>
+                    <span onClick={() => dispatch(changeQuantity({ quantity: carro.filter((x) => (x = x.id === articulo.id))[0].quantity + 1, id: articulo.id }))}>+</span>
+                  </div>
                 </div>
-                <div style={{ cursor: "none" }}>
-                  <span>1</span>
-                </div>
-                <div>
-                  <span>+</span>
-                </div>
+
+                <div className={styles.addButtonContainer}>{carro.filter((x) => x.id === articulo.id).length > 0 ? <input type="button" value="Remover del Carrito" onClick={() => dispatch(cleanItem(articulo.id))} /> : null}</div>
               </div>
+            ) : articulo.stock > 0 ? (
               <div className={styles.addButtonContainer}>
-                {carro.filter((x) => x.id === articulo.id).length > 0 ? (
-                  <input type="button" value="Remover al Carrito" onClick={() => dispatch(cleanItem(articulo.id))}/>
-                ) : articulo.stock > 0 ? (
-                  <input type="button" value="Agregar al Carrito" onClick={() => dispatch(addItemToCart(articulo))}/>
-                ) : (
-                  "No tenemos Stock"
-                )}
+                <input type="button" value="Agregar al Carrito" onClick={() => dispatch(addItemToCart(articulo))} />
               </div>
-            </div>
+            ) : (
+              "No tenemos Stock"
+            )}
           </div>
         </div>
       )}
+
+      <div> {AddReview()}</div>
+      <div> {ReviewCard()}</div>
     </div>
   );
 }

@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import articles from "./slices/articlesSlice";
 import cart from "./slices/cartSlice";
 import details from "./slices/detailSlice";
+import reviews from "./slices/reviewsSlice";
 import favorite from "./slices/favoriteSlice";
 import windows from "./slices/windowSlice";
 import darkmode from './slices/darkmodeSlice'
 import user from './slices/userSlice';
+import panel from './slices/adminPanel';
 
 export default configureStore({
   reducer: {
@@ -15,6 +17,8 @@ export default configureStore({
     favorite,
     windows,
     darkmode,
-    user
+    user,
+    panel,
+    reviews
   },
 });

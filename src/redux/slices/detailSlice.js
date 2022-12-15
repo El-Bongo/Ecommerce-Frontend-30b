@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   detailedArticle: {
+    id: 0,
     images: [],
     category: { name: "" },
   },
@@ -12,7 +13,6 @@ const detailSlice = createSlice({
   initialState,
   reducers: {
     insertDataDetails: (state, { payload }) => {
-      console.log(payload)
       state.detailedArticle = payload;
     },
     cleanDetails: (state) => {
