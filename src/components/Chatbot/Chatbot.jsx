@@ -118,8 +118,7 @@ let handleSubmit = (e) => {
     <span id = "textBot" ></span>
     </div>
     <form onSubmit={handleSubmit}>
-    <input id="input" value={input} type="text" placeholder="Prueba con 'ayuda'" autoComplete="off" onChange={handleChange} style={{position:"relative", width:"350px", height:"25px", marginBottom:"2px", marginLeft:"20px"}} />
-
+    <input id="input" value={input} type="text" placeholder="Prueba con 'ayuda'" autoComplete="off" onChange={handleChange} style={{position:"relative", width:"350px", height:"25px", marginBottom:"2px", marginLeft:"20px", marginTop:"20px"}} />
     </form>  
   </div>
 </div>

@@ -136,7 +136,6 @@ export default function NavBar() {
                   </dir>
                 </div>
                 <div>
-                  <AiFillHeart style={{ cursor: "pointer" }} size={"1.5em"} onClick={() => dispatch(removeFav(c.id))} />
                   <AiFillHeart
                     style={{ cursor: "pointer" }}
                     size={"1.5em"}
@@ -223,19 +222,6 @@ export default function NavBar() {
           </Link>
           <div className={styles.menuItem}>
             {/* input Menu desplegable favoritos */}
-            <Fragment>
-              <div className={`${styles.menuItem} ${styles.cartItem}`} onClick={toggleDrawer("fav")}>
-                {favItem.length !== 0 && (
-                  <div className={styles.cartCounter}>
-                    <span>{favItem.length}</span>
-                  </div>
-                )}
-                <AiOutlineHeart style={{ width: 25, height: 25 }} />
-              </div>
-              <SwipeableDrawer anchor={"left"} open={favOpen} onClose={toggleDrawer("fav")} onOpen={toggleDrawer("fav")}>
-                {favorites()}
-              </SwipeableDrawer>
-            </Fragment>
             {reduxUser.id !== 0 ? (
               <Fragment>
                 <div className={`${styles.menuItem} ${styles.cartItem}`} onClick={toggleDrawer("fav")}>
@@ -268,8 +254,7 @@ export default function NavBar() {
               </SwipeableDrawer>
             </Fragment>
           </div>
-        </div>
-        <div style={{ display: "flex", marginTop:"30px"}}>
+        <div>
             <Fragment>
               <div className={`${styles.menuItem} ${styles.cartItem}`} onClick={toggleDrawer("chatBot")}>
                 <ChatIcon style={{ width: 25, height: 25 }} />
@@ -278,6 +263,7 @@ export default function NavBar() {
                   <Chatbot />
               </SwipeableDrawer>
             </Fragment>    
+        </div>
         </div>
       </div>
       <FloatNav loginWithRedirect={loginWithRedirect} logout={logout} isAuthenticated={isAuthenticated} />
