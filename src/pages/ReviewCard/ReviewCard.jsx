@@ -5,7 +5,14 @@ import { getReviews } from "../../redux/actions";
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { useNavigate } from "react-router-dom";
+
+let didReport = false
+
 export default function ReviewCard() {
+  if (didReport === true){
+    didReport = false
+    window.location.reload(false);
+  }
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -19,15 +26,15 @@ export default function ReviewCard() {
     notReported = reviews.filter(review => !review.reportedBy.includes(User.data.nickname))} 
 
     function canEdit(item){
-      //console.log(item)
-      //console.log(User)
-      if (document.getElementById("checked")){return}
+      if (document.getElementById("checked" + item.username)){
+        let remove = document.getElementById("checked" + item.username)
+        remove.remove()
+      }
       if(item.username === User.data.nickname){
         let editButton = document.createElement('button')
         editButton.innerHTML = "Editar"
-        editButton.id = "checked"
+        editButton.id = "checked" + item.username
         editButton.onclick = () => navigate(`/review/${item.id}`)
-        console.log(editButton)
         
         let reviewDiv = document.getElementById(item.id);
         if (reviewDiv === null){return}
@@ -36,19 +43,26 @@ export default function ReviewCard() {
       }
       
       function canReport(item){
-        if (document.getElementById("checkedforReport" + item.username)){return}
-        console.log(item.username)
-        console.log(User.data.nickname)
+        if (document.getElementById("checkedforReport" + item.username)){
+         let remove = document.getElementById("checkedforReport" + item.username)
+         remove.remove()
+        }
+
 
         if(item.username !== User.data.nickname && User.data.nickname !== "Username"){
           let reportButton = document.createElement('button')
           reportButton.innerHTML = "Reportar"
           reportButton.id = "checkedforReport" + item.username
-          reportButton.onclick = () => navigate(`/report/${item.id}`)          
-          let reviewDiv = document.getElementById(item.id);
-          if (reviewDiv === null){return}
-          reviewDiv.appendChild(reportButton)
-            }
+          reportButton.onclick = () => {
+            didReport = true
+            navigate(`/report/${item.id}`)
+        }          
+        let reviewDiv = document.getElementById(item.id);
+        if (reviewDiv === null){return}
+        reviewDiv.appendChild(reportButton)
+        console.log(reviewDiv)
+      
+      }
         }
 
     function setRatingImages(rating){
