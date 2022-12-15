@@ -9,8 +9,10 @@ import { Carousel } from "react-responsive-carousel";
 import { useEffect } from "react";
 import { getWishlist } from "../../redux/actions";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Article({ data }) {
+  const { isAuthenticated } = useAuth0()
   const carro = useSelector((state) => state.cart.cartItems);
   const reduxUser = useSelector((state) => state.user.data);
   const favItem = useSelector((state) => state.favorite.favItem);
@@ -20,8 +22,9 @@ export default function Article({ data }) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (reduxUser.id !== 0) dispatch(getWishlist(reduxUser.id));
+      if (isAuthenticated) dispatch(getWishlist(reduxUser.id));
     }, 3000);
+    console.log("Hola")
   }, [favClick]);
 
   function handleClick() {
