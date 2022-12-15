@@ -24,10 +24,7 @@ export const DCreateProduct = () => {
   });
   const [properties, setProperties] = useState({
     brand: "",
-    model: "",
-    property1: "",
-    property2: "",
-    property3: "",
+    model: ""
   });
   // const navigate = useNavigate();
 
@@ -118,7 +115,7 @@ export const DCreateProduct = () => {
     }
     return a;
   }
-
+  console.log(properties)
   return (
     <div className={`${styles.new} ${darkMode && dark.dark}`}>
       <DSidebar />
@@ -201,11 +198,16 @@ export const DCreateProduct = () => {
                 <label>Categorias</label>
                 <select
                   defaultValue="Categorias"
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setProductCreate({
                       ...productCreate,
                       category: { id: e.target.value },
                     })
+                    setProperties({
+                      brand: "",
+                      model: ""
+                    })
+                  }
                   }
                 >
                   <option disabled hidden>
@@ -262,40 +264,43 @@ export const DCreateProduct = () => {
                     />
                   </div>                 
                   <div className={styles.formInput}>
-                    <label>Propiedad 1: {Object.keys(propiedades[Number(propiedadesNum)].properties)[2]}</label>
+                    <label>{Object.keys(propiedades[Number(propiedadesNum)].properties)[2]}</label>
                     <input
+                      name={Object.keys(propiedades[Number(propiedadesNum)].properties)[2]}
                       type="text"
                       style={{ color: darkMode && "white" }}
                       onChange={(e) =>
                         setProperties({
                           ...properties,
-                          property1: e.target.value,
+                          [e.target.name]: e.target.value,
                         })
                       }
                     />
                   </div>
                   <div className={styles.formInput}>
-                    <label>Propiedad 2: {Object.keys(propiedades[Number(propiedadesNum)].properties)[3]}</label>
+                    <label>{Object.keys(propiedades[Number(propiedadesNum)].properties)[3]}</label>
                     <input
+                      name={Object.keys(propiedades[Number(propiedadesNum)].properties)[3]}
                       type="text"
                       style={{ color: darkMode && "white" }}
                       onChange={(e) =>
                         setProperties({
                           ...properties,
-                          property2: e.target.value,
+                          [e.target.name]: e.target.value,
                         })
                       }
                     />
                   </div>
                   <div className={styles.formInput}>
-                    <label>Propiedad 3: {Object.keys(propiedades[Number(propiedadesNum)].properties)[4]}</label>
+                    <label>{Object.keys(propiedades[Number(propiedadesNum)].properties)[4]}</label>
                     <input
+                      name={Object.keys(propiedades[Number(propiedadesNum)].properties)[4]}
                       type="text"
                       style={{ color: darkMode && "white" }}
                       onChange={(e) =>
                         setProperties({
                           ...properties,
-                          property3: e.target.value,
+                          [e.target.name]: e.target.value,
                         })
                       }
                     />
