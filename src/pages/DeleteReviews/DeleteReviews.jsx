@@ -4,7 +4,13 @@ import { useParams } from "react-router-dom";
 import { deleteReview, getAllReviews } from "../../redux/actions";
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import styles from "./Delete.module.scss";
+import dark from "./Dark.module.scss";
+import { DNavbar } from "../Dashboard/components/Navbar/DNavbar";
+import { DSidebar } from "../Dashboard/components/Sidebar/DSidebar";
+
 export default function DeleteReviews() {
+  const { darkMode } = useSelector((state) => state.darkmode);
   const dispatch = useDispatch();
   const { id } = useParams();
   let reported = []
@@ -14,24 +20,31 @@ export default function DeleteReviews() {
   useEffect(() => {
     dispatch(getAllReviews());
   }, [])
+
+  const recarga = () => {
+    window.location.reload(false)
+  }
+
   if(reviews !== null) {
     reported = reviews.filter(review => review.reportedBy.length > 0)} 
 
       
       function canDelete(item){
-        if (document.getElementById("checkedforDelete" + item.username)){return}
-        console.log(item.username)
-        console.log(User.data.nickname)
+        if (document.getElementById("checkedforDelete" + item.username)){
+          let remove = document.getElementById("checkedforDelete" + item.username)
+          remove.remove()
+          }
         let deleteButton = document.createElement('button')
         deleteButton.innerHTML = "Eliminar"
         deleteButton.id = "checkedforDelete" + item.username
         deleteButton.onclick = () => {
             deleteReview(item.id)
-            window.location.reload(false);
-        }      
+            setTimeout(recarga, 1000)}
+              
         let reviewDiv = document.getElementById(item.id);
         if (reviewDiv === null){return}
         reviewDiv.appendChild(deleteButton)
+
         }
 
     function setRatingImages(rating){
@@ -58,7 +71,11 @@ export default function DeleteReviews() {
 
 
   return(<>
-          <label>Reportes:</label>
+      <div className={`${styles.profile} ${darkMode && dark.dark}`}>
+          <DSidebar />
+          <div className={`${styles.profileContainer}`}>
+            <DNavbar />
+            <label>Reportes:</label>
         {
           reported.map(t => {
             return (
@@ -75,6 +92,8 @@ export default function DeleteReviews() {
             )
           })
         } 
+        </div>
+      </div>
   </>)
 }
 

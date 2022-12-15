@@ -22,7 +22,7 @@ export default function Orders() {
     fetch("https://pf-30b-backend-production.up.railway.app/orders/getAll", { method: "GET" })
       .then((answer) => answer.json())
       .then((data) => (orden ? setOrdenes(ordenes.filter((x) => !x.despachada && x.payment_status === "approved")) : setOrdenes(data.reverse())));
-  }, [orden, ordenes]);
+  }, [orden]);
 
   function dispatchOrder(id) {
     ordenes.forEach((x, i) => {

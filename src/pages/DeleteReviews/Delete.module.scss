@@ -1,0 +1,92 @@
+.profile {
+  display: flex;
+  width: 100%;
+
+  .profileContainer {
+    flex: 6;
+
+    .profileCardContainer {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      
+      .profileCard {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 400px;
+        height: 600px;
+        box-shadow: 2px 4px 10px 1px rgb(201 201 201 / 47%);
+
+        .editContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          right: 0;
+          top: 0;
+          background-color: #7551f818;
+          width: 50px;
+          height: 30px;
+          cursor: pointer;
+          color: #7451f8;
+        }
+
+        .profileCardHeader {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .profileCardImgContainer {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            margin-top: 20px;
+
+            img {
+              border-radius: 50%;
+              width: 200px;
+            }
+          }
+
+          .profileCardTitleContainer {
+            margin-top: 10px;
+          }
+        }
+
+        .profileCardBody {
+          margin-top: 20px;
+
+          .profileCardInfoContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 5px;
+
+            span {
+              font-size: 23px;
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .profile{
+    height: 100vh;
+
+    .profileCardContainer{
+  
+      .profileCard{
+        width: 90% !important;
+      }
+    }
+  }
+
+}
