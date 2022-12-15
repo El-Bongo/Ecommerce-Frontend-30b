@@ -97,15 +97,15 @@ export const DCreateProduct = () => {
     });
   };
 
-  const HandleErrorTitle = (e) =>{
+  const handleErrorTitle = (e) =>{
     if(e.length < 10) return "El título es demasiado corto"
     else if(e.length > 200) return "El título es demasiado largo"
   }
-  const HandleErrorPrice = (e) =>{
+  const handleErrorPrice = (e) =>{
     if(!/^[0-9\.,]+$/i.test(e)) return "El precio debe ser un número"
     else if(e < 1) return "El precio no puede ser 0"
   }
-  const HandleErrorStock = (e) =>{
+  const handleErrorStock = (e) =>{
     if(!/^[0-9]+$/i.test(e)) return "El stock debe ser un número"
     else if(e < 1) return "El stock no puede ser 0"
   }
@@ -165,7 +165,7 @@ export const DCreateProduct = () => {
                     })
                   }
                 />
-                <b style={{color:"red"}}>{HandleErrorTitle(productCreate.title)}</b>
+                <b style={{color:"red"}}>{handleErrorTitle(productCreate.title)}</b>
               </div>
               <div className={styles.formInput}>
                 <label>Precio</label>
@@ -180,7 +180,7 @@ export const DCreateProduct = () => {
                     })
                   }
                 />
-                <b style={{color:"red"}}>{HandleErrorPrice(productCreate.precio)}</b>
+                <b style={{color:"red"}}>{handleErrorPrice(productCreate.precio)}</b>
               </div>
               <div className={styles.formInput}>
                 <label>Stock</label>
@@ -195,7 +195,7 @@ export const DCreateProduct = () => {
                     })
                   }
                 />
-                <b style={{color:"red"}}>{HandleErrorStock(productCreate.stock)}</b>
+                <b style={{color:"red"}}>{handleErrorStock(productCreate.stock)}</b>
               </div>
               <div className={styles.formInput}>
                 <label>Categorias</label>
@@ -320,7 +320,11 @@ export const DCreateProduct = () => {
                   Enviar
                 </button>
               ) : (
-                <button>Enviar</button>
+                <button disabled={
+                  typeof handleErrorTitle(productCreate.title) ||
+                  typeof handleErrorPrice(productCreate.price) ||
+                  typeof handleErrorStock(productCreate.stock) === "string" ? 
+                  true : false}>Enviar</button>
               )}
             </form>
           </div>
