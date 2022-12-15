@@ -58,13 +58,15 @@ const EditReview = () => {
       }, Review))
     }
 
-    
+    const recarga = () => {
+      navigate(`/detalles/${Review.articleId}`)
+    }
 
     let handleSubmit = (e) => {
        e.preventDefault();
        dispatch(editReview(idReview, input))
-       navigate(`/detalles/${Review.articleId}`)
-    }
+       setTimeout(recarga, 1000)}
+    
     const ratingChanged = (newRating) => {      
       input.rating=newRating
       setErrors(validate(

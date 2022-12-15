@@ -51,13 +51,15 @@ const ReportReview = () => {
       }))
     }
 
-    
+    const recarga = () => {
+      navigate(`/detalles/${Review.articleId}`)
+    }
 
     let handleSubmit = (e) => {
        e.preventDefault();
        dispatch(reportReview(idReview, input))
-       navigate(`/detalles/${Review.articleId}`)
-    }
+       setTimeout(recarga, 1000)}
+    
     
   return (
     <>

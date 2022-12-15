@@ -20,6 +20,11 @@ export default function DeleteReviews() {
   useEffect(() => {
     dispatch(getAllReviews());
   }, [])
+
+  const recarga = () => {
+    window.location.reload(false)
+  }
+
   if(reviews !== null) {
     reported = reviews.filter(review => review.reportedBy.length > 0)} 
 
@@ -28,17 +33,18 @@ export default function DeleteReviews() {
         if (document.getElementById("checkedforDelete" + item.username)){
           let remove = document.getElementById("checkedforDelete" + item.username)
           remove.remove()
-        }
+          }
         let deleteButton = document.createElement('button')
         deleteButton.innerHTML = "Eliminar"
         deleteButton.id = "checkedforDelete" + item.username
         deleteButton.onclick = () => {
             deleteReview(item.id)
-            window.location.reload(false);
-        }      
+            setTimeout(recarga, 1000)}
+              
         let reviewDiv = document.getElementById(item.id);
         if (reviewDiv === null){return}
         reviewDiv.appendChild(deleteButton)
+
         }
 
     function setRatingImages(rating){
