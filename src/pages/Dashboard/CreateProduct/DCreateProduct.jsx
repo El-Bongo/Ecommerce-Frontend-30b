@@ -309,29 +309,15 @@ export const DCreateProduct = () => {
               </div>
 
               {!avatar?.target.files.length ||
-              productCreate?.title === "" ||
-              !productCreate?.title ||
-              productCreate?.precio === "" ||
-              !productCreate?.precio ||
-              productCreate?.stock === "" ||
-              !productCreate?.stock ||
-              properties?.brand === "" ||
-              !properties?.brand ||
-              properties?.model === "" ||
-              !properties?.model ||
-              !productCreate?.category.id ||
+              ((typeof handleErrorTitle(productCreate.title) || 
+              typeof handleErrorPrice(productCreate.price) || 
+              typeof handleErrorStock(productCreate.stock)) === "string") ||
               cargando ? (
-                <button disabled style={{ backgroundColor: "#ac96fd" }}>
+                <button disabled style={{ backgroundColor: "#ac96fd", cursor: "not-allowed" }}>
                   Enviar
                 </button>
               ) : (
-                <button 
-                  // disabled={
-                  // typeof handleErrorTitle(productCreate.title) ||
-                  // typeof handleErrorPrice(productCreate.price) ||
-                  // typeof handleErrorStock(productCreate.stock) === "string" ? 
-                  // true : false}
-                  >Enviar</button>
+                <button>Enviar</button>
               )}
             </form>
           </div>

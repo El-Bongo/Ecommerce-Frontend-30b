@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 
 export const DEditProduct = () => {
   const [avatar, setAvatar] = useState(null);
-  const [productUpdate, setProductUpdate] = useState();
+  const [productUpdate, setProductUpdate] = useState({});
   const { darkMode } = useSelector((state) => state.darkmode);
   // const dispatch = useDispatch();
   const { productId } = useParams();
@@ -57,6 +57,28 @@ export const DEditProduct = () => {
     });
   };
 
+  const handleErrorTitle = (e) =>{
+    if(e === undefined){
+      return null
+    }else{
+      if(e.length < 10) return "El título es demasiado corto"
+      else if(e.length > 200) return "El título es demasiado largo"
+      else return null
+    }
+  }
+  const handleErrorPrice = (e) =>{
+    if(!/^[0-9\.,]+$/i.test(e)) return "El precio debe ser un número"
+    else if(e < 1) return "El precio no puede ser 0"
+    else return null
+  }
+  const handleErrorStock = (e) =>{
+    if(!/^[0-9]+$/i.test(e)) return "El stock debe ser un número"
+    else if(e < 1) return "El stock no puede ser 0"
+    else return null
+  }
+
+
+
   return (
     <div className={`${styles.new} ${darkMode && dark.dark}`}>
       <DSidebar />
@@ -86,6 +108,7 @@ export const DEditProduct = () => {
                 <input
                   type="file"
                   id="file"
+                  accept="image/png,image/jpeg"
                   onChange={async (e) => {
                     setAvatar(e);
                   }}
@@ -105,11 +128,15 @@ export const DEditProduct = () => {
                     })
                   }
                 />
+                <b style={{color:"red"}}>{
+                  productUpdate.hasOwnProperty("title") ? handleErrorTitle(productUpdate.title) : null
+                }</b>
               </div>
               <div className={styles.formInput}>
                 <label>Precio</label>
                 <input
-                  type="text"
+                  type="number"
+                  min="0"
                   placeholder={`$ ${articulo.price}`}
                   style={{ color: darkMode && "white" }}
                   onChange={(e) =>
@@ -119,11 +146,15 @@ export const DEditProduct = () => {
                     })
                   }
                 />
+                <b style={{color:"red"}}>{
+                  productUpdate.hasOwnProperty("price") ? handleErrorPrice(productUpdate.price) : null
+                }</b>
               </div>
               <div className={styles.formInput}>
                 <label>Stock</label>
                 <input
                   type="number"
+                  min="0"
                   style={{ color: darkMode && "white" }}
                   placeholder={`${articulo.stock} unidades`}
                   onChange={(e) =>
@@ -133,12 +164,15 @@ export const DEditProduct = () => {
                     })
                   }
                 />
+                <b style={{color:"red"}}>{
+                  productUpdate.hasOwnProperty("stock") ? handleErrorStock(productUpdate.stock) : null
+                }</b>
               </div>
               {!avatar?.target.files.length &&
-              (productUpdate?.title === "" || !productUpdate?.title) &&
-              (productUpdate?.price === "" || !productUpdate?.price) &&
-              (productUpdate?.stock === "" || !productUpdate?.stock) ? (
-                <button disabled style={{ backgroundColor: "#ac96fd" }}>
+              ((typeof handleErrorTitle(productUpdate.title) || 
+                typeof handleErrorPrice(productUpdate.price) || 
+                typeof handleErrorStock(productUpdate.stock)) === "string") ? (
+                <button disabled style={{ backgroundColor: "#ac96fd", cursor: "not-allowed" }}>
                   Enviar
                 </button>
               ) : (
