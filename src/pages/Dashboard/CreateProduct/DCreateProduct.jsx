@@ -321,9 +321,9 @@ export const DCreateProduct = () => {
                 </button>
               ) : (
                 <button disabled={
-                  typeof handleErrorTitle(productCreate.title) ||
+                  (typeof handleErrorTitle(productCreate.title) ||
                   typeof handleErrorPrice(productCreate.price) ||
-                  typeof handleErrorStock(productCreate.stock) === "string" ? 
+                  typeof handleErrorStock(productCreate.stock)) === "string" ? 
                   true : false}>Enviar</button>
               )}
             </form>
