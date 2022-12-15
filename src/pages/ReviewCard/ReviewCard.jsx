@@ -23,7 +23,7 @@ export default function ReviewCard() {
     dispatch(getReviews(id));
   }, [])
   if(reviews !== null) {
-    notReported = reviews.filter(review => !review.reportedBy.includes(User.data.nickname))} 
+    notReported = reviews.filter(review => !review.reportedBy?.includes(User.data.nickname))} 
 
     function canEdit(item){
       if (document.getElementById("checked" + item.username)){
