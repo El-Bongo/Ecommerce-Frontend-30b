@@ -5,6 +5,7 @@ import { getReviews } from "../../redux/actions";
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { useNavigate } from "react-router-dom";
+import "./ReviewCard.module.css"
 
 let didReport = false
 
@@ -88,7 +89,7 @@ export default function ReviewCard() {
     }
 
 
-  return(<>
+  return(<div className="reviewsContainer">
           <label>Reseñas:</label>
         {
           notReported.map(t => {
@@ -106,6 +107,6 @@ export default function ReviewCard() {
             )
           })
         } 
-  </>)
+  </div>)
 }
 

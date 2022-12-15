@@ -36,7 +36,7 @@ export default function Articles() {
 
       <div className={styles.articleWrapper}>
         {articulos.filterArticles?.map((x, i) => (i < 8 * pagina && i > 8 * pagina - 9 ? <Article data={x} key={x.id} /> : null))}
-        {articulos.loading ? <div>Cargando....</div> : articulos.filterArticles?.length === 0 ? "No hay coinsidencias" : null}
+        {articulos.loading ? <div>Cargando....</div> : articulos.filterArticles?.length === 0 ? "No hay coincidencias" : null}
       </div>
     </div>
   );
