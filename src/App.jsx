@@ -150,7 +150,6 @@ function App() {
           <Route path="/detalles/:id" element={<Detalles />} />
           <Route path="/review/:idReview" element={<EditReview />} />
           <Route path="/report/:idReview" element={<ReportReview />} />
-          <Route path="/reportedReviews" element={<DeleteReviews />} />
           <Route path="/MetaMaskStatus/:id" element={<MetaMaskStatus />} />
           <Route path="/addItem" element={<AddArticle />} />
           <Route path="/successBuy" element={<SuccessPurchase />} />
@@ -172,6 +171,7 @@ function App() {
             <Route path="/admin">
               <Route index element={<Dashboard />} />
               <Route path="profile" element={<Perfil />} />
+              <Route path="reportedReviews" element={<DeleteReviews />} />
               <Route path="users">
                 <Route index element={<DUsers />} />
                 <Route path="edit/:userId" element={<DEditUser />} />

@@ -4,6 +4,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,6 +48,12 @@ export const DSidebar = () => {
             <Link to="/admin/ordenes" style={{ textDecoration: "none" }}>
               <CreditCardIcon className={styles.icon} />
               <span>Ordenes</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/admin/reportedReviews" style={{ textDecoration: "none" }}>
+              <ReportProblemIcon className={styles.icon} />
+              <span>Reportes</span>
             </Link>
           </li>
 

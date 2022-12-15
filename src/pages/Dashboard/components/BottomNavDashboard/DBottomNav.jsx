@@ -6,6 +6,7 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import HomeIcon from "@mui/icons-material/Home";
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { DFloatNav } from "../FloatNav/DFloatNav";
@@ -72,6 +73,15 @@ export const DBottomNav = () => {
             color: darkMode && value !== 3 ? "#9c9c9c" : '#8884d8',
             backgroundColor: value === 3 && !darkMode && "#f1efef"
           }}
+        />
+        <BottomNavigationAction
+          label="Reportes"
+          icon={<ReportProblemIcon />}
+          onClick={() => navigate("/admin/reportedReviews")}
+          style={{
+            color: darkMode && value !== 3 ? "#9c9c9c" : '#8884d8',
+            backgroundColor: value === 3 && !darkMode && "#f1efef"
+        }}
         />
       </BottomNavigation>
       <DFloatNav/>
