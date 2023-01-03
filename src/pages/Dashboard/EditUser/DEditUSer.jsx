@@ -24,7 +24,7 @@ export const DEditUser = () => {
   }, [dispatch, userId]);
 
   const handleUpdateUser = async (user, avatar) => {
-    const resp = await fetch(`https://pf-30b-backend-production.up.railway.app/users/updateProfile/${userId}`, {
+    const resp = await fetch(`https://pf-30b-backend.onrender.com/users/updateProfile/${userId}`, {
       method: "POST",
       body: JSON.stringify({ ...user, avatar }),
       headers: new Headers({ "content-type": "application/json" }),

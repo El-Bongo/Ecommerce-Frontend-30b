@@ -24,7 +24,7 @@ export default function Profile() {
   }, [datos]);
 
   useEffect(() => {
-    fetch("https://pf-30b-backend-production.up.railway.app/wishlist/user/" + id, {
+    fetch("https://pf-30b-backend.onrender.com/wishlist/user/" + id, {
       method: "GET",
     })
       .then((answer) => answer.json())
@@ -38,7 +38,7 @@ export default function Profile() {
   }, [user, datos.email, isLoading, isAuthenticated]);
 
   async function handleSaveChanges() {
-    fetch("https://pf-30b-backend-production.up.railway.app/users/updateProfile/" + id, {
+    fetch("https://pf-30b-backend.onrender.com/users/updateProfile/" + id, {
       method: "POST",
       body: JSON.stringify(formData),
       headers: new Headers({ "content-type": "application/json" }),

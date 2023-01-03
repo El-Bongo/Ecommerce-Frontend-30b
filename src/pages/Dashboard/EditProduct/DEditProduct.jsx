@@ -20,7 +20,7 @@ export const DEditProduct = () => {
 
   const handleUpdateUser = async (user, images) => {
     const resp = await fetch(
-      `https://pf-30b-backend-production.up.railway.app/articulo/modify/${productId}`,
+      `https://pf-30b-backend.onrender.com/articulo/modify/${productId}`,
       {
         method: "PUT",
         body: JSON.stringify({ ...user, images }),

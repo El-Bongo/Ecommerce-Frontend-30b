@@ -57,7 +57,7 @@ export const DCreateProduct = () => {
   }, [dispatch]);
 
   const handleUpdateUser = async (product, images, properties) => {
-    const resp = await fetch("https://pf-30b-backend-production.up.railway.app/articulo/create", {
+    const resp = await fetch("https://pf-30b-backend.onrender.com/articulo/create", {
       method: "POST",
       body: JSON.stringify({ ...product, images, properties }),
       headers: new Headers({ "content-type": "application/json" }),
